@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :test do
-    title { "MyString" }
+    sequence(:title) {|n| "Question #{n}"}    
     string { "MyString" }
     level { 1 }
   end
