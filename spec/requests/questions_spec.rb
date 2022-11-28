@@ -86,10 +86,35 @@ RSpec.describe "Questions", type: :request do
       it 're-renders form new' do
         post '/questions', params: {question: attributes_for(:question, :invalid_data), test_id: test.id}
         expect(response).to render_template :new    
+      end      
+    end    
+  end
+
+  describe 'PATCH #UPDATE' do
+    context 'with valid attributes' do
+      it 'assignes to requested @question' do
+        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data), test_id: test.id} 
+        expect(assigns(:question)).to eq question 
+      end
+
+      it 'changes question attributes' do
+        patch "/questions/#{question.id}", params: {id: question, question: {title: "new title", body: "new body"}, test_id: test.id}
+        question.reload
+        expect(question.title).to eq "new title"
+        expect(question.body).to eq "new body" 
+      end
+
+      it 'redirect to updated question' do
+        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data), test_id: test.id} 
+        expect(response).to render_template :show
       end
       
     end
 
-    
+    context 'with invalid attributes' do
+      it 'assignes to requested @question'
+      it 'changes question attributes'
+      it 'redirect to updated question'
+    end
   end
 end

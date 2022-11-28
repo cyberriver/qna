@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :load_question, only: [:show, :edit]
+  before_action :load_question, only: [:show, :edit, :update]
   before_action :find_test, only: [:new,:create]
 
   def index
@@ -24,8 +24,16 @@ class QuestionsController < ApplicationController
       redirect_to @question
     else
       render :new
-    end
- 
+    end 
+  end
+
+  def update
+    @question.update(question_params)
+    if @question.save
+      redirect_to @question
+    else
+      render :show
+    end 
   end
 
   private 
@@ -36,7 +44,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body,:test_id)    
+    params.require(:question).permit(:title, :body, :test_id)    
   end
 
   def find_test 
