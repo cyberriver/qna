@@ -106,15 +106,22 @@ RSpec.describe "Questions", type: :request do
 
       it 'redirect to updated question' do
         patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data), test_id: test.id} 
-        expect(response).to render_template :show
-      end
-      
+        expect(response).to render_template :edit
+      end      
     end
 
     context 'with invalid attributes' do
-      it 'assignes to requested @question'
-      it 'changes question attributes'
-      it 'redirect to updated question'
+      before {}
+      it 'does not change the question' do
+        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data), test_id: test.id}
+        question.reload
+        expect(question.title).to include("Question") 
+        expect(question.body).to eq "MyText"
+      end
+      it 're-renders view edit' do
+        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data), test_id: test.id} 
+        expect(response).to render_template :edit
+      end
     end
   end
 end

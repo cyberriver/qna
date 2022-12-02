@@ -32,7 +32,7 @@ class QuestionsController < ApplicationController
     if @question.save
       redirect_to @question
     else
-      render :show
+      render :edit
     end 
   end
 
