@@ -124,4 +124,17 @@ RSpec.describe "Questions", type: :request do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    let!(:question) {create(:question,  test: test)} 
+    it 'deletes the question' do
+      expect {delete "/questions/#{question.id}", params: {id: question}}.to change(Question, :count).by(-1)
+    end
+
+    it 'redirects to index' do
+      delete "/questions/#{question.id}", params: {id: question}
+      expect(response).to redirect_to questions_path
+    end
+    
+  end
 end
