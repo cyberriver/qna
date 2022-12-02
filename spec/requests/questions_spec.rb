@@ -41,8 +41,7 @@ RSpec.describe "Questions", type: :request do
 
     it 'renders view new' do           
       expect(assigns(:question)).to render_template :new
-    end
-    
+    end    
   end
 
   describe "GET # EDIT" do
@@ -54,8 +53,7 @@ RSpec.describe "Questions", type: :request do
 
     it 'renders view edit' do           
       expect(assigns(:question)).to render_template :edit
-    end
-    
+    end    
   end
 
   describe "POST #create" do
@@ -64,12 +62,10 @@ RSpec.describe "Questions", type: :request do
 
         count = Question.count              
         post '/questions', params: {question: attributes_for(:question), test_id: test.id}
-        expect(Question.count).to eq count + 1
-        
+        expect(Question.count).to eq count + 1        
       end
 
-      it 'redirects to show view' do
-        
+      it 'redirects to show view' do        
         post '/questions', params: {question: attributes_for(:question),test_id: test.id}
         expect(response).to redirect_to assigns(:question)
       end
@@ -79,8 +75,7 @@ RSpec.describe "Questions", type: :request do
       it 'does not save the question' do          
         count = Question.count
         post '/questions', params: {question: attributes_for(:question, :invalid_data), test_id: test.id}          
-        expect(Question.count).to eq count
-       
+        expect(Question.count).to eq count       
       end
 
       it 're-renders form new' do
@@ -93,7 +88,7 @@ RSpec.describe "Questions", type: :request do
   describe 'PATCH #UPDATE' do
     context 'with valid attributes' do
       it 'assignes to requested @question' do
-        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data), test_id: test.id} 
+        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question), test_id: test.id} 
         expect(assigns(:question)).to eq question 
       end
 
@@ -105,21 +100,20 @@ RSpec.describe "Questions", type: :request do
       end
 
       it 'redirect to updated question' do
-        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data), test_id: test.id} 
-        expect(response).to render_template :edit
+        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question), test_id: test.id} 
+        expect(response).to redirect_to question
       end      
     end
 
     context 'with invalid attributes' do
-      before {}
-      it 'does not change the question' do
-        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data), test_id: test.id}
+      before {patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data), test_id: test.id}}
+
+      it 'does not change the question' do    
         question.reload
         expect(question.title).to include("Question") 
         expect(question.body).to eq "MyText"
       end
-      it 're-renders view edit' do
-        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data), test_id: test.id} 
+      it 're-renders view edit' do       
         expect(response).to render_template :edit
       end
     end
@@ -133,8 +127,7 @@ RSpec.describe "Questions", type: :request do
 
     it 'redirects to index' do
       delete "/questions/#{question.id}", params: {id: question}
-      expect(response).to redirect_to questions_path
-    end
-    
+      expect(response).to redirect_to questions_path(question.test)
+    end    
   end
 end
