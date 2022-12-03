@@ -1,6 +1,5 @@
 class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :edit, :update, :destroy]
-  before_action :find_test, only: [:new,:create]
 
   def index
     @questions = Question.all    
@@ -11,7 +10,7 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    @question = @test.questions.new    
+    @question = Question.new    
   end
 
   def edit  
@@ -19,7 +18,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = @test.questions.new(question_params) 
+    @question = Question.new(question_params) 
     if @question.save
       redirect_to @question
     else
@@ -38,7 +37,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    redirect_to questions_path(@question.test)    
+    redirect_to questions_path   
   end
 
   private 
@@ -49,12 +48,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :test_id)    
-  end
-
-  def find_test 
-    @test = Test.find_by(id: params[:test_id])
-
+    params.require(:question).permit(:title, :body)    
   end
 
 end

@@ -2,8 +2,7 @@ require 'rails_helper'
 FactoryBot.reload
 
 RSpec.describe "Answers", type: :request do
-  let(:test) {create(:test)}
-  let(:question) {create(:question,  test: test)} 
+   let(:question) {create(:question)} 
   let(:answers) {create_list(:answer, 4,  question: question)}
   let(:answer) {create(:answer,  question: question)} 
 

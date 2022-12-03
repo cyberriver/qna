@@ -3,9 +3,8 @@ FactoryBot.reload
 
 
 RSpec.describe "Questions", type: :request do
-  let(:test) {create(:test)}
-  let(:questions) {create_list(:question, 5,  test: test)}
-  let(:question) {create(:question,  test: test)} 
+  let(:questions) {create_list(:question, 5)}
+  let(:question) {create(:question)} 
 
 
   describe "GET /index" do
@@ -33,7 +32,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe "GET # NEW" do    
-    before {get '/questions/new', params: {question: attributes_for(:question), test_id: test.id} }
+    before {get '/questions/new', params: {question: attributes_for(:question)} }
 
     it 'assigns to a new Question to @question'do
       expect(assigns(:question)).to be_a_new(Question)
@@ -61,12 +60,12 @@ RSpec.describe "Questions", type: :request do
       it 'saves a new question to database' do
 
         count = Question.count              
-        post '/questions', params: {question: attributes_for(:question), test_id: test.id}
+        post '/questions', params: {question: attributes_for(:question)}
         expect(Question.count).to eq count + 1        
       end
 
       it 'redirects to show view' do        
-        post '/questions', params: {question: attributes_for(:question),test_id: test.id}
+        post '/questions', params: {question: attributes_for(:question)}
         expect(response).to redirect_to assigns(:question)
       end
     end
@@ -74,12 +73,12 @@ RSpec.describe "Questions", type: :request do
     context 'with invalid attributes' do
       it 'does not save the question' do          
         count = Question.count
-        post '/questions', params: {question: attributes_for(:question, :invalid_data), test_id: test.id}          
+        post '/questions', params: {question: attributes_for(:question, :invalid_data)}          
         expect(Question.count).to eq count       
       end
 
       it 're-renders form new' do
-        post '/questions', params: {question: attributes_for(:question, :invalid_data), test_id: test.id}
+        post '/questions', params: {question: attributes_for(:question, :invalid_data)}
         expect(response).to render_template :new    
       end      
     end    
@@ -88,25 +87,25 @@ RSpec.describe "Questions", type: :request do
   describe 'PATCH #UPDATE' do
     context 'with valid attributes' do
       it 'assignes to requested @question' do
-        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question), test_id: test.id} 
+        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question)} 
         expect(assigns(:question)).to eq question 
       end
 
       it 'changes question attributes' do
-        patch "/questions/#{question.id}", params: {id: question, question: {title: "new title", body: "new body"}, test_id: test.id}
+        patch "/questions/#{question.id}", params: {id: question, question: {title: "new title", body: "new body"}}
         question.reload
         expect(question.title).to eq "new title"
         expect(question.body).to eq "new body" 
       end
 
       it 'redirect to updated question' do
-        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question), test_id: test.id} 
+        patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question)} 
         expect(response).to redirect_to question
       end      
     end
 
     context 'with invalid attributes' do
-      before {patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data), test_id: test.id}}
+      before {patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question, :invalid_data)}}
 
       it 'does not change the question' do    
         question.reload
@@ -120,14 +119,14 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe 'DELETE #destroy' do
-    let!(:question) {create(:question,  test: test)} 
+    let!(:question) {create(:question)} 
     it 'deletes the question' do
       expect {delete "/questions/#{question.id}", params: {id: question}}.to change(Question, :count).by(-1)
     end
 
     it 'redirects to index' do
       delete "/questions/#{question.id}", params: {id: question}
-      expect(response).to redirect_to questions_path(question.test)
+      expect(response).to redirect_to questions_path
     end    
   end
 end
