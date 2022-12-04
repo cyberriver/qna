@@ -1,10 +1,10 @@
 require 'rails_helper'
 FactoryBot.reload
 
-
 RSpec.describe "Questions", type: :request do
   let(:questions) {create_list(:question, 5)}
-  let(:question) {create(:question)} 
+  let(:question) {create(:question)}
+  let(:user) {create(:user)}  
 
 
   describe "GET /index" do
@@ -32,7 +32,8 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe "GET # NEW" do    
-    before {get '/questions/new', params: {question: attributes_for(:question)} }
+    before { login(user)} 
+    before { get '/questions/new'}
 
     it 'assigns to a new Question to @question'do
       expect(assigns(:question)).to be_a_new(Question)
@@ -44,6 +45,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe "GET # EDIT" do
+    before { login(user)} 
     before {get edit_question_path(question) }
 
     it 'assigns to editing question to @question'do
@@ -56,6 +58,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe "POST #create" do
+    before { login(user)} 
     context 'with valid attributes' do
       it 'saves a new question to database' do
 
@@ -85,6 +88,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe 'PATCH #UPDATE' do
+    before { login(user)} 
     context 'with valid attributes' do
       it 'assignes to requested @question' do
         patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question)} 
@@ -119,6 +123,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe 'DELETE #destroy' do
+    before { login(user)} 
     let!(:question) {create(:question)} 
     it 'deletes the question' do
       expect {delete "/questions/#{question.id}", params: {id: question}}.to change(Question, :count).by(-1)
