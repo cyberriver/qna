@@ -1,0 +1,8 @@
+= render 'shared/errors', resource: @answer
+
+= form_with model: [@question, @answer] do |f|
+  = f.label :title
+  = f.text_area :title
+  = f.submit 'Answer'
+  
+  = render 'shared/nav'

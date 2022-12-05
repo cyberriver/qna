@@ -2,14 +2,16 @@ require 'rails_helper'
 FactoryBot.reload
 
 RSpec.describe "Questions", type: :request do
-  let(:questions) {create_list(:question, 5)}
-  let(:question) {create(:question)}
   let(:user) {create(:user)}  
+  let(:questions) {create_list(:question, 5, author: user)}
+  let(:question) {create(:question, author: user)}
 
 
   describe "GET /index" do
-    before { get questions_path}
-
+    
+    before {questions}
+    before {get questions_path}
+ 
     it 'populates an array of all questions' do          
       expect(assigns(:questions)).to match_array(questions)
     end
@@ -124,7 +126,7 @@ RSpec.describe "Questions", type: :request do
 
   describe 'DELETE #destroy' do
     before { login(user)} 
-    let!(:question) {create(:question)} 
+    let!(:question) {create(:question, author: user)} 
     it 'deletes the question' do
       expect {delete "/questions/#{question.id}", params: {id: question}}.to change(Question, :count).by(-1)
     end

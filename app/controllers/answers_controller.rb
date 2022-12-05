@@ -1,4 +1,4 @@
-class AnswersController < ApplicationController
+class AnswersController < ApplicationController  
   before_action :load_answer,  only: [:show, :edit, :update, :destroy]
   before_action :find_question, only: [:new, :create]
 
@@ -9,7 +9,7 @@ class AnswersController < ApplicationController
   def show    
   end
 
-  def new
+  def new          
     @answer = @question.answers.new
   end
 
@@ -19,8 +19,9 @@ class AnswersController < ApplicationController
 
   def update
     @answer.update(answer_params)
+
     if @answer.save
-      redirect_to @answer
+      redirect_to question_answers_path(@answer.question), status: 300
     else
       render :edit
     end
@@ -28,9 +29,9 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer =  @question.answers.new(answer_params)
     if @answer.save
-      redirect_to @answer
+      redirect_to question_answers_path(@answer.question), status: 300
     else
       render :new
     end
@@ -53,7 +54,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:title, :question_id)    
+    params.require(:answer).permit(:title, :question_id, :author_id)    
   end
 
   

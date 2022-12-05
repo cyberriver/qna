@@ -1,2 +1,19 @@
+div id = "nav"
+  = render 'shared/nav'
+
 h1= @question.title
 p= @question.body
+p 
+| Answers List
+- if @question.answers.any?
+  table
+    - @question.answers.each do |a| 
+      tr 
+        td.title = a.title
+          
+- else 
+  | No answers found. Pls add some answer
+
+= link_to  "Add answer", new_question_answer_path(@question)
+div id = "footer"
+  | Copyright 2022 cyberriver

@@ -4,7 +4,37 @@ feature 'User registration', %q{
   In order to registrate User fill the registration form 
   And get the user profile
 } do
-  scenario 'Registration new user with valid data'
-  scenario 'Registration existing user with vali data'
-  scenario 'Registration new user with invalid data'
+  given(:user){create(:user)}
+  background {visit new_user_registration_path}
+
+  scenario 'Registration new user with valid data' do    
+    fill_in 'Email', with: 'test_user@test.com'
+    fill_in 'Password', with: 'qwerty'
+    fill_in 'Password confirmation', with: 'qwerty'
+    click_on 'Sign up'
+
+    expect(page).to have_content 'Welcome! You have signed up successfully.'
+  end
+
+  scenario 'Registration of existing user' do
+    
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    fill_in 'Password confirmation', with: user.password_confirmation
+    click_on 'Sign up'
+
+    expect(page).to have_content 'Email has already been taken'
+  end
+
+
+  scenario 'Registration user with invalid data' do
+    fill_in 'Email', with: 'test_user@'
+    fill_in 'Password', with: ''
+    fill_in 'Password confirmation', with: ''
+    click_on 'Sign up'
+
+    expect(page).to have_content '2 errors prohibited this user from being saved:'
+    expect(page).to have_content 'Email is invalid'
+    expect(page).to have_content "Password can't be blank"
+  end
 end

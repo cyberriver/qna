@@ -1,1 +1,20 @@
+div id = "nav"
+  = render 'shared/nav'
+
 p=  link_to  "Ask question", new_question_path
+
+| Questions List
+- if @questions
+  table
+    - @questions.each do |q| 
+      tr 
+        td.title = q.title
+        td.body = q.body
+        td.action
+          = link_to "Show", question_path(q)
+          
+- else 
+  | No questions found. Pls add some question
+
+div id = "footer"
+  | Copyright 2022 cyberriver
