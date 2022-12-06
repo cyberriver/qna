@@ -9,4 +9,6 @@ Rails.application.routes.draw do
 
   patch '/questions/:id/answers/:id', to: 'answers#update'
   
+  get 'author_answers', to: 'answers#my_answers'
+
 end

@@ -26,5 +26,12 @@ feature 'User can read questions', %q{
     expect(page).to have_content "Answer"
   end
 
-  scenario 'Authenticated user as author can have access to directly to his questions and its answers'  
+  scenario 'Authenticated user as author can have access to directly to his questions' do
+    sign_in(user2)
+    click_on 'My Answers'
+
+    expect(page).to have_content "#{user2.email}"
+
+
+  end 
 end
