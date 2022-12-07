@@ -15,30 +15,38 @@ class QuestionsController < ApplicationController
   end
 
   def edit  
-    
+    if  @question.author==current_user
+      render :edit
+    else
+      redirect_to questions_path, alert: "You don't have permissons."
+    end
   end
 
   def create
     @question = current_user.author_questions.new(question_params) 
-    if @question.save
-      redirect_to @question, notice: 'Your question successfully created.'
+    if @question.save      
+      redirect_to questions_path, notice: 'Your question successfully created.'
     else
       render :new
     end 
   end
 
-  def update
+  def update    
     @question.update(question_params)
     if @question.save
-      redirect_to @question
+      redirect_to questions_path
     else
       render :edit
     end 
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path   
+    if  @question.author==current_user 
+      @question.destroy
+      redirect_to questions_path, notice: 'Your question successfully deleted.'
+    else
+      redirect_to questions_path, alert: "You don't have permissons."
+    end   
   end
 
   private 
@@ -49,7 +57,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)    
+    params.require(:question).permit(:title, :body, :author_id)    
   end
 
 end

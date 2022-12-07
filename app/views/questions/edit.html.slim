@@ -1,1 +1,12 @@
 = render 'shared/nav'
+
+| Edit question 
+
+= form_with model: @question do |f|
+  = f.label :title
+  = f.text_area :title, value: @question.title
+  = f.label :body
+  = f.text_area :body, value: @question.body
+  = f.label :author_id
+  = f.text_field :author_id, value: @question.author.id, readonly: true
+  = f.submit 'Save'
