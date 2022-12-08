@@ -1,17 +1,6 @@
 class AnswersController < ApplicationController  
-  before_action :load_answer,  only: [:show, :edit, :update, :destroy]
-  before_action :find_question, only: [:new, :create]
-
-  def index 
-   @answers = Answer.all    
-  end
-
-  def show    
-  end
-
-  def new          
-    @answer = @question.answers.new
-  end
+  before_action :load_answer,  only: [:edit, :update, :destroy]
+  before_action :find_question, only: [:create]
 
   def edit
     
@@ -21,9 +10,9 @@ class AnswersController < ApplicationController
     @answer.update(answer_params)
 
     if @answer.save
-      redirect_to question_answers_path(@answer.question), status: 300
+      redirect_to question_path(@answer.question), notice: 'Answer succefully modified'
     else
-      render :edit
+      render :edit, alert: "Invalid data added"
     end
     
   end
@@ -31,15 +20,15 @@ class AnswersController < ApplicationController
   def create
     @answer =  @question.answers.new(answer_params)
     if @answer.save
-      redirect_to question_answers_path(@answer.question), status: 300
+      redirect_to question_path(@answer.question), notice: "Answer succefully added to question."
     else
-      render :new
+      redirect_to question_path(@question), alert: "Invalid data added"
     end
   end
 
   def destroy
     @answer.destroy
-    redirect_to question_answers_path(@answer.question)
+    redirect_to question_path(@answer.question), notice: 'Answer succefully deleted.'
 
   end
 

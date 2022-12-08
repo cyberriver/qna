@@ -16,7 +16,7 @@ feature 'Delete question', %q{
     expect(page).to have_content 'Your question successfully deleted.'    
   end
 
-  scenario 'Authenticated user, not-author, could not delete the question of other author' do
+  scenario 'Authenticated user, not-author, could not delete the question ' do
     sign_in(user2)
     visit questions_path    
     click_on 'Delete'
@@ -24,7 +24,7 @@ feature 'Delete question', %q{
     expect(page).to have_content "You don't have permissons."  
   end
   
-  scenario 'UnAuthenticated user, could not delete the question' do
+  scenario 'UnAuthenticated user, could not delete the question ' do
     visit questions_path
     click_on 'Delete'
 

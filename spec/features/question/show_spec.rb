@@ -16,7 +16,7 @@ feature 'User can read questions', %q{
 
   scenario 'User can expand question and look the answers to it' do
     
-     click_on 'Show', match: :first
+    click_on 'Show', match: :first
 
     expect(page).to have_content "#{questions.first.title}"
     expect(page).to have_content "#{questions.first.body}"
@@ -28,7 +28,13 @@ feature 'User can read questions', %q{
     click_on 'My Answers'
 
     expect(page).to have_content "#{user.email}"
-
-
   end 
+
+  scenario 'Any user can return back to home page with questions' do    
+    click_on 'Home'
+
+    expect(page). to have_content 'Questions List'
+  end
+
+
 end

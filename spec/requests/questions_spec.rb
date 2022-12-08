@@ -71,7 +71,7 @@ RSpec.describe "Questions", type: :request do
 
       it 'redirects to show view' do        
         post '/questions', params: {question: attributes_for(:question)}
-        expect(response).to redirect_to assigns(:question)
+        expect(response).to redirect_to questions_path
       end
     end
 
@@ -106,7 +106,7 @@ RSpec.describe "Questions", type: :request do
 
       it 'redirect to updated question' do
         patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question)} 
-        expect(response).to redirect_to question
+        expect(response).to redirect_to questions_path
       end      
     end
 

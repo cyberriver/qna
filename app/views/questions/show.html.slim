@@ -10,10 +10,19 @@ p
     - @question.answers.each do |a| 
       tr 
         td.title = a.title
+        - if a.author.present?
+          td.author = a.author.email
+          - if current_user = a.author 
+            = link_to "Delete", answer_path(a), method: :delete
+            = link_to "Edit", edit_answer_path(a)
+              
+        
           
 - else 
   | No answers found. Pls add some answer
 
-= link_to  "Add answer", new_question_answer_path(@question)
+- if user_signed_in?
+  = render partial: 'answer'
+
 div id = "footer"
   | Copyright 2022 cyberriver
