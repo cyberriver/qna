@@ -11,7 +11,7 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    @question = current_user.author_questions.new    
+    @question = current_user.questions.new    
   end
 
   def edit  
@@ -23,7 +23,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = current_user.author_questions.new(question_params) 
+    @question = current_user.questions.new(question_params) 
     if @question.save      
       redirect_to questions_path, notice: 'Your question successfully created.'
     else

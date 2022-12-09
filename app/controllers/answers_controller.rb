@@ -33,7 +33,7 @@ class AnswersController < ApplicationController
   end
 
   def my_answers
-    @answers = current_user.author_answers.all
+    @answers = current_user.answers.all
   end
 
   private
