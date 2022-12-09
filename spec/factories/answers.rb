@@ -1,7 +1,12 @@
 FactoryBot.define do
   factory :answer do
-    title { "MyString" }
-    string { "MyString" }
-    correct { false }
+    sequence(:title) { |n| "Answer #{n}" }
+    question
+    author { association :user }
+
+    trait :invalid_data do
+      title {nil}
+    end
+    
   end
 end

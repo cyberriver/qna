@@ -1,0 +1,9 @@
+= render 'shared/errors', resource: @answer
+= form_with model: [@question, @answer], local:true do |f|
+  = f.label :title
+  = f.text_area :title
+  = f.label :author_id, hidden: true
+  = f.text_field :author_id, value: current_user.id, readonly: true, hidden: true
+  = f.submit 'Answer'
+  
+ 

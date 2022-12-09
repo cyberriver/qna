@@ -1,0 +1,30 @@
+require 'rails_helper'
+
+feature 'User can sign in',  %q{
+  I order to ask questions
+  As an unauthenticated user 
+  I'd like to able to sign in
+} do
+
+  given(:user) {create(:user)} 
+
+  background {visit new_user_session_path} 
+
+  scenario 'Registred user tries to sign in' do
+      
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    click_on 'Log in'
+    
+    expect(page).to have_content 'Signed in successfully.'       
+  end
+
+  scenario 'Unregistred user tries to sign in' do
+    
+    fill_in 'Email', with: 'qwerty'
+    fill_in 'Password', with: 'invalidr@test.com'
+    click_on 'Log in'
+    
+    expect(page).to have_content 'Invalid Email or password'
+  end
+end

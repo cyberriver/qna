@@ -1,0 +1,13 @@
+
+| My Answers
+
+- if @answers.any?
+  table
+    - @answers.each do |a| 
+      tr 
+        td.question = a.question.title
+        td.my_answer = a.title
+        td.author_email = a.author.email
+        td.action
+            = link_to "Delete", answer_path(a), method: :delete
+            = link_to "Edit", edit_answer_path(a)
