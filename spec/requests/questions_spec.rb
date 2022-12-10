@@ -1,15 +1,17 @@
 require 'rails_helper'
 FactoryBot.reload
 
-
 RSpec.describe "Questions", type: :request do
-  let(:questions) {create_list(:question, 5)}
-  let(:question) {create(:question)} 
+  let(:user) {create(:user)}  
+  let(:questions) {create_list(:question, 5, author: user)}
+  let(:question) {create(:question, author: user)}
 
 
   describe "GET /index" do
-    before { get questions_path}
-
+    
+    before {questions}
+    before {get questions_path}
+ 
     it 'populates an array of all questions' do          
       expect(assigns(:questions)).to match_array(questions)
     end
@@ -32,7 +34,8 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe "GET # NEW" do    
-    before {get '/questions/new', params: {question: attributes_for(:question)} }
+    before { login(user)} 
+    before { get '/questions/new'}
 
     it 'assigns to a new Question to @question'do
       expect(assigns(:question)).to be_a_new(Question)
@@ -44,6 +47,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe "GET # EDIT" do
+    before { login(user)} 
     before {get edit_question_path(question) }
 
     it 'assigns to editing question to @question'do
@@ -56,6 +60,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe "POST #create" do
+    before { login(user)} 
     context 'with valid attributes' do
       it 'saves a new question to database' do
 
@@ -66,7 +71,7 @@ RSpec.describe "Questions", type: :request do
 
       it 'redirects to show view' do        
         post '/questions', params: {question: attributes_for(:question)}
-        expect(response).to redirect_to assigns(:question)
+        expect(response).to redirect_to questions_path
       end
     end
 
@@ -85,6 +90,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe 'PATCH #UPDATE' do
+    before { login(user)} 
     context 'with valid attributes' do
       it 'assignes to requested @question' do
         patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question)} 
@@ -100,7 +106,7 @@ RSpec.describe "Questions", type: :request do
 
       it 'redirect to updated question' do
         patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question)} 
-        expect(response).to redirect_to question
+        expect(response).to redirect_to questions_path
       end      
     end
 
@@ -119,7 +125,8 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe 'DELETE #destroy' do
-    let!(:question) {create(:question)} 
+    before { login(user)} 
+    let!(:question) {create(:question, author: user)} 
     it 'deletes the question' do
       expect {delete "/questions/#{question.id}", params: {id: question}}.to change(Question, :count).by(-1)
     end

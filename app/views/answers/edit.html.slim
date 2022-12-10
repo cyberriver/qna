@@ -1,0 +1,14 @@
+div id = "nav"
+  = render 'shared/nav'
+
+= render 'shared/errors', resource: @answer
+
+div id = 'answer-edit'
+  = form_with model: [@question, @answer], local:true do |f|
+    = f.label :title
+    = f.text_area :title, value: @answer.title
+    = f.label :author_id, hidden: true
+    = f.text_field :author_id, value: current_user.id, readonly: true, hidden: true
+    = f.submit 'Save'
+  
+ 
