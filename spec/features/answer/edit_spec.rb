@@ -9,19 +9,19 @@ feature 'Edit answer', %q{
   given!(:question) {create(:question, author: user)}
   given!(:answers) {create(:answer, question:question, author: user)}
 
-  scenario 'Authenticated User, who is Author of the answer update the answer' do
+  scenario 'Authenticated User, who is Author of the answer update the answer', js:true do
     sign_in(user)
     visit question_path(question)
-    click_on 'Edit'
+    click_on 'Edit', match: :first
 
     fill_in 'Title', with: 'Modified answer'
-    click_on 'Save'
+    click_button 'Save'
 
     expect(page).to have_content 'Answer succefully modified'
 
   end
 
-  scenario 'Authenticated User, who is not Author of the answer can not update it' do
+  scenario 'Authenticated User, who is not Author of the answer can not update it', js:true do
     sign_in(user2)
     visit question_path(question)
 

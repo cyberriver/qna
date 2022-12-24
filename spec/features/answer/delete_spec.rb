@@ -13,8 +13,8 @@ feature 'Delete answer', %q{
 
   scenario 'Authenticated user, author of answer can delete it ' do
     sign_in(user)
-    click_on 'My Answers'
-    click_on 'Delete', match: :first
+    click_on 'My Answers', match: :first
+    click_button 'Delete', match: :first
     
     expect(page).to have_content 'Answer succefully deleted.'
 

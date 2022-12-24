@@ -22,8 +22,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to question_path(@answer.question), notice: "Answer succefully added to question."
     else
-       render :create
-   #   redirect_to question_path(@question), alert: "Invalid data added"
+      redirect_to question_path(@question), alert: "Invalid data added"
     end
   end
 
