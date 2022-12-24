@@ -1,13 +1,25 @@
 
-| My Answers
+h4
+  | My Answers
 
 - if @answers.any?
-  table
+  table class="table table-borderless-align-middle-hover"
+    thead
+      tr class = "align-bottom"
+        th scope="col" Question title
+        th scope="col" My gived answer
+        th scope="col" Author email   
+        th scope="col" Availavle actions       
+  
     - @answers.each do |a| 
-      tr 
-        td.question = a.question.title
-        td.my_answer = a.title
-        td.author_email = a.author.email
-        td.action
-            = link_to "Delete", answer_path(a), method: :delete
-            = link_to "Edit", edit_answer_path(a)
+      tbody
+        tr class = "align-bottom"
+          td.question = a.question.title
+          td.my_answer = a.title
+          td.author_email = a.author.email
+          td.action
+            button type="button" class="btn btn-outline-danger"  
+              = link_to "Delete", answer_path(a), method: :delete
+            button type="button" class="btn btn-outline-warning"
+              = link_to "Edit", edit_answer_path(a)
+

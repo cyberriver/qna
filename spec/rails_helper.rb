@@ -7,6 +7,7 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require "selenium-webdriver"
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -40,6 +41,23 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ControllerHelpers, type: :request
   config.include FeatureHelpers, type: :feature
+
+  Capybara.register_driver :chrome do |app|
+    options = Selenium::WebDriver::Chrome::Options.new(args: %w[
+      headless no-sandbox disable-gpu window-size=1920x1080
+    ])
+      Capybara::Selenium::Driver.new(app,
+        browser: :chrome,
+        desired_capabilities: {
+          "chromeOptions" => {
+            w3c: false
+          }
+        }
+      )
+  end
+  
+
+  Capybara.javascript_driver = :selenium_chrome_headless
  
 
 
