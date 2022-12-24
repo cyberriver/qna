@@ -19,7 +19,7 @@ h4
           td.author_email = a.author.email
           td.action
             button type="button" class="btn btn-outline-danger"  
-              = button_to "Delete", answer_path(a), method: :delete
+              = button_to "Delete", answer_path(a), method: :delete, data: { confirm: 'Are you sure to delete this answer?' }
             button type="button" class="btn btn-outline-warning"
               = link_to "Edit", edit_answer_path(a)
 

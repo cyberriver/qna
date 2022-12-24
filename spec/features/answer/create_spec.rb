@@ -24,7 +24,7 @@ feature 'User can create the answer for question', %q{
     fill_in 'Title', with: ''
     click_on 'Make Answer', match: :first
     
-    expect(page).to have_content "Invalid data added"
+    expect(page).to have_content "Title can't be blank"
   end
   scenario 'Unauthenticated user, could not answer the question', js:true do
     visit question_path(question)

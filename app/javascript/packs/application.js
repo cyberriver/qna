@@ -7,9 +7,14 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
+import "bootstrap"
+import "../stylesheets/application"
+
 
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
+require("channels")
+require("jquery")
 
 require("@popperjs/core")
 
@@ -18,6 +23,6 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-import "bootstrap"
-import "../stylesheets/application"
-import 'css/site.scss'
+window.jQuery = jQuery
+window.$ = $
+
