@@ -7,26 +7,29 @@ feature 'User can create the answer for question', %q{
   given!(:user){create(:user)} 
   given!(:question) {create(:question, author: user)}
 
-  scenario 'Authenticated user can answer the question directly on the same page', js:true do
+  scenario 'Authenticated user can answer the question directly on the same page', js: true do
     sign_in(user)
     visit question_path(question)
     
-    fill_in 'Title', with: 'My RSPEC test answer'
-    click_on 'Make Answer', match: :first
+    within '.answer' do
+      fill_in 'Title', with: 'My RSPEC test answer'
+      click_on 'Make Answer'
     
-    expect(page).to have_content "Answer succefully added to question."
+      expect(page).to have_content "Answer succefully added to question."
+    end
+
   end
 
-  scenario 'Authenticated user answer the question with invalid data', js:true do
+  scenario 'Authenticated user answer the question with invalid data', js: true do
     sign_in(user)
     visit question_path(question)
     
     fill_in 'Title', with: ''
-    click_on 'Make Answer', match: :first
-    
-    expect(page).to have_content "Title can't be blank"
+    click_on 'Make Answer'
+           
+    expect(page).to have_selector('.answer-errors', text: "Title can't be blank" ) #have_content "Title can't be blank"
   end
-  scenario 'Unauthenticated user, could not answer the question', js:true do
+  scenario 'Unauthenticated user, could not answer the question', js: true do
     visit question_path(question)
 
     expect(page).should_not have_content 'Make Answer'

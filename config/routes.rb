@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root to: "questions#index"
 
   resources :questions do
-    resources :answers, shallow: true
+    resources :answers, shallow: true 
   end 
 
   patch '/questions/:id/answers/:id', to: 'answers#update'

@@ -1,37 +1,25 @@
 h1= @question.title
 p= @question.body
 p 
-| Answers List
-- if @question.answers.any?
-  table class="table table-borderless-align-middle-hover"
-    thead
-      tr class = "align-bottom"
-        th scope="col" Answer title
-        th scope="col" Answer author
-        - if current_user = @question.author
-          th "Available actions"
-    tbody
-      - @question.answers.each do |a| 
-        tr 
-          td.title = a.title
-          - if a.author.present?
-            td.author = a.author.email
-            - if current_user = a.author
-            td.actions
-              = button_to "Delete", answer_path(a), method: :delete, class: "btn btn-outline-danger" 
-              button type="button" class="btn btn-outline-warning"   
-                = link_to "Edit", edit_answer_path(a)
-              
-        
-          
-- else 
-  | No answers found. Pls add some answer
-
+.answers
+  div class = "table-responsive"
+    - if @question.answers.any?
+      table class="table table-borderless-align-middle-hover"
+        thead
+          tr class = "align-bottom"
+            th scope="col" Answer title
+            th scope="col" Answer author
+            th scope="col" Available actions
+        tbody class=""
+           = render @question.answers
+    - else 
+     | No answers found. Pls add some answer
+  
 .answer-errors
   = render 'shared/errors', resource: @answer
 
-
-- if user_signed_in?
-  = render partial: 'answer'
+.answer
+  - if user_signed_in?
+    = render partial: 'answer'
 
 

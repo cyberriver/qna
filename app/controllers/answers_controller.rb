@@ -18,13 +18,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer =  @question.answers.new(answer_params)
-    if @answer.save
-      redirect_to question_path(@answer.question), notice: "Answer succefully added to question."
-    
-   # else
-   #   redirect_to question_path(@question), alert: "Invalid data added"
-    end
+    @answer =  @question.answers.create(answer_params)
   end
 
   def destroy

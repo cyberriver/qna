@@ -1,7 +1,5 @@
 const { environment } = require('@rails/webpacker')
 
-module.exports = environment
-
 // Add the following lines
 const webpack = require("webpack")
 
@@ -12,5 +10,8 @@ environment.plugins.prepend("Provide",
     Popper: ['popper.js', 'default']  // Not a typo, we're still using popper.js here
 }))
 // End new addition
+
+
+
 
 module.exports = environment

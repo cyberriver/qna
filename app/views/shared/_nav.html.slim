@@ -10,4 +10,10 @@ nav class="navbar navbar-expand-lg bg-light"
         li class="nav-item hover"
           = link_to  "My Answers", author_answers_path
         li class="nav-item hover"
-          = link_to  "Sign out",  destroy_user_session_path    
+          = link_to  "Sign out",  destroy_user_session_path
+    - else
+      ul class="navbar-nav me-auto mb-2 mb-lg-0"
+        li class="nav-item hover"
+          = link_to  "Sign in",  new_user_session_path 
+        li class="nav-item hover"
+          = link_to  "Register",  new_user_registration_path 

@@ -3,26 +3,26 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-import Rails from "@rails/ujs"
+//import Rails from "@rails/ujs"
+//= require jquery
+//= require jquery_ujs
+//= require rails-ujs
+//= require activestorage
+//= require turbolinks
+//= require_tree
+
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "bootstrap"
 import "../stylesheets/application"
+import "../javascript/packs/inline"
 
-
+require("jquery")
+require("inline")
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("channels")
-require("jquery")
 
 require("@popperjs/core")
-
-
-Rails.start()
-Turbolinks.start()
-ActiveStorage.start()
-
-window.jQuery = jQuery
-window.$ = $
 

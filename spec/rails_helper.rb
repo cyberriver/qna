@@ -58,6 +58,9 @@ RSpec.configure do |config|
   
 
   Capybara.javascript_driver = :selenium_chrome_headless
+  Capybara.default_max_wait_time = 10
+  Capybara.automatic_reload = false
+  Capybara.asset_host = "http://localhost:3000"
  
 
 

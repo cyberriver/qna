@@ -1,0 +1,29 @@
+
+      tr
+        td.title = answer.title
+        - if answer.author.present?
+            td.author = answer.author.email
+        - if current_user = answer.author
+            td.actions
+              = button_to "Delete", answer_path(answer), method: :delete, class: "btn btn-outline-danger" 
+              button type="button" class="btn btn-outline-warning"   
+                = link_to "Edit", edit_answer_path(answer), class: "form-inline-link", data: { answer_id: answer.id }
+
+
+= form_with model: [@question, @answer], local:false do |f|
+  div class ="container"
+    div class= "card justify-content-md-center"
+      div class = "card-body"
+        h5 
+          div class = "card-title" 
+            | Edit Answer
+        div class = "mb-3"
+          = f.label :title, class: "form-label"
+          = f.text_area :title, value: @answer.title, class: "form-control"
+        div class = "mb-3"
+          = f.label :author_id, hidden: true, class: "form-label"
+          = f.text_field :author_id, value: current_user.id, readonly: true, hidden: true
+
+        = f.submit 'Save', class: "btn btn-primary"
+  
+ 
