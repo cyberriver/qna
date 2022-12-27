@@ -2,7 +2,7 @@ h1= @question.title
 p= @question.body
 p 
 .answers
-  div class = "table-responsive" id="answers-grid"
+  div class = "table-responsive"
     - if @question.answers.any?
       table class="table table-borderless-align-middle-hover"
         thead

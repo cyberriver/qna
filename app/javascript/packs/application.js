@@ -16,10 +16,8 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "bootstrap"
 import "../stylesheets/application"
-import "../javascript/packs/inline"
 
 require("jquery")
-require("inline")
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("channels")

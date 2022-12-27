@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController  
   before_action :load_answer,  only: [:edit, :update, :destroy]
-  before_action :find_question, only: [:create]
+  before_action :find_question, only: [:create, :update]
 
   def edit
     
@@ -9,12 +9,12 @@ class AnswersController < ApplicationController
   def update
     @answer.update(answer_params)
 
-    if @answer.save
-      redirect_to question_path(@answer.question), notice: 'Answer succefully modified'
-    else
-      render :edit, alert: "Invalid data added"
-    end
-    
+    #if @answer.save
+    #  redirect_to question_path(@answer.question), notice: 'Answer succefully modified'
+    #else
+    #  render :edit, alert: "Invalid data added"
+   # end
+
   end
 
   def create
@@ -23,7 +23,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to question_path(@answer.question), notice: 'Answer succefully deleted.'
+    #redirect_to question_path(@answer.question), notice: 'Answer succefully deleted.'
 
   end
 
