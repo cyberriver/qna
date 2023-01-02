@@ -12,16 +12,14 @@
 
   <body>
     <%=render 'shared/nav'%>
-    <% if notice %>
-     <p class="alert alert-success"><%= notice %></p>
-    <% end%> 
-    <% if alert %>
-     <p class="alert alert-danger"><%= alert %></p>
-    <% end %> 
 
-    <%= yield %>
+
+     <%= yield %>
+
+    
   
     <div class="container mx-auto mt-auto align-items-end">
       <%=render 'shared/footer'%>
+    </div>  
   </body>
 </html>

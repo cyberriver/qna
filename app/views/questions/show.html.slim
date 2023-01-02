@@ -15,11 +15,6 @@ div class = "container"
       - else 
        | No answers found. Pls add some answer
 
--if @answer.errors.any?
-  .answer-errors
-    div class = "alert alert-danger"  
-      = render 'shared/errors', resource: @answer
-
 div class = "container" 
   .answer
     - if user_signed_in?

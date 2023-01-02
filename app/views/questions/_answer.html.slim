@@ -1,4 +1,5 @@
-
+.answer-errors
+   = render 'shared/errors', resource: @answer
 = form_with model: [@question, @answer], local: false do |f|
  div class ="container"
     div class= "card justify-content-md-center"
