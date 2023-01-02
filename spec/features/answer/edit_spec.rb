@@ -17,15 +17,18 @@ feature 'Edit answer', %q{
     fill_in 'Title', with: 'Modified answer'
     click_button 'Save'
 
-    expect(page).to have_content 'Answer succefully modified'
-
+   
+      expect(page).to have_content 'Modified answer'
+       
   end
 
   scenario 'Authenticated User, who is not Author of the answer can not update it', js:true do
     sign_in(user2)
     visit question_path(question)
 
-    expect(page).should_not have_content 'Edit'
+    within '.answers' do
+      expect(page).should_not have_content 'Edit'
+    end    
   end
 
 end

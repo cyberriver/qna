@@ -1,19 +1,23 @@
-nav class="navbar navbar-expand-lg bg-light"
-  div class="container-fluid"
-    = link_to  "Home", questions_path
+nav class="navbar navbar-expand-lg bg-light" role="navigation"
+  div class ="container-fluid"
+    div class="navbar-header"
+      = link_to  "Home", questions_path, class: 'btn btn-outline-primary'
+
+    div class ="col mx-auto text-center"
+      h1 Questions and Answers 
   
-  div class = "collapse navbar-collapse" id="navbarSupportedContent"
-    - if user_signed_in?
-      ul class="navbar-nav me-auto mb-2 mb-lg-0"
-        li class="nav-item hover"
-          =  link_to  "Ask question", new_question_path
-        li class="nav-item hover"
-          = link_to  "My Answers", author_answers_path
-        li class="nav-item hover"
-          = link_to  "Sign out",  destroy_user_session_path
-    - else
-      ul class="navbar-nav me-auto mb-2 mb-lg-0"
-        li class="nav-item hover"
-          = link_to  "Sign in",  new_user_session_path 
-        li class="nav-item hover"
-          = link_to  "Register",  new_user_registration_path 
+    div class = "collapse navbar-collapse" id="navbarSupportedContent"
+      - if user_signed_in?
+        ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3"
+          li class="nav-item "
+            =  link_to  "Ask question", new_question_path, class: 'btn btn-outline-warning'
+          li class="nav-item "
+            = link_to  "My Answers", author_answers_path, class: 'btn btn-outline-success'
+          li class="nav-item "
+            = link_to  "Sign out",  destroy_user_session_path, class: 'btn btn-outline-danger'
+      - else
+        ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3"
+          li class="nav-item "
+            = link_to  "Sign in",  new_user_session_path, class: 'btn btn-outline-primary' 
+          li class="nav-item "
+            = link_to  "Register",  new_user_registration_path, class: 'btn btn-outline-success'  

@@ -11,16 +11,22 @@
 //= require turbolinks
 //= require_tree
 
-import Turbolinks from "turbolinks"
-import * as ActiveStorage from "@rails/activestorage"
-import "channels"
-import "bootstrap"
-import "../stylesheets/application"
+import Rails from '@rails/ujs';
+import Turbolinks from "turbolinks";
+import * as ActiveStorage from "@rails/activestorage";
+import "channels";
+import "bootstrap";
+import "../stylesheets/application";
+import { Tooltip, Toast, Popover } from 'bootstrap';
+import Alert from 'bootstrap/js/dist/alert';
+import "./answers";
+
 
 require("jquery")
 require("@rails/ujs").start()
+require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 
 require("@popperjs/core")
-
+require("answers")

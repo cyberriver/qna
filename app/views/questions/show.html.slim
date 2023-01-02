@@ -1,25 +1,28 @@
-h1= @question.title
-p= @question.body
-p 
-.answers
-  div class = "table-responsive" id="answers-grid"
-    - if @question.answers.any?
-      table class="table table-borderless-align-middle-hover"
-        thead
-          tr class = "align-bottom"
-            th scope="col" Answer title
-            th scope="col" Answer author
-            th scope="col" Available actions
-        tbody class=""
-           = render @question.answers
-    - else 
-     | No answers found. Pls add some answer
-  
-.answer-errors
-  = render 'shared/errors', resource: @answer
 
-.answer
-  - if user_signed_in?
-    = render partial: 'answer'
+div class = "container"
+
+  h1= @question.title
+  p
+  h3= @question.body
+  p 
+  .answers
+    div class = "container"
+      - if @question.answers.any?
+        h3 List of answers
+    
+        = render @answers
+           
+      - else 
+       | No answers found. Pls add some answer
+
+-if @answer.errors.any?
+  .answer-errors
+    div class = "alert alert-danger"  
+      = render 'shared/errors', resource: @answer
+
+div class = "container" 
+  .answer
+    - if user_signed_in?
+      = render partial: 'answer'
 
 

@@ -1,25 +1,28 @@
 
-| Questions List
-- if @questions
-  table class="table table-borderless-align-middle-hover"
-    thead
-      tr class = "align-bottom"
-        th scope="col" Question title
-        th scope="col" Question body
-        th scope="col" Available actions
-    tbody
-      - @questions.each do |q| 
-        tr 
-          td.title = q.title
-          td.body = q.body
-          td.action
-            button type="button" class="btn btn-outline-primary" 
-              = link_to "Show answers", question_path(q)
-            - if current_user == q.author
-              = button_to "Delete", question_path(q), method: :delete, class: "btn btn-outline-danger"
-              button type="button" class="btn btn-outline-warning"
-                = link_to "Edit", edit_question_path(q)
-  
-- else 
-  | No questions found. Pls add some question
+div class = "container-md p-2 "
+  - if @questions
+    div class = "container-fluid p-2 gap-5"
+      div class = "row p-2"
+        div class = "col-md-3"
+          h5 Question title
+        div class = "col-md-6"
+          h5 Question body
+        div class = "col-3 justify-content-center text-end"
+          h5 Available actions
+
+      - @questions.each do |q|
+        div class = "row shadow-sm p-2"
+          div class = "col-md-3" id = "title"
+            = q.title
+          div class = "col-md-6" id = "body"
+            = q.body
+          div class = "col-md-3 justify-content-center" id = "action"
+            div class="d-grid gap-2 md-flex justify-content-md-end"
+              = link_to "Answers", question_path(q), class: "btn btn-primary" 
+              - if current_user == q.author
+                = button_to "Delete", question_path(q), method: :delete, class: "btn btn-outline-danger"
+                = link_to "Edit", edit_question_path(q), class: "btn btn-outline-warning"
+    
+  - else 
+    | No questions found. Pls add some question
 

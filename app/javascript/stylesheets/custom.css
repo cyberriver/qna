@@ -2,3 +2,15 @@
   background-color: #0d6efd;
   color: white;
 }
+
+.hidden { display: none}
+
+.body {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  
+}
+
+.body 
+.body::-webkit-scrollbar {
+  display: none;
+}
