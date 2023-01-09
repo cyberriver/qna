@@ -1,25 +1,37 @@
 
-h4
-  | My Answers
+h4 My Answers
 
 - if @answers.any?
-  table class="table table-borderless-align-middle-hover"
-    thead
-      tr class = "align-bottom"
-        th scope="col" Question title
-        th scope="col" My gived answer
-        th scope="col" Author email   
-        th scope="col" Availavle actions       
+  div class = "container-fluid p-2 g-3 gap-5"
+    div class = "row bg-white  p-2"
+      div class = "col-md-3"
+        h5 Question title
+      div class = "col-md-3"
+        h5 My gived answer
+      div class = "col-md-3"
+        h5 Author email 
+      div class = "col-md-3"
+        h5 Availavle actions 
   
-    - @answers.each do |a| 
-      tbody
-        tr class = "align-bottom"
-          td.question = a.question.title
-          td.my_answer = a.title
-          td.author_email = a.author.email
-          td.action
-            button type="button" class="btn btn-outline-danger"  
-              = button_to "Delete", answer_path(a), method: :delete, data: { confirm: 'Are you sure to delete this answer?' }
-            button type="button" class="btn btn-outline-warning"
-              = link_to "Edit", edit_answer_path(a)
+    - @answers.each do |a|
+      div class = "row bg-white shadow-sm g-2 mt-2"
+        div class = "col-md-3 p-2" id = "title"
+          = a.question.title
+        div class = "col-md-3 p-2" id = "answer_title"
+          = a.title
+        div class = "col-md-3 p-2" id = "answer_email"  
+          = a.author.email
+        div class = "col-md-3 p-2 justify-content-center" id = "action" 
+          div class="d-grid gap-2 md-flex justify-content-md-end"
+            = button_to "Delete", answer_path(a), class: "btn btn-outline-danger",  method: :delete, data: { confirm: 'Are you sure to delete this answer?' }
+            = link_to "Edit", edit_answer_path(a), class: "btn btn-outline-warning edit-answer-link"
+        
+        = form_with model: a, class: 'hidden', local:false, html: {id: "edit-answer-#{a.id}"} do |f|
+          div class = "mb-3 bg-white"
+            = f.label :title, class: "form-label"              
+            = f.text_area :title, value: a.title, class: "form-control"
+            = f.label :author_id, hidden: true, class: "form-label"
+            = f.text_field :author_id, value: current_user.id, readonly: true, hidden: true
 
+          div class = "gap-2"
+            = f.submit 'Save', class: "btn btn-primary btn-sm p-2"

@@ -1,6 +1,6 @@
 
 div class = "container-fluid p-2 gap-5"
-  div class = "row shadow-sm  p-2"
+  div class = "row shadow-sm  p-2 bg-white"
     div class = "col-md-6"
       = answer.title
     div class = "col-md-3"
@@ -14,7 +14,7 @@ div class = "container-fluid p-2 gap-5"
 
 
   = form_with model: answer, class: 'hidden', local:false, html: {id: "edit-answer-#{answer.id}"} do |f|
-    div class = "mb-3"
+    div class = "mb-3 bg-white"
       = f.label :title, class: "form-label"              
       = f.text_area :title, value: answer.title, class: "form-control"
       = f.label :author_id, hidden: true, class: "form-label"

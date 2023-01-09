@@ -1,8 +1,8 @@
 
 div class = "container-md p-2 "
   - if @questions
-    div class = "container-fluid p-2 gap-5"
-      div class = "row p-2"
+    div class = "container-fluid p-2 g-3 gap-5"
+      div class = "row bg-white  p-2"
         div class = "col-md-3"
           h5 Question title
         div class = "col-md-6"
@@ -11,15 +11,15 @@ div class = "container-md p-2 "
           h5 Available actions
 
       - @questions.each do |q|
-        div class = "row shadow-sm p-2"
-          div class = "col-md-3" id = "title"
+        div class = "row bg-white shadow-sm g-2 mt-2"
+          div class = "col-md-3 p-2" id = "title"
             = q.title
-          div class = "col-md-6" id = "body"
+          div class = "col-md-6 p-2" id = "body"
             = q.body
-          div class = "col-md-3 justify-content-center" id = "action"
+          div class = "col-md-3 p-2 justify-content-center" id = "action"
             div class="d-grid gap-2 md-flex justify-content-md-end"
               = link_to "Answers", question_path(q), class: "btn btn-primary" 
-              - if current_user == q.author
+              - if user_signed_in? && current_user == q.author
                 = button_to "Delete", question_path(q), method: :delete, class: "btn btn-outline-danger"
                 = link_to "Edit", edit_question_path(q), class: "btn btn-outline-warning"
     

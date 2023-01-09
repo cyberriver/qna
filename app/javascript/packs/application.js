@@ -23,10 +23,15 @@ import "./answers";
 
 
 require("jquery")
+require("channels")
+require("@popperjs/core")
+
+import $ from 'jquery'
+window.jQuery = $
+window.$ = $
+
 require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
-require("channels")
 
-require("@popperjs/core")
-require("answers")
+//require("answers")

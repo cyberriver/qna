@@ -10,16 +10,16 @@
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class ="container bg-light bg-gradient">
     <%=render 'shared/nav'%>
 
 
-     <%= yield %>
+       <%= yield %>
 
-    
+ 
   
     <div class="container mx-auto mt-auto align-items-end">
       <%=render 'shared/footer'%>
-    </div>  
+    </div>      
   </body>
 </html>
