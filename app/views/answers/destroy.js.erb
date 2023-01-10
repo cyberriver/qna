@@ -1,2 +1,2 @@
 $('.answer-errors').html('<%= render 'shared/errors', resource: @answer%>');
-$('#<%= escape_javascript(@answer.id.to_s) %>")').remove();
+$('#answer_<%= @answer.id %>').remove();

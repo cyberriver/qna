@@ -1,5 +1,5 @@
 
-div class = "container-fluid p-2 gap-5"
+div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
   div class = "row shadow-sm  p-2 bg-white"
     div class = "col-md-6"
       = answer.title
@@ -9,7 +9,7 @@ div class = "container-fluid p-2 gap-5"
     div class = "col-md-3"
       div class="d-grid gap-2 md-flex justify-content-md-end"
         - if current_user == answer.author
-          = button_to "Delete", answer_path(answer), method: :delete, class: "btn btn-outline-danger"           
+          = button_to "Delete", answer_path(answer), method: :delete, class: "btn btn-outline-danger", remote: true           
           = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-answer-link', data: { answer_id: answer.id}
 
 

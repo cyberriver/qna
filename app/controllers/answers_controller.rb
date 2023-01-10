@@ -3,13 +3,12 @@ class AnswersController < ApplicationController
   before_action :find_question, only: [:edit,:create, :update]
 
   def edit
-    log
+    
   end
 
   def update
     @answer.update(answer_params)
     @question = @answer.question
-
   end
 
   def create
@@ -17,8 +16,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
-
+    if  @answer.author==current_user 
+      @answer.destroy
+    else
+      redirect_to question_path(@answer.question), alert: "You don't have permissons."
+    end 
   end
 
   def my_answers
