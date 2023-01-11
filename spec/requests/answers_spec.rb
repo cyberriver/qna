@@ -41,13 +41,13 @@ RSpec.describe "Answers", type: :request do
     context 'with invalid attributes' do
       it 'does not save the answer' do          
         count = Answer.count
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data),  question_id: question.id}         
+        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data), format: :js,  question_id: question.id}         
         expect(Answer.count).to eq count       
       end
 
       it 're-renders form new' do
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data),  question_id: question.id}  
-        expect(response).to redirect_to question_path(question)    
+        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data), format: :js, question_id: question.id}  
+        expect(response).to render_template :create   
       end      
     end   
   end

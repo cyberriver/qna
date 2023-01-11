@@ -11,7 +11,7 @@ feature 'Delete question', %q{
   scenario 'Authenticated user, author of question can delete it without answers' do
     sign_in(user)
     visit questions_path
-    click_on 'Delete'
+    click_button 'Delete'
 
     expect(page).to have_content 'Your question successfully deleted.'    
   end
@@ -19,14 +19,14 @@ feature 'Delete question', %q{
   scenario 'Authenticated user, not-author, could not delete the question ' do
     sign_in(user2)
     visit questions_path    
-    click_on 'Delete'
+    click_button 'Delete'
 
     expect(page).to have_content "You don't have permissons."  
   end
   
   scenario 'UnAuthenticated user, could not delete the question ' do
     visit questions_path
-    click_on 'Delete'
+    click_button 'Delete'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'  
   end

@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController  
   before_action :load_answer,  only: [:edit, :update, :destroy]
-  before_action :find_question, only: [:create]
+  before_action :find_question, only: [:edit,:create, :update]
 
   def edit
     
@@ -8,28 +8,19 @@ class AnswersController < ApplicationController
 
   def update
     @answer.update(answer_params)
-
-    if @answer.save
-      redirect_to question_path(@answer.question), notice: 'Answer succefully modified'
-    else
-      render :edit, alert: "Invalid data added"
-    end
-    
+    @question = @answer.question
   end
 
   def create
-    @answer =  @question.answers.new(answer_params)
-    if @answer.save
-      redirect_to question_path(@answer.question), notice: "Answer succefully added to question."
-    else
-      redirect_to question_path(@question), alert: "Invalid data added"
-    end
+    @answer =  @question.answers.create(answer_params)
   end
 
   def destroy
-    @answer.destroy
-    redirect_to question_path(@answer.question), notice: 'Answer succefully deleted.'
-
+    if  @answer.author==current_user 
+      @answer.destroy
+    else
+      redirect_to question_path(@answer.question), alert: "You don't have permissons."
+    end 
   end
 
   def my_answers
@@ -38,7 +29,7 @@ class AnswersController < ApplicationController
 
   private
 
-  def load_answer
+  def load_answer 
     @answer = Answer.find(params[:id])    
   end
 
@@ -46,7 +37,7 @@ class AnswersController < ApplicationController
     @question = Question.find_by(id: params[:question_id])
   end
 
-  def answer_params
+  def answer_params 
     params.require(:answer).permit(:title, :question_id, :author_id)    
   end
 
