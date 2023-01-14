@@ -1,28 +1,19 @@
+.questions
+  div class = "container-md p-2 "
+    - if @questions
+      div class = "container-fluid p-2 g-3 gap-5"
+        div class = "row bg-white  p-2"
+          div class = "col-md-3"
+            h5 Question title
+          div class = "col-md-6"
+            h5 Question body
+          div class = "col-3 justify-content-center text-end"
+            h5 Available actions
 
-div class = "container-md p-2 "
-  - if @questions
-    div class = "container-fluid p-2 g-3 gap-5"
-      div class = "row bg-white  p-2"
-        div class = "col-md-3"
-          h5 Question title
-        div class = "col-md-6"
-          h5 Question body
-        div class = "col-3 justify-content-center text-end"
-          h5 Available actions
+        .question
+          = render @questions
 
-      - @questions.each do |q|
-        div class = "row bg-white shadow-sm g-2 mt-2"
-          div class = "col-md-3 p-2" id = "title"
-            = q.title
-          div class = "col-md-6 p-2" id = "body"
-            = q.body
-          div class = "col-md-3 p-2 justify-content-center" id = "action"
-            div class="d-grid gap-2 md-flex justify-content-md-end"
-              = link_to "Answers", question_path(q), class: "btn btn-primary" 
-              - if user_signed_in? && current_user == q.author
-                = button_to "Delete", question_path(q), method: :delete, class: "btn btn-outline-danger"
-                = link_to "Edit", edit_question_path(q), class: "btn btn-outline-warning"
-    
-  - else 
-    | No questions found. Pls add some question
+      
+    - else 
+      | No questions found. Pls add some question
 

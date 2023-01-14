@@ -16,11 +16,7 @@ class QuestionsController < ApplicationController
   end
 
   def edit  
-    if  @question.author==current_user
-      render :edit
-    else
-      redirect_to questions_path, alert: "You don't have permissons."
-    end
+   
   end
 
   def create
@@ -34,11 +30,7 @@ class QuestionsController < ApplicationController
 
   def update    
     @question.update(question_params)
-    if @question.save
-      redirect_to questions_path
-    else
-      render :edit
-    end 
+    @questions = Question.all  
   end
 
   def destroy

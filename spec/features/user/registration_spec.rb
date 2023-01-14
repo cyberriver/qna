@@ -5,6 +5,10 @@ feature 'User registration', %q{
   And get the user profile
 } do
   given(:user){create(:user)}
+  given!(:user2){create(:user)}
+  given!(:questions) {create_list(:question, 5, author: user)}
+
+
   background {visit new_user_registration_path}
 
   scenario 'Registration new user with valid data' do    
@@ -13,7 +17,15 @@ feature 'User registration', %q{
     fill_in 'Password confirmation', with: 'qwerty'
     click_on 'Sign up'
 
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
+    expect(page).to have_content 'Ask question'
+    expect(page).to have_content 'My Answers'
+    expect(page).to have_content 'Sign out'
+
+    within ('.questions')  do
+      questions.each do | q|
+        expect(page).to have_content q.body
+      end      
+    end  
   end
 
   scenario 'Registration of existing user' do

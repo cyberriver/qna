@@ -20,13 +20,13 @@ import "../stylesheets/application";
 import { Tooltip, Toast, Popover } from 'bootstrap';
 import Alert from 'bootstrap/js/dist/alert';
 import "./answers";
-
+import "./questions";
 
 require("jquery")
 require("channels")
 require("@popperjs/core")
 
-import $ from 'jquery'
+import $ from "jquery";
 window.jQuery = $
 window.$ = $
 

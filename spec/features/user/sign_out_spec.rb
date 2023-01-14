@@ -12,8 +12,11 @@ feature 'User sign-out',%q{
     visit questions_path
     click_on 'Sign out'
 
-    expect(page).to have_content 'Signed out successfully.'
+    expect(page).to_not have_content 'Ask question'
+    expect(page).to_not have_content 'My Answers'
+    expect(page).to_not have_content 'Sign out'
   end
+
   scenario 'Unauthenticated user could not logout' do
     visit questions_path
     expect(page).to have_no_content 'Signed out'

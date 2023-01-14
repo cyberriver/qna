@@ -1,6 +1,8 @@
-- if resource&.errors.present?
-  div class = "alert alert-danger alert-dismissible fade show m-1" role = "alert"
-    b= "#{resource.errors.count} error(s) detected: "
-    ul
-      -resource.errors.full_messages.each do |message|
-        li= message
+
+.errors
+  - if resource&.errors.present?
+    div class = "alert alert-danger alert-dismissible fade show m-1" role = "alert"
+      b= "#{resource.errors.count} error(s) detected: "
+      ul
+        -resource.errors.full_messages.each do |message|
+          li= message

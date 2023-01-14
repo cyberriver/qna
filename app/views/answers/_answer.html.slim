@@ -18,7 +18,10 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
       = f.label :title, class: "form-label"              
       = f.text_area :title, value: answer.title, class: "form-control"
       = f.label :author_id, hidden: true, class: "form-label"
-      = f.text_field :author_id, value: current_user.id, readonly: true, hidden: true
+      - if user_signed_in?
+        = f.text_field :author_id, value: current_user.id, hidden: true
+      - else 
+        = f.text_field :author_id, value: 'undefined', hidden: true
 
     div class = "gap-2"
       = f.submit 'Save', class: "btn btn-primary btn-sm p-2"

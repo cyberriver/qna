@@ -5,43 +5,44 @@ feature 'User can create the answer for question', %q{
   User can answer the question
 } do
 
-  before(:all) do
-    Capybara.current_driver = :selenium
-  end
-
   given!(:user){create(:user)} 
   given!(:question) {create(:question, author: user)}
 
-  scenario 'Authenticated user can answer the question directly on the same page', js: true do
-    sign_in(user)
-    visit question_path(question)
+  describe 'Authenticated user', js: true do
     
-    within '.answer' do
-      fill_in 'Title', with: 'My RSPEC test answer'
-      click_button 'Make Answer' 
-      page.execute_script("$('.answers').append('<%= j render @answer %>');")     
+    background do
+      sign_in(user)
+      visit question_path(question)
     end
-    
-    expect(page).to have_content "My RSPEC test answer"   
-        
-  end
 
-  scenario 'Authenticated user answer the question with invalid data', js: true do
-    sign_in(user)
-    visit question_path(question)
+    scenario 'Authenticated user can answer the question directly on the same page' do
+     
+      within '.answer' do
+        fill_in 'Title', with: 'My RSPEC test answer'
+        click_button 'Make Answer' 
+
+      end
+
+      within '.answers' do
+        expect(page).to have_content "My RSPEC test answer"  
+      end            
+    end
+
+    scenario 'Authenticated user answer the question with invalid data' do
+      
+      fill_in 'Title', with: ''
+      click_on 'Make Answer'
     
-    fill_in 'Title', with: ''
-    click_on 'Make Answer'
-   
-    within '.answer-errors' do 
-      expect(page).to have_content "Title can't be blank"
+      within '.answer-errors' do 
+        expect(page).to have_content "Title can't be blank"
+      end
     end
   end
 
   scenario 'Unauthenticated user, could not answer the question', js: true do
+    sign_out(user)    
     visit question_path(question)
 
-    expect(page).should_not have_content 'Make Answer'
-    expect(page).should_not have_content 'Title'
+    expect(page).to_not have_content 'Make Answer'
   end
 end
