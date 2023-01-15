@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController  
-  before_action :load_answer,  only: [:edit, :update, :destroy]
+  before_action :load_answer,  only: [:edit, :update, :destroy, :vote]
   before_action :find_question, only: [:edit,:create, :update]
 
   def edit
@@ -27,10 +27,17 @@ class AnswersController < ApplicationController
     @answers = current_user.answers.all
   end
 
+  def vote
+    @question = @answer.question
+    @question.voted_answer_id = @answer.id   
+  end
+
   private
 
-  def load_answer 
-    @answer = Answer.find(params[:id])    
+  def load_answer
+    puts "PARAMS #{params}" 
+    @answer = Answer.find(params[:id])
+    puts "@ANSWER #{@answer}"    
   end
 
   def find_question
