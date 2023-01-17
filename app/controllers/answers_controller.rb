@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController  
   before_action :load_answer,  only: [:edit, :update, :destroy, :vote]
   before_action :find_question, only: [:edit,:create, :update]
+  
 
   def edit
     
@@ -29,7 +30,20 @@ class AnswersController < ApplicationController
 
   def vote
     @question = @answer.question
-    @question.voted_answer_id = @answer.id   
+    puts "VOTED sadsdsANSWER #{@question.voted_answer.id}  @question voted_answer #{@question.voted_answer} "
+     
+    #id =  @answer.id
+    #@question.voted_answer_id = id
+    
+    #@question.build_voted_answer(@answer)
+    #@answer.build_voted_answer(@question)
+    puts "VOTED sadsdsANSWER #{@question.voted_answer.id}  @question voted_answer #{@question.voted_answer} "
+
+    @question.build_voted_answer(@answer)
+   
+     puts "AFTER SAVE VOTED sadsdsANSWER #{@question.voted_answer.id}  @question voted_answer #{@question.voted_answer} "
+     puts "AFTER SAVE VOTED sadsdsANSWER #{@question.voted_answer.id}  @question voted_answer #{voted_answer(@question)} "
+
   end
 
   private

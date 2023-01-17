@@ -3,7 +3,7 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
   div class = "row shadow-sm  p-2 bg-white"
     div class = "col-md-6"
       = answer.title
-      - if answer.question.voted_answer == answer
+      - if @question.voted_answer == answer
         span class="badge bg-primary" Voted 
       - else 
         = link_to "Vote", answer_vote_path(answer, id: answer.id), method: :get, class: 'btn btn-outline-info', remote: true 
