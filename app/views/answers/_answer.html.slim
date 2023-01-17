@@ -3,9 +3,9 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
   div class = "row shadow-sm  p-2 bg-white"
     div class = "col-md-6"
       = answer.title
-      - if @question.voted_answer == answer
-        span class="badge bg-primary" Voted 
-      - else 
+      - if answer.voted == true
+         span class="badge bg-primary" Voted 
+      - elsif current_user == @question.author  
         = link_to "Vote", answer_vote_path(answer, id: answer.id), method: :get, class: 'btn btn-outline-info', remote: true 
     div class = "col-md-3"
       - if answer.author.present?

@@ -22,11 +22,39 @@ feature 'Question author can choose best answer', %q{
     end
   end
 
-  scenario 'Author of the question can choose another one answer'
+  scenario 'Author of the question can choose another one answer the previous will be replaced', js: true do
+    sign_in(user)      
+    visit question_path(question)
 
-  scenario 'Not author of the question could not vote the answer' 
+    within ('.answers') do   
+      click_on 'Vote', match: :first
+      expect(page).to have_content('Voted')
 
-  scenario 'Any user should should see the first voted answer for question'
+      click_on 'Vote', match: :first
+      expect(page).to_not have_content("Voted", :count => 2)
+      
+    end
+  end
 
+  scenario 'Not author of the question could not vote the answer', js:true do
+    sign_in(user2)      
+    visit question_path(question)
+
+    within ('.answers') do   
+      expect(page).to_not have_content("Vote")
+    end
+      
+  end
+
+  scenario 'Any user should should see the first voted answer for question', js: true do
+    sign_in(user)      
+    visit question_path(question)
+
+    within ('.answers') do   
+      click_on 'Vote', match: :first
+
+      #items = page.all('.answer').map(&:voted)
+    end
+  end
 
 end

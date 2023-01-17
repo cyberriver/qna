@@ -30,28 +30,13 @@ class AnswersController < ApplicationController
 
   def vote
     @question = @answer.question
-    puts "VOTED sadsdsANSWER #{@question.voted_answer.id}  @question voted_answer #{@question.voted_answer} "
-     
-    #id =  @answer.id
-    #@question.voted_answer_id = id
-    
-    #@question.build_voted_answer(@answer)
-    #@answer.build_voted_answer(@question)
-    puts "VOTED sadsdsANSWER #{@question.voted_answer.id}  @question voted_answer #{@question.voted_answer} "
-
-    @question.build_voted_answer(@answer)
-   
-     puts "AFTER SAVE VOTED sadsdsANSWER #{@question.voted_answer.id}  @question voted_answer #{@question.voted_answer} "
-     puts "AFTER SAVE VOTED sadsdsANSWER #{@question.voted_answer.id}  @question voted_answer #{voted_answer(@question)} "
-
+    @answer.make_vote   
   end
 
   private
 
   def load_answer
-    puts "PARAMS #{params}" 
-    @answer = Answer.find(params[:id])
-    puts "@ANSWER #{@answer}"    
+     @answer = Answer.find(params[:id]) 
   end
 
   def find_question
