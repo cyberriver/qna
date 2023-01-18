@@ -1,6 +1,7 @@
 class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :author, class_name: 'User'
+  scope :sort_by_best, -> { order(best: :desc) }
 
   
   validates :title, presence: true
