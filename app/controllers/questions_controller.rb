@@ -9,6 +9,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.new 
     @answers = @question.answers.all
+
   end
 
   def new
@@ -28,9 +29,13 @@ class QuestionsController < ApplicationController
     end 
   end
 
-  def update    
-    @question.update(question_params)
-    @questions = Question.all  
+  def update
+    if  @question.author==current_user     
+      @question.update(question_params)
+      @questions = Question.all
+    else
+      redirect_to questions_path, alert: "You don't have permissons."
+    end  
   end
 
   def destroy

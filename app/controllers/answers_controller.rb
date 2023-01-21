@@ -30,7 +30,8 @@ class AnswersController < ApplicationController
 
   def vote
     @question = @answer.question
-    @answer.make_vote   
+    @question.update(best_answer_id:@answer.id)
+  
   end
 
   private

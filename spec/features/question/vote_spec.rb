@@ -26,7 +26,8 @@ feature 'Question author can choose best answer', %q{
     sign_in(user)      
     visit question_path(question)
 
-    within ('.answers') do   
+    within ('.answers') do
+     
       click_on 'Vote', match: :first
       expect(page).to have_content('Voted')
 

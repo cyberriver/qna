@@ -5,9 +5,8 @@ class Answer < ApplicationRecord
   
   validates :title, presence: true
 
-  def make_vote
-    Answer.where(question: self.question, voted: true).update(voted:false)
-    self.update(voted:true)
+  def voted?(resource)
+    resource.best_answer_id == self.id   
   end
 
 end

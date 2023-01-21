@@ -3,16 +3,17 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
   div class = "row shadow-sm  p-2 bg-white"
     div class = "col-md-6"
       = answer.title
-      - if answer.voted == true
+      - if answer.voted?(answer.question)
          span class="badge bg-primary" Voted 
-      - elsif current_user == @question.author  
-        = link_to "Vote", answer_vote_path(answer, id: answer.id), method: :get, class: 'btn btn-outline-info', remote: true 
+      - elsif user_signed_in?
+        -if current_user.author_of?(answer.question) 
+          = link_to "Vote", answer_vote_path(answer, id: answer.id), method: :get, class: 'btn btn-outline-info', remote: true 
     div class = "col-md-3"
       - if answer.author.present?
         = answer.author.email
     div class = "col-md-3"
       div class="d-grid gap-2 md-flex justify-content-md-end"
-        - if current_user == answer.author
+        - if current_user&.author_of?(answer)
           = button_to "Delete", answer_path(answer), method: :delete, class: "btn btn-outline-danger", remote: true           
           = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-answer-link', data: { answer_id: answer.id}
          
