@@ -1,10 +1,20 @@
 = render 'shared/errors', resource: @question
 
-= form_with model: @question, locals: true do |f|
-  = f.label :title
-  = f.text_area :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Ask'
+
+= form_with model: @question, local: true do |f|
+  div class ="container"
+    div class= "card justify-content-md-center"
+      div class = "card-body"
+        h5 
+          div class = "card-title" 
+            | New Question
+        div class = "mb-3"
+          = f.label :title, class: "form-label"
+          = f.text_area :title, {class: "form-control", placeholder: "Pls enter the question title"}
+        div class = "mb-3"
+          = f.label :body, class: "form-label"
+          = f.text_area :body, {class: "form-control", placeholder: "Pls enter the question"}
+      
+        = f.submit 'Ask', class: "btn btn-primary"
   
-  = render 'shared/nav'
+  

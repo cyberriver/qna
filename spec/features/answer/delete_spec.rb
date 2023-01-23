@@ -8,20 +8,28 @@ feature 'Delete answer', %q{
   given!(:user){create(:user)} 
   given!(:user2){create(:user)}
   given!(:question) {create(:question, author: user)}
-  given!(:answers) {create(:answer, question:question, author: user)}
 
-
-  scenario 'Authenticated user, author of answer can delete it ' do
+  background do
     sign_in(user)
-    click_on 'My Answers'
-    click_on 'Delete', match: :first
-    
-    expect(page).to have_content 'Answer succefully deleted.'
-
-  end
-  scenario 'Authenticated user, not-author, could not delete the answer' do
     visit question_path(question)
+    fill_in 'Title', with: 'My RSPEC test answer'
+    click_button 'Make Answer' 
 
-    expect(page).should_not have_content 'Delete'
   end
+
+    scenario 'Authenticated user, author of answer can delete it ', js: true do  
+      click_button 'Delete', match: :first
+      
+      expect(page).to_not have_content 'My RSPEC test answer'  
+    end
+
+    scenario 'Authenticated user, not-author, could not delete the answer', js: true do
+      sign_out(user)
+      sign_in(user2)  
+      visit question_path(question)
+
+      expect(page).to have_content 'My RSPEC test answer'
+      expect(page).to_not have_content 'Delete'
+    end
+    
 end

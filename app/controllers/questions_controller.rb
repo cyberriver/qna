@@ -7,7 +7,12 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = @question.answers.new  
+    @answer = @question.answers.new
+    if @question.best_answer
+      @best_answer = @question.best_answer
+    end
+		@answers = @question.answers.where.not(id: @question.best_answer_id)
+
   end
 
   def new
@@ -15,11 +20,7 @@ class QuestionsController < ApplicationController
   end
 
   def edit  
-    if  @question.author==current_user
-      render :edit
-    else
-      redirect_to questions_path, alert: "You don't have permissons."
-    end
+   
   end
 
   def create
@@ -31,13 +32,13 @@ class QuestionsController < ApplicationController
     end 
   end
 
-  def update    
-    @question.update(question_params)
-    if @question.save
-      redirect_to questions_path
+  def update
+    if  @question.author==current_user     
+      @question.update(question_params)
+      @questions = Question.all
     else
-      render :edit
-    end 
+      redirect_to questions_path, alert: "You don't have permissons."
+    end  
   end
 
   def destroy

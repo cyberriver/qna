@@ -5,10 +5,12 @@ FactoryBot.define do
     title   
     body { "MyText" }    
     author { association :user }
+    best_answer_id {nil}
 
     trait :invalid_data do
       title {nil}
     end
+
 
   end
 end

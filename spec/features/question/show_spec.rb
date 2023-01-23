@@ -10,31 +10,46 @@ feature 'User can read questions', %q{
 
   background {visit questions_path}
 
-  scenario 'User can read all questions' do         
-    expect(page).to have_content 'Questions List'
+  scenario 'User can read all questions' do   
+    within ('.questions')  do
+      questions.each do | q|
+        expect(page).to have_content q.body
+      end      
+    end  
   end
 
-  scenario 'User can expand question and look the answers to it' do
+  scenario 'User can expand question and look the answers to it'  do
     
-    click_on 'Show', match: :first
-
-    expect(page).to have_content "#{questions.first.title}"
-    expect(page).to have_content "#{questions.first.body}"
-    expect(page).to have_content "Answer"
+    click_on 'Answers', match: :first
+    
+    expect(page).to have_content questions.first.title
+    expect(page).to have_content questions.first.body
+    
+    within ('.answers') do
+      questions.first.answers.each do |ans|
+        expect(page).to have_content ans.title
+      end 
+    end
   end
 
-  scenario 'Authenticated user as author can have access to directly to his questions' do
+  scenario 'Authenticated user as author can have access to directly to his questions'  do
     sign_in(user)
     click_on 'My Answers'
 
-    expect(page).to have_content "#{user.email}"
+    within '.my-answers' do
+      user.answers.each do |user_answer|
+        expect(page).to have_content user_answer.question.title
+        expect(page).to have_content user_answer.title      
+      end
+    end    
   end 
 
-  scenario 'Any user can return back to home page with questions' do    
+  scenario 'Any user can return back to home page with questions'  do    
     click_on 'Home'
-
-    expect(page). to have_content 'Questions List'
+    within ('.questions')  do
+      questions.each do | q|
+        expect(page).to have_content q.body
+      end      
+    end  
   end
-
-
 end

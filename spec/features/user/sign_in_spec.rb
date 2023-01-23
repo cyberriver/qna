@@ -7,6 +7,7 @@ feature 'User can sign in',  %q{
 } do
 
   given(:user) {create(:user)} 
+  given!(:questions) {create_list(:question, 5, author: user)}
 
   background {visit new_user_session_path} 
 
@@ -16,7 +17,16 @@ feature 'User can sign in',  %q{
     fill_in 'Password', with: user.password
     click_on 'Log in'
     
-    expect(page).to have_content 'Signed in successfully.'       
+    expect(page).to have_content 'Ask question'
+    expect(page).to have_content 'My Answers'
+    expect(page).to have_content 'Sign out'
+
+    within ('.questions')  do
+      questions.each do | q|
+        expect(page).to have_content q.body
+      end      
+    end  
+      
   end
 
   scenario 'Unregistred user tries to sign in' do

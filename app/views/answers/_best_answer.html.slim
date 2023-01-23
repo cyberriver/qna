@@ -1,0 +1,35 @@
+
+div class = "container-fluid p-2 gap-5" id ="answer_#{best_answer.id}"
+  div class = "row shadow-sm  p-2 bg-white"
+    div class = "col-md-6"
+      = best_answer.title
+      - if best_answer.voted?(best_answer.question)
+         span class="badge bg-primary" Voted 
+      - elsif user_signed_in?
+        -if current_user.author_of?(best_answer.question) 
+          = link_to "Vote", answer_vote_path(best_answer, id: best_answer.id), method: :get, class: 'btn btn-outline-info', remote: true 
+    div class = "col-md-3"
+      - if best_answer.author.present?
+        = best_answer.author.email
+    div class = "col-md-3"
+      div class="d-grid gap-2 md-flex justify-content-md-end"
+        - if current_user&.author_of?(best_answer)
+          = button_to "Delete", answer_path(best_answer), method: :delete, class: "btn btn-outline-danger", remote: true           
+          = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-answer-link', data: { answer_id: best_answer.id}
+         
+
+
+  = form_with model: best_answer, class: 'hidden', local:false, html: {id: "edit-answer-#{best_answer.id}"} do |f|
+    div class = "mb-3 bg-white"
+      = f.label :title, class: "form-label"              
+      = f.text_area :title, value: best_answer.title, class: "form-control"
+      = f.label :author_id, hidden: true, class: "form-label"
+      - if user_signed_in?
+        = f.text_field :author_id, value: current_user.id, hidden: true
+      - else 
+        = f.text_field :author_id, value: 'undefined', hidden: true
+
+    div class = "gap-2"
+      = f.submit 'Save', class: "btn btn-primary btn-sm p-2"
+  
+  

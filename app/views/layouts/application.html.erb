@@ -7,12 +7,19 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-       <p class="notice"><%= notice %></p>
-       <p class="alert"><%= alert %></p>
-    <%= yield %>
-    
+  <body class ="container bg-light bg-gradient">
+    <%=render 'shared/nav'%>
+
+
+       <%= yield %>
+
+ 
+  
+    <div class="container mx-auto mt-auto align-items-end">
+      <%=render 'shared/footer'%>
+    </div>      
   </body>
 </html>

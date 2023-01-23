@@ -6,28 +6,26 @@ feature 'Delete question', %q{
 } do
   given!(:user){create(:user)}
   given!(:user2){create(:user)}
-  given!(:questions) {create(:question, author: user)}
+  given!(:question) {create(:question, author: user)}
    
-  scenario 'Authenticated user, author of question can delete it without answers' do
+  scenario 'Authenticated user, author of question can delete it without answers', js: true  do
     sign_in(user)
     visit questions_path
-    click_on 'Delete'
+    click_button 'Delete', match: :first
 
-    expect(page).to have_content 'Your question successfully deleted.'    
+    expect(page).to_not have_content question.body   
   end
 
-  scenario 'Authenticated user, not-author, could not delete the question ' do
+  scenario 'Authenticated user, not-author, could not delete the question ', js: true  do
     sign_in(user2)
     visit questions_path    
-    click_on 'Delete'
 
-    expect(page).to have_content "You don't have permissons."  
+    expect(page).to_not have_content 'Delete'  
   end
   
-  scenario 'UnAuthenticated user, could not delete the question ' do
+  scenario 'UnAuthenticated user, could not delete the question ', js: true  do
     visit questions_path
-    click_on 'Delete'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'  
+    expect(page).to_not have_content 'Delete'    
   end
 end

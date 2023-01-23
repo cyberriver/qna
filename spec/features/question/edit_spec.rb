@@ -8,29 +8,32 @@ feature 'Edit question', %q{
   given!(:user2){create(:user)}
   given!(:question) {create(:question, author: user)}
 
-  scenario 'Authenticated User, who is Author of the question update the question' do
+  scenario 'Authenticated User, who is Author of the question update the question', js: true  do
     sign_in(user)
     visit questions_path
-    click_on 'Edit'
+    click_on 'Edit', match: :first
 
-    expect(page).to have_content 'Edit question'
-    expect(page).to have_content "#{question.title}"  
-    expect(page).to have_content "#{question.body}"
-  
+    within "#edit-question-#{question.id}" do
+      fill_in 'Title', with: 'Title question EDITED'
+      fill_in 'Body', with: 'Body question EDITED'
+      click_on 'Save'
+    end
+
+    expect(page).to have_content 'Title question EDITED'
+    expect(page).to have_content 'Body question EDITED'  
   end
 
-  scenario 'Authenticated User, who is not Author of the question can not update the question' do
+  scenario 'Authenticated User, who is not Author of the question can not update the question', js: true  do
     sign_in(user2)
     visit questions_path
-    click_on 'Edit'
 
-    expect(page).to have_content "You don't have permissons." 
+    expect(page).to_not have_content 'Edit'
  
   end
-  scenario 'Unauthenticated user could not do any actions with question' do
-    visit questions_path
-    click_on 'Edit'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'  
+  scenario 'Unauthenticated user could not do any actions with question', js: true  do
+    visit questions_path
+
+    expect(page).to_not have_content 'Edit'  
   end
 end

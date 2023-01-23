@@ -1,28 +1,24 @@
-div id = "nav"
-  = render 'shared/nav'
 
-h1= @question.title
-p= @question.body
-p 
-| Answers List
-- if @question.answers.any?
-  table
-    - @question.answers.each do |a| 
-      tr 
-        td.title = a.title
-        - if a.author.present?
-          td.author = a.author.email
-          - if current_user = a.author 
-            = link_to "Delete", answer_path(a), method: :delete
-            = link_to "Edit", edit_answer_path(a)
-              
-        
-          
-- else 
-  | No answers found. Pls add some answer
+div class = "container"
 
-- if user_signed_in?
-  = render partial: 'answer'
+  h1= @question.title
+  p
+  h3= @question.body
+  p 
+  .answers
+    div class = "container"
+      - if @question.answers.any?
+        h3 List of answers
+        - if @best_answer
+          = render @best_answer
+        = render @answers
+           
+      - else 
+       | No answers found. Pls add some answer
 
-div id = "footer"
-  | Copyright 2022 cyberriver
+div class = "container" 
+  .answer
+    - if user_signed_in?
+      = render partial: 'answer'
+
+
