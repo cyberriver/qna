@@ -7,8 +7,11 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = @question.answers.new 
-    @answers = @question.answers.all
+    @answer = @question.answers.new
+    if @question.best_answer
+      @best_answer = @question.best_answer
+    end
+		@answers = @question.answers.where.not(id: @question.best_answer_id)
 
   end
 

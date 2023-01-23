@@ -1,3 +1,4 @@
 $('.answer-errors').html('<%= render 'shared/errors', resource: @answer%>');
-$('.answers').html('<%= j render @question.answers %>');
+$('.answers').html('<%= j render @best_answer %>');
+$('.answers').append('<%= j render @answers %>');
 

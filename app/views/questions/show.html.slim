@@ -9,7 +9,8 @@ div class = "container"
     div class = "container"
       - if @question.answers.any?
         h3 List of answers
-    
+        - if @best_answer
+          = render @best_answer
         = render @answers
            
       - else 
