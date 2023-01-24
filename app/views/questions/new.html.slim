@@ -15,6 +15,9 @@
           = f.label :body, class: "form-label"
           = f.text_area :body, {class: "form-control", placeholder: "Pls enter the question"}
       
+          = f.label :file, class: "form-label"
+          = f.file_field :file, {class: "form-control", placeholder: "Pls choose the file"}
+        
         = f.submit 'Ask', class: "btn btn-primary"
   
   

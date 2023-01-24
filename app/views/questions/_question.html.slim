@@ -5,6 +5,8 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}"
       = question.title
     div class = "col-md-6"
       = question.body
+      -if question.file.attached?
+        p= link_to question.file.filename.to_s, url_for(question.file)
     div class = "col-md-3"
       div class="d-grid gap-2 md-flex justify-content-md-end"
         = link_to "Answers", question_path(question), class: "btn btn-primary" 
