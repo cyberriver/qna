@@ -5,8 +5,9 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}"
       = question.title
     div class = "col-md-6"
       = question.body
-      -if question.file.attached?
-        p= link_to question.file.filename.to_s, url_for(question.file)
+      -if question.files.attached?
+        -question.files.each do |file|
+          p= link_to file.filename.to_s, url_for(file)
     div class = "col-md-3"
       div class="d-grid gap-2 md-flex justify-content-md-end"
         = link_to "Answers", question_path(question), class: "btn btn-primary" 
@@ -15,18 +16,25 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}"
           = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-question-link', data: { question_id: question.id}
 
 
-  = form_with model: question, class: 'hidden', local:false, html: {id: "edit-question-#{question.id}"} do |f|
+  = form_with model: question, class: 'hidden', local:false, method: :patch, html: {id: "edit-question-#{question.id}"} do |f|
     div class = "mb-3 bg-white"
       = f.label :title, class: "form-label"              
       = f.text_area :title, value: question.title, class: "form-control"
       = f.label :body, class: "form-label"              
       = f.text_area :body, value: question.body, class: "form-control"
       = f.label :author_id, hidden: true, class: "form-label"
+       -if question.files.attached?
+         -question.files.each do |file|
+           p= link_to file.filename.to_s, url_for(file)
+           p= button_to "Delete_file", purge_file_path(file), method: :delete, class: "btn btn-outline-danger", remote: true   
+
+      = f.label :files, class: "form-label"
+      = f.file_field :files, multiple: true, class: "form-control", placeholder: "Pls choose the file"
       - if user_signed_in?
         = f.text_field :author_id, value: current_user.id, hidden: true
       - else 
         = f.text_field :author_id, value: 'undefined', hidden: true
 
-    div class = "gap-2"
-      = f.submit 'Save', class: "btn btn-primary btn-sm p-2"
+      div class = "gap-2"
+        = f.submit 'Save', class: "btn btn-primary btn-sm p-2"
   

@@ -25,6 +25,8 @@ module Qna
                        routing_specs: false,
                        request_specs: false
     end
+
+    config.active_storage.replace_on_assign_to_many = false
     
   end
 end

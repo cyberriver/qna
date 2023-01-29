@@ -36,6 +36,10 @@ class QuestionsController < ApplicationController
     end 
   end
 
+  def purge
+    
+  end
+
   def update    
     @question.update(question_params)
     if @question.save
@@ -57,11 +61,11 @@ class QuestionsController < ApplicationController
   private 
 
   def load_question
-    @question = Question.find(params[:id])    
+    @question = Question.with_attached_files.find(params[:id])    
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :author_id, :file)    
+    params.require(:question).permit(:title, :body, :author_id, files: [] )    
   end
 
 end

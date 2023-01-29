@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController  
   before_action :load_answer,  only: [:edit, :update, :destroy, :vote]
-  before_action :find_question, only: [:edit,:create, :update]
+  before_action :find_question, only: [:edit,:create, :update, :purge_attachement]
   
 
   def edit
@@ -10,6 +10,7 @@ class AnswersController < ApplicationController
   def update
     @answer.update(answer_params)
     @question = @answer.question
+   
   end
 
   def create
@@ -32,22 +33,21 @@ class AnswersController < ApplicationController
     @question = @answer.question
     @question.update(best_answer_id:@answer.id)
     @best_answer = @question.best_answer
-    @answers = @question.answers.where.not(id: @question.best_answer_id)
-  
+    @answers = @question.answers.where.not(id: @question.best_answer_id)  
   end
 
   private
 
   def load_answer
-     @answer = Answer.find(params[:id]) 
+     @answer = Answer.with_attached_files.find(params[:id]) 
   end
 
   def find_question
-    @question = Question.find_by(id: params[:question_id])
+    @question = Question.with_attached_files.find_by(id: params[:question_id])
   end
 
   def answer_params 
-    params.require(:answer).permit(:title, :question_id, :author_id)    
+    params.require(:answer).permit(:title, :question_id, :author_id, files: [])    
   end
 
   
