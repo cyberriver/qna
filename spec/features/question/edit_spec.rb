@@ -54,14 +54,11 @@ feature 'Edit question', %q{
     expect(page).to have_link 'rails_helper.rb'
     expect(page).to have_link 'spec_helper.rb'
 
-    click_on 'Edit', match: :first
-
-    within "#edit-question-#{question.id}" do    
-      click_on 'Delete-file', match: :first
-    end
-
+    within '.questions' do
+      click_on 'Delete_file', match: :first
+    end   
+    
     expect(page).to_not have_link 'rails_helper.rb'
-
   end
 
 

@@ -14,6 +14,17 @@ local:
 #   region: us-east-1
 #   bucket: your_own_bucket
 
+
+yandex:
+  service: S3
+  access_key_id: <%= ENV['S3_YANDEX_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['S3_YANDEX_SECRET_ACCESS_KEY'] %>
+  bucket: qnacyberriver
+  region: ru-central3
+  endpoint: https://storage.yandexcloud.net
+  force_path_style: true
+
+
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS
