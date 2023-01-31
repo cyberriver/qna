@@ -20,7 +20,11 @@ class QuestionsController < ApplicationController
   end
 
   def edit  
-   
+    if  @question.author==current_user
+      render :edit
+    else
+      redirect_to questions_path, alert: "You don't have permissons."
+    end
   end
 
   def create
@@ -32,13 +36,17 @@ class QuestionsController < ApplicationController
     end 
   end
 
-  def update
-    if  @question.author==current_user     
-      @question.update(question_params)
-      @questions = Question.all
+  def purge
+    
+  end
+
+  def update    
+    @question.update(question_params)
+    if @question.save
+      redirect_to questions_path
     else
-      redirect_to questions_path, alert: "You don't have permissons."
-    end  
+      render :edit
+    end 
   end
 
   def destroy
@@ -53,12 +61,11 @@ class QuestionsController < ApplicationController
   private 
 
   def load_question
-    @question = Question.find(params[:id])
-    
+    @question = Question.with_attached_files.find(params[:id])    
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :author_id)    
+    params.require(:question).permit(:title, :body, :author_id, files: [] )    
   end
 
 end

@@ -46,34 +46,7 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ControllerHelpers, type: :request
   config.include FeatureHelpers, type: :feature
-
-#  Capybara.register_driver :chrome do |app|
-#    options = Selenium::WebDriver::Chrome::Options.new(args: %w[
-#      headless no-sandbox disable-gpu window-size=1920x1080
-#    ])
-#      Capybara::Selenium::Driver.new(app,
-#        browser: :chrome,
-#        desired_capabilities: {
-#          "chromeOptions" => {
-#            w3c: false
-#          }
-#        }
-#      )
-#  end
-
-#Capybara.register_driver :selenium_chrome do |app|
-#  Capybara::Selenium::Driver.new(app, :browser => :chrome)
-#end
-
-#Capybara.register_driver :selenium_chrome_headless do |app|
-#  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-#    chromeOptions: {
-#      args: %w[ window-size=1024x768 no-sandbox headless disable-gpu ]
-#    }
-#  )
-
-#  Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
-#end
+ 
 
 
 Capybara.server = :puma, { Silent: true }
@@ -101,7 +74,7 @@ Capybara.register_driver :headless_chrome do |app|
     }.compact
   )
 
-  Capybara::Selenium::Driver.new(
+ Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
     capabilities: [remote_caps, options],
@@ -110,21 +83,12 @@ Capybara.register_driver :headless_chrome do |app|
   )
 end
 
-Capybara::Screenshot.register_driver(:headless_chrome) do |driver, path|
+  Capybara::Screenshot.register_driver(:headless_chrome) do |driver, path|
   driver.browser.save_screenshot(path)
 end
 
-Capybara.javascript_driver = :headless_chrome
+  Capybara.javascript_driver = :headless_chrome
 
-
-#Capybara.current_driver = :selenium_chrome_headless
-
-#Capybara.javascript_driver = :selenium_chrome_headless
-
-#  @driver = Selenium::WebDriver.for :chrome
-  
-  #Capybara.default_driver = :chrome
-  #Capybara.javascript_driver = :selenium_chrome_headless
   Capybara.default_max_wait_time = 5
   Capybara.automatic_reload = false
   Capybara.asset_host = "http://localhost:3000"
@@ -156,6 +120,10 @@ Capybara.javascript_driver = :headless_chrome
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   
+  config.after(:all) do
+    FileUtils.rm_rf("#{Rails.root}/tmp/storage")
+  end
+
 end
 
 Shoulda::Matchers.configure do |config|

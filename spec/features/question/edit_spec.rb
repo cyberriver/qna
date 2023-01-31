@@ -23,6 +23,45 @@ feature 'Edit question', %q{
     expect(page).to have_content 'Body question EDITED'  
   end
 
+  scenario 'Authenticated User, who is Author of the question can add files', js: true do
+    sign_in(user)
+    visit questions_path
+    click_on 'Edit', match: :first
+
+    within "#edit-question-#{question.id}" do
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb","#{Rails.root}/spec/spec_helper.rb"]
+      
+      click_on 'Save'
+    end
+
+    expect(page).to have_link 'rails_helper.rb'
+    expect(page).to have_link 'spec_helper.rb'
+
+  end
+
+  scenario 'Authenticated User, who is Author of the question, can delete files', js: true do
+    sign_in(user)
+    visit questions_path
+
+    click_on 'Edit', match: :first
+
+    within "#edit-question-#{question.id}" do
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb","#{Rails.root}/spec/spec_helper.rb"]
+      
+      click_on 'Save'
+    end
+
+    expect(page).to have_link 'rails_helper.rb'
+    expect(page).to have_link 'spec_helper.rb'
+
+    within '.questions' do
+      click_on 'Delete_file', match: :first
+    end   
+    
+    expect(page).to_not have_link 'rails_helper.rb'
+  end
+
+
   scenario 'Authenticated User, who is not Author of the question can not update the question', js: true  do
     sign_in(user2)
     visit questions_path

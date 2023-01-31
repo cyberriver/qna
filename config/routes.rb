@@ -4,10 +4,12 @@ Rails.application.routes.draw do
   root to: "questions#index"
 
   resources :questions do
-    resources :answers, shallow: true 
+    resources :answers, shallow: true
   end 
 
   resources :answers
+
+  delete "files/:id/purge", to: "files#purge", as: "purge_file"
   
 
   patch '/questions/:id/answers/:id', to: 'answers#update'
