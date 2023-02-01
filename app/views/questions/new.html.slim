@@ -20,10 +20,11 @@
         div class = "mb-3"
           p Links
           =  f.fields_for :links do |link|
-            = link.label :name, 'Link name'
-            = link.text_field :name
-            = link.label :url
-            = link.text_field :url
+            = link.label :name, 'Link name', class: "form-label"
+            = link.text_field :name, {class: "form-control", placeholder: "Pls fill the link name"}
+
+            = link.label :url, class: "form-label"
+            = link.text_field :url, {class: "form-control", placeholder: "Pls fill the url link if it's necessary"}
         
         = f.submit 'Ask', class: "btn btn-primary"
   

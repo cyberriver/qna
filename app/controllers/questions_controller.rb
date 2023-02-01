@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
  
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :load_question, only: [:show, :update, :destroy]
 
   def index
     @questions = Question.all    
@@ -12,19 +12,13 @@ class QuestionsController < ApplicationController
       @best_answer = @question.best_answer
     end
 		@answers = @question.answers.where.not(id: @question.best_answer_id)
+    @answer.links.new
 
   end
 
   def new
-    @question = current_user.questions.new    
-  end
-
-  def edit  
-    if  @question.author==current_user
-      render :edit
-    else
-      redirect_to questions_path, alert: "You don't have permissons."
-    end
+    @question = current_user.questions.new
+    @question.links.new
   end
 
   def create
@@ -40,13 +34,18 @@ class QuestionsController < ApplicationController
     
   end
 
-  def update    
-    @question.update(question_params)
-    if @question.save
-      redirect_to questions_path
+  def update
+    if  @question.author==current_user
+      @question.update(question_params)
+      if @question.save
+        redirect_to questions_path
+      else
+        render :index
+      end 
     else
-      render :edit
-    end 
+      redirect_to questions_path, alert: "You don't have permissons."
+    end   
+    
   end
 
   def destroy
@@ -65,7 +64,8 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :author_id, files: [] )    
+    params.require(:question).permit(:title, :body, :author_id, 
+                                                    files: [], links_attributes: [:name, :url] )    
   end
 
 end

@@ -16,6 +16,15 @@
           = f.text_field :author_id, value: current_user.id, readonly: true, hidden: true
           = f.label :files, class: "form-label"
           = f.file_field :files, multiple: true, class: "form-control", placeholder: "Pls choose the file"
+
+        div class = "mb-3"
+          p Links
+          =  f.fields_for :links do |link|
+            = link.label :name, 'Link name', class: "form-label"
+            = link.text_field :name, {class: "form-control", placeholder: "Pls fill the link name"}
+
+            = link.label :url, class: "form-label"
+            = link.text_field :url, {class: "form-control", placeholder: "Pls fill the url link if it's necessary"}
         
         = f.submit 'Make Answer', class: "btn btn-primary"
   

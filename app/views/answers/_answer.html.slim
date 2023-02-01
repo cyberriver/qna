@@ -3,11 +3,16 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
   div class = "row shadow-sm  p-2 bg-white"
     div class = "col-md-6"
       = answer.title
-      - if answer.files.attached?
-        -answer.files.each do |file|
-          p= link_to file.filename.to_s, url_for(file)
-          - if current_user&.author_of?(answer)
-            p= button_to "Delete_file", purge_file_path(file), method: :delete, class: "btn btn-outline-danger", remote: true
+      .files
+        - if answer.files.attached?
+          -answer.files.each do |file|
+            p= link_to file.filename.to_s, url_for(file)
+            - if current_user&.author_of?(answer)
+              p= button_to "Delete_file", purge_file_path(file), method: :delete, class: "btn btn-outline-danger", remote: true
+      .links
+        -if answer.links.present?
+          -answer.links.each do |link|
+            = link_to link.name, link.url  
       
       - if answer.voted?(answer.question)
          span class="badge bg-primary" Voted 

@@ -28,6 +28,14 @@ RSpec.describe "Questions", type: :request do
       expect(assigns(:question)).to eq question
     end
 
+    it 'assigns new answer to @question' do 
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end
+
+    it 'assigns new link fro answer' do 
+      expect(assigns(:answer).links.first).to be_a_new(Link)
+    end
+
     it 'renders view show' do           
       expect(assigns(:question)).to render_template :show
     end
@@ -42,24 +50,11 @@ RSpec.describe "Questions", type: :request do
     end
 
     it 'assigns to a new Question to @question'do
-    #expect(assigns(:question)).links.first).to be_
+    #expect(assigns(:question)).links.first).to be_a_new(Link)
     end
 
     it 'renders view new' do           
       expect(assigns(:question)).to render_template :new
-    end    
-  end
-
-  describe "GET # EDIT" do
-    before { login(user)} 
-    before {get edit_question_path(question) }
-
-    it 'assigns to editing question to @question'do
-      expect(assigns(:question)).to eq question 
-    end
-
-    it 'renders view edit' do           
-      expect(assigns(:question)).to render_template :edit
     end    
   end
 
@@ -122,8 +117,8 @@ RSpec.describe "Questions", type: :request do
         expect(question.title).to include("Question") 
         expect(question.body).to eq "MyText"
       end
-      it 're-renders view edit' do       
-        expect(response).to render_template :edit
+      it 're-renders view idex' do       
+        expect(response).to render_template :index
       end
     end
   end

@@ -1,16 +1,15 @@
 class AnswersController < ApplicationController  
-  before_action :load_answer,  only: [:edit, :update, :destroy, :vote]
-  before_action :find_question, only: [:edit,:create, :update, :purge_attachement]
+  before_action :load_answer,  only: [:update, :destroy, :vote]
+  before_action :find_question, only: [:create, :update, :purge_attachement]
   
-
-  def edit
-    
-  end
-
   def update
-    @answer.update(answer_params)
-    @question = @answer.question
-   
+    if @answer.author==current_user
+      @answer.update(answer_params)
+      @question = @answer.question
+    else
+      redirect_to question_path(@answer.question), alert: "You don't have permissons."
+      
+    end   
   end
 
   def create
@@ -47,7 +46,8 @@ class AnswersController < ApplicationController
   end
 
   def answer_params 
-    params.require(:answer).permit(:title, :question_id, :author_id, files: [])    
+    params.require(:answer).permit(:title, :question_id, :author_id, 
+                                                         files: [], links_attributes: [:name, :url])    
   end
 
   
