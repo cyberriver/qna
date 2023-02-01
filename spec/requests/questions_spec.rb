@@ -41,6 +41,10 @@ RSpec.describe "Questions", type: :request do
       expect(assigns(:question)).to be_a_new(Question)
     end
 
+    it 'assigns to a new Question to @question'do
+    #expect(assigns(:question)).links.first).to be_
+    end
+
     it 'renders view new' do           
       expect(assigns(:question)).to render_template :new
     end    

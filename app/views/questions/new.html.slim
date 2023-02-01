@@ -17,6 +17,13 @@
       
           = f.label :files, class: "form-label"
           = f.file_field :files, multiple: true, class: "form-control", placeholder: "Pls choose the file"
+        div class = "mb-3"
+          p Links
+          =  f.fields_for :links do |link|
+            = link.label :name, 'Link name'
+            = link.text_field :name
+            = link.label :url
+            = link.text_field :url
         
         = f.submit 'Ask', class: "btn btn-primary"
   
