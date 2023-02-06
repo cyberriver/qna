@@ -176,3 +176,5 @@ After complication pls check that assets should appear at public/packs-test dire
 After installation pls run rspec and check that everything works properly:
 rspec spec/
 
+## Install cacoon
+> yarn add @nathanvda/cocoon 

@@ -96,6 +96,7 @@ GEM
     capybara-screenshot (1.0.26)
       capybara (>= 1.0, < 4)
       launchy
+    cocoon (1.2.15)
     concurrent-ruby (1.2.0)
     crass (1.0.6)
     cucumber (8.0.0)
@@ -338,6 +339,7 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   capybara-screenshot
+  cocoon
   cucumber
   devise
   factory_bot_rails

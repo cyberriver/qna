@@ -6,7 +6,9 @@ class Question < ApplicationRecord
 
   has_many_attached :files, dependent: :detach
 
-  accepts_nested_attributes_for :links, reject_if: :all_blank
+  accepts_nested_attributes_for :links, 
+                                      allow_destroy: true, 
+                                      reject_if: :all_blank
    
   validates :title, :body, presence: true
 

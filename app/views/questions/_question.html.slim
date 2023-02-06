@@ -14,7 +14,8 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}"
       .links
         -if question.links.present?
           -question.links.each do |link|
-            = link_to link.name, link.url 
+            ul
+              li = link_to link.name, link.url 
     div class = "col-md-3"
       div class="d-grid gap-2 md-flex justify-content-md-end"
         = link_to "Answers", question_path(question), class: "btn btn-primary" 

@@ -1,0 +1,8 @@
+ .nested-fields
+  .field 
+    = f.label :name, 'Link name', class: "form-label"
+    = f.text_field :name, {class: "form-control", placeholder: "Pls fill the link name"}
+  .field 
+    = f.label :url, class: "form-label"
+    = f.text_field :url, {class: "form-control", placeholder: "Pls fill the url link if it's necessary"}
+  = link_to_remove_association "remove link", f, class: "btn btn-danger"

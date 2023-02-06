@@ -31,7 +31,7 @@ gem 'devise'
 # gem 'image_processing', '~> 1.2'
 gem "slim-rails"
 gem 'jquery-rails'
-
+gem "cocoon"
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 gem "aws-sdk-s3", require: false

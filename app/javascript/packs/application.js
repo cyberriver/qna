@@ -25,6 +25,7 @@ import "./questions";
 require("jquery")
 require("channels")
 require("@popperjs/core")
+require("@nathanvda/cocoon")
 
 import $ from "jquery";
 window.jQuery = $

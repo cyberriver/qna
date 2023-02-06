@@ -26,7 +26,48 @@ feature 'User can add links to answer', %q{
 
     within '.answers' do
       expect(page).to have_link 'My gist', href: gist_url
-    end   
+    end  
+  end
+
+  scenario 'User add some links when makes answer', js: true do
+    sign_in(user)
+    visit question_path(question)
+
+    within '.answer' do
+      fill_in 'Title', with: 'My RSPEC test answer'
+
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with:gist_url
+
+      click_on 'add link'
+
+      find("#links .nested-fields").count.should == 2
+      find("#links .nested-fields:last-child input#name input#url").set("testURL", "www.google.com")
+
+      click_button 'Make Answer'  
+    end
+
+    within '.answers' do
+      expect(page).to have_link 'My gist', href: gist_url
+    end  
+  end
+
+  scenario 'User add link when makes answer with invalid data', js: true do
+    sign_in(user)
+    visit question_path(question)
+
+    within '.answer' do
+      fill_in 'Title', with: 'My RSPEC test answer'
+
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: ''
+
+      click_button 'Make Answer' 
+    end
+
+    within '.answers' do
+      expect(page).to_not have_link 'My gist'
+    end 
 
   end
 

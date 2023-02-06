@@ -19,12 +19,13 @@
 
         div class = "mb-3"
           p Links
-          =  f.fields_for :links do |link|
-            = link.label :name, 'Link name', class: "form-label"
-            = link.text_field :name, {class: "form-control", placeholder: "Pls fill the link name"}
-
-            = link.label :url, class: "form-label"
-            = link.text_field :url, {class: "form-control", placeholder: "Pls fill the url link if it's necessary"}
+            i class="bi bi-link"
+          .links
+            =  f.fields_for :links do |link|
+              
+              = render 'link_fields', f: link
+            .links
+              = link_to_add_association 'add link', f, :links, class: "btn btn-info"
         
         = f.submit 'Make Answer', class: "btn btn-primary"
   
