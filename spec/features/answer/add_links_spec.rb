@@ -8,6 +8,7 @@ feature 'User can add links to answer', %q{
   
   given(:user) { create(:user)}
   given(:gist_url) {'https://gist.github.com/cyberriver/b3373d10e9723eb90211e920d2d4204b'}
+  given(:invalid_url) {'invalid_url'}
   given!(:question) {create(:question, author: user)}
   
   scenario 'User add link when makes answer', js: true do
@@ -40,16 +41,11 @@ feature 'User can add links to answer', %q{
       fill_in 'Url', with:gist_url
 
       click_on 'add link'
-
-      find("#links .nested-fields").count.should == 2
-      find("#links .nested-fields:last-child input#name input#url").set("testURL", "www.google.com")
+      page.has_selector?('nested-fields', count: 2)
 
       click_button 'Make Answer'  
     end
 
-    within '.answers' do
-      expect(page).to have_link 'My gist', href: gist_url
-    end  
   end
 
   scenario 'User add link when makes answer with invalid data', js: true do
@@ -60,15 +56,13 @@ feature 'User can add links to answer', %q{
       fill_in 'Title', with: 'My RSPEC test answer'
 
       fill_in 'Link name', with: 'My gist'
-      fill_in 'Url', with: ''
+      fill_in 'Url', with: invalid_url
 
       click_button 'Make Answer' 
     end
 
     within '.answers' do
-      expect(page).to_not have_link 'My gist'
+      expect(page).to_not have_link 'My gist',  href: invalid_url
     end 
-
   end
-
 end

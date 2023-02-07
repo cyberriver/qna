@@ -24,7 +24,7 @@
             =  f.fields_for :links do |link|
               
               = render 'link_fields', f: link
-            .links
+            .links-url
               = link_to_add_association 'add link', f, :links, class: "btn btn-info"
         
         = f.submit 'Make Answer', class: "btn btn-primary"
