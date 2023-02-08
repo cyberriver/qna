@@ -32,9 +32,14 @@ gem 'devise'
 gem "slim-rails"
 gem 'jquery-rails'
 gem "cocoon"
+gem 'render_async'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 gem "aws-sdk-s3", require: false
+
+# API gems
+gem "octokit", "~> 5.0"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

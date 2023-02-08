@@ -13,7 +13,11 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
         -if answer.links.present?
           -answer.links.each do |link|
             ul
-              li = link_to link.name, link.url  
+              li 
+                -if link.gist?
+                  = javascript_include_tag("#{link.url}.js") 
+                -else  
+                  = link_to link.name, link.url  
       
       - if answer.voted?(answer.question)
          span class="badge bg-primary" Voted 
