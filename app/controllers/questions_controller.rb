@@ -19,6 +19,7 @@ class QuestionsController < ApplicationController
   def new
     @question = current_user.questions.new
     @question.links.new
+    @question.reward = Reward.new
   end
 
   def create
@@ -59,13 +60,19 @@ class QuestionsController < ApplicationController
 
   private 
 
+  def method_name
+    
+  end
+
   def load_question
     @question = Question.with_attached_files.find(params[:id])    
   end
 
   def question_params
     params.require(:question).permit(:title, :body, :author_id, 
-                                                    files: [], links_attributes: [:name, :url] )    
+                                                    files: [], 
+                                                    links_attributes: [:name, :url],
+                                                    reward_attributes: [:title, :file])    
   end
 
 end

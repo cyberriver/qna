@@ -60,6 +60,26 @@ feature 'Edit answer', %q{
         expect(page).to_not have_link 'rails_helper.rb'    
       end
   end 
+
+  scenario 'Authenticated User, who is Author of the answer, can delete link' do
+    within '.answers' do
+      click_on 'Edit'
+      click_on 'Add link'
+      
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: google_url
+
+      click_on 'Save'
+
+      expect(page).to have_link 'My gist', href: google_url
+      click_on 'Delete link'
+      expect(page).to_not have_link 'My gist', href: google_url
+    end
+  end
+
+
+
+
       scenario 'Authenticated User, who is not Author of the answer can not update it', js: true do
         sign_out(user)
         sign_in(user2)  

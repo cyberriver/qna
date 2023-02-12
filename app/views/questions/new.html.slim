@@ -25,6 +25,15 @@
 
             = link.label :url, class: "form-label"
             = link.text_field :url, {class: "form-control", placeholder: "Pls fill the url link if it's necessary"}
+       
+        div class = "mb-3"
+          p Reward
+          = f.fields_for :reward do |r|
+              = r.label :title, 'Reward title'
+              = r.text_area :title, {class: "form-control", placeholder: "Pls fill the reward name"}
+
+              = r.label :file, 'Reward file'
+              = r.file_field :file, {class: "form-control", placeholder: "Pls upload the reward Icon"}  
         
         = f.submit 'Ask', class: "btn btn-primary"
   

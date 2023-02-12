@@ -31,6 +31,14 @@ class AnswersController < ApplicationController
   def vote
     @question = @answer.question
     @question.update(best_answer_id:@answer.id)
+
+    if @question.reward.present?
+      puts "@answer.author.rewards #{ @answer.author.rewards}"
+       @answer.author.rewards.push(@question.reward)
+
+       puts "AFTER ADDING @answer.author.rewards #{ @answer.author.rewards}"
+    end
+
     @best_answer = @question.best_answer
     @answers = @question.answers.where.not(id: @question.best_answer_id)  
   end
@@ -47,7 +55,9 @@ class AnswersController < ApplicationController
 
   def answer_params 
     params.require(:answer).permit(:title, :question_id, :author_id, 
-                                                         files: [], links_attributes: [:name, :url,:_destroy])    
+                                                         files: [], 
+                                                         links_attributes: [:name, :url,:_destroy]
+                                                        )    
   end
 
   

@@ -15,7 +15,17 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}"
         -if question.links.present?
           -question.links.each do |link|
             ul
-              li = link_to link.name, link.url 
+              li 
+                -if link.gist?
+                  = javascript_include_tag("#{link.url}.js")
+                -else  
+                  = link_to link.name, link.url
+                -if current_user&.author_of?(answer)
+                  p = link_to 'Delete link', link_path(link), method: :delete, remote: true
+      .reward
+        -if question.reward.present?
+          = image_tag(question.reward.file, size: '150x150')       
+           
     div class = "col-md-3"
       div class="d-grid gap-2 md-flex justify-content-md-end"
         = link_to "Answers", question_path(question), class: "btn btn-primary" 
@@ -37,6 +47,8 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}"
         = f.text_field :author_id, value: current_user.id, hidden: true
       - else 
         = f.text_field :author_id, value: 'undefined', hidden: true
+      = f.fields_for :links do |link|
+      = link_to_add_association 'Add link', f, :links  
 
       div class = "gap-2"
         = f.submit 'Save', class: "btn btn-primary btn-sm p-2"

@@ -14,6 +14,8 @@ nav class="navbar navbar-expand-lg bg-white" role="navigation"
           li class="nav-item "
             = link_to  "My Answers", author_answers_path, class: 'btn btn-outline-info'
           li class="nav-item "
+            = link_to  "Your Rewards", my_rewards_path, class: 'btn btn-outline-success'
+          li class="nav-item "
             = link_to  "Sign out",  destroy_user_session_path, class: 'btn btn-outline-danger'
       - else
         ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3"

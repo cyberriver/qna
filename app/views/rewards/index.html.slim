@@ -1,0 +1,8 @@
+.rewards
+  div class = "container-md p-2 "
+    - if @rewards.present?
+      .reward
+        = render @rewards      
+    - else 
+      | No rewards found
+

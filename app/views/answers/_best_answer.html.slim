@@ -21,12 +21,16 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{best_answer.id}"
       .links
         -if answer.links.present?
           -answer.links.each do |link|
-            ul
-              li 
-                -if link.gist?
-                  = javascript_include_tag("#{link.url}.js") 
-                -else  
-                  = link_to link.name, link.url       
+            div id = "link_id_#{link.id}"
+              ul
+                li 
+                  -if link.gist?
+                    = javascript_include_tag("#{link.url}.js") 
+                  -else  
+                    = link_to link.name, link.url
+                  -if current_user&.author_of?(answer)
+                    p = link_to 'Delete link', link_path(link), method: :delete, remote: true    
+                                
     div class = "col-md-3"
       - if best_answer.author.present?
         = best_answer.author.email

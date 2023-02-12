@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   patch '/questions/:id/answers/:id', to: 'answers#update'
   
   get 'author_answers', to: 'answers#my_answers'
+  get 'my_rewards', to: 'rewards#index'
   get 'answer_vote', to: 'answers#vote'
+
+  resources :links, only: :destroy
+  resources :rewards, only: :index
 
 end
