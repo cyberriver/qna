@@ -33,10 +33,7 @@ class AnswersController < ApplicationController
     @question.update(best_answer_id:@answer.id)
 
     if @question.reward.present?
-      puts "@answer.author.rewards #{ @answer.author.rewards}"
        @answer.author.rewards.push(@question.reward)
-
-       puts "AFTER ADDING @answer.author.rewards #{ @answer.author.rewards}"
     end
 
     @best_answer = @question.best_answer
