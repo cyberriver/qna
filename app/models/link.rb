@@ -10,8 +10,4 @@ class Link < ApplicationRecord
     self.url.include?('gist.github.com')  
   end
 
-  def get_gist
-    Octokit.gist_comment('208sdaz3', 1451398)    
-  end
-
 end

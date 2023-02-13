@@ -36,7 +36,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if  @question.author==current_user
+    if  current_user.author_of?(@question) 
       @question.update(question_params)
       if @question.save
         redirect_to questions_path
