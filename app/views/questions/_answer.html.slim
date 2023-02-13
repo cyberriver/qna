@@ -16,6 +16,16 @@
           = f.text_field :author_id, value: current_user.id, readonly: true, hidden: true
           = f.label :files, class: "form-label"
           = f.file_field :files, multiple: true, class: "form-control", placeholder: "Pls choose the file"
+
+        div class = "mb-3"
+          p Links
+            i class="bi bi-link"
+          .links
+            =  f.fields_for :links do |link|
+              
+              = render 'link_fields', f: link
+            .links-url
+              = link_to_add_association 'add link', f, :links, class: "btn btn-info"
         
         = f.submit 'Make Answer', class: "btn btn-primary"
   

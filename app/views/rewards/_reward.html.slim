@@ -1,0 +1,8 @@
+      div class = "container-fluid p-2 g-3 gap-5"
+        div class = "row bg-white  p-2"
+          div class = "col-md-3"
+            h5 = "Question title:  #{reward.question.title}"
+          div class = "col-md-6"
+            h5 = "Reward title: #{reward.title}"
+          div class = "col-3 justify-content-center text-end"
+            = image_tag(reward.file, size: '150x150')

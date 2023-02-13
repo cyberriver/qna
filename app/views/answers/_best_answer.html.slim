@@ -10,7 +10,27 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{best_answer.id}"
          span class="badge bg-primary" Voted 
       - elsif user_signed_in?
         -if current_user.author_of?(best_answer.question) 
-          = link_to "Vote", answer_vote_path(best_answer, id: best_answer.id), method: :get, class: 'btn btn-outline-info', remote: true 
+          = link_to "Vote", answer_vote_path(best_answer, id: best_answer.id), method: :get, class: 'btn btn-outline-info', remote: true
+
+      .files
+        - if answer.files.attached?
+          -answer.files.each do |file|
+            p= link_to file.filename.to_s, url_for(file)
+            - if current_user&.author_of?(answer)
+              p= button_to "Delete_file", purge_file_path(file), method: :delete, class: "btn btn-outline-danger", remote: true
+      .links
+        -if answer.links.present?
+          -answer.links.each do |link|
+            div id = "link_id_#{link.id}"
+              ul
+                li 
+                  -if link.gist?
+                    = javascript_include_tag("#{link.url}.js") 
+                  -else  
+                    = link_to link.name, link.url
+                  -if current_user&.author_of?(answer)
+                    p = link_to 'Delete link', link_path(link), method: :delete, remote: true    
+                                
     div class = "col-md-3"
       - if best_answer.author.present?
         = best_answer.author.email

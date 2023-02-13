@@ -1,16 +1,15 @@
 class AnswersController < ApplicationController  
-  before_action :load_answer,  only: [:edit, :update, :destroy, :vote]
-  before_action :find_question, only: [:edit,:create, :update, :purge_attachement]
+  before_action :load_answer,  only: [:update, :destroy, :vote]
+  before_action :find_question, only: [:create, :update, :purge_attachement]
   
-
-  def edit
-    
-  end
-
   def update
-    @answer.update(answer_params)
-    @question = @answer.question
-   
+    if @answer.author==current_user
+      @answer.update(answer_params)
+      @question = @answer.question
+    else
+      redirect_to question_path(@answer.question), alert: "You don't have permissons."
+      
+    end   
   end
 
   def create
@@ -18,7 +17,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if  @answer.author==current_user 
+    if current_user.author_of?(@answer) 
       @answer.destroy
     else
       redirect_to question_path(@answer.question), alert: "You don't have permissons."
@@ -32,6 +31,11 @@ class AnswersController < ApplicationController
   def vote
     @question = @answer.question
     @question.update(best_answer_id:@answer.id)
+
+    if @question.reward.present?
+       @answer.author.rewards.push(@question.reward)
+    end
+
     @best_answer = @question.best_answer
     @answers = @question.answers.where.not(id: @question.best_answer_id)  
   end
@@ -47,7 +51,10 @@ class AnswersController < ApplicationController
   end
 
   def answer_params 
-    params.require(:answer).permit(:title, :question_id, :author_id, files: [])    
+    params.require(:answer).permit(:title, :question_id, :author_id, 
+                                                         files: [], 
+                                                         links_attributes: [:name, :url,:_destroy]
+                                                        )    
   end
 
   

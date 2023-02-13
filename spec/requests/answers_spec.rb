@@ -7,33 +7,19 @@ RSpec.describe "Answers", type: :request do
   let(:answers) {create_list(:answer, 4,  question: question, author: user)}
   let(:answer) {create(:answer,  question: question, author: user)} 
 
-
-  describe "GET # EDIT" do
-    before { login(user)} 
-    before {get edit_answer_path(answer) }
-
-    it 'assigns to editing answer to @answer'do
-      expect(assigns(:answer)).to eq answer 
-    end
-
-    it 'renders view edit' do           
-      expect(assigns(:answer)).to render_template :edit
-    end    
-  end
-
   describe "POST #create" do
     before { login(user)} 
     context 'with valid attributes' do
       it 'saves a new answer to database' do
 
         count = Answer.count                         
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, author_id: user.id),  question_id: question.id, user_id: user.id}
+        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, author_id: user.id),  question_id: question.id, user_id: user.id, format: :js }
       
         expect(Answer.count).to eq count + 1        
       end
 
       it 'redirects to question view' do        
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, author_id: user.id),  question_id: question.id, user_id: user.id}
+        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, author_id: user.id),  question_id: question.id, user_id: user.id, format: :js }
         expect(response).to redirect_to question_path(question)
       end
     end
@@ -41,12 +27,12 @@ RSpec.describe "Answers", type: :request do
     context 'with invalid attributes' do
       it 'does not save the answer' do          
         count = Answer.count
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data), format: :js,  question_id: question.id}         
+        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data), question_id: question.id, format: :js }         
         expect(Answer.count).to eq count       
       end
 
-      it 're-renders form new' do
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data), format: :js, question_id: question.id}  
+      it 're-renders create template' do
+        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data), question_id: question.id, format: :js}  
         expect(response).to render_template :create   
       end      
     end   
