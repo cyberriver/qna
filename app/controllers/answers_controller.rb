@@ -13,7 +13,17 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer =  @question.answers.create(answer_params)
+    @answer =  @question.answers.new(answer_params)
+
+    respond_to do |format|
+      if @answer.save
+        format.html { render @answer }
+      else
+        format.html { render partial: 'shared/errors', locals: {resource: @answer},
+                                                       status: 422}
+      end
+      
+    end
   end
 
   def destroy
@@ -33,7 +43,7 @@ class AnswersController < ApplicationController
     @question.update(best_answer_id:@answer.id)
 
     if @question.reward.present?
-       @answer.author.rewards.push(@question.reward)
+       make_reward
     end
 
     @best_answer = @question.best_answer
@@ -42,8 +52,12 @@ class AnswersController < ApplicationController
 
   private
 
+  def make_reward
+    @answer.author.rewards.push(@question.reward)
+  end
+
   def load_answer
-     @answer = Answer.with_attached_files.find(params[:id]) 
+    @answer = Answer.with_attached_files.find(params[:id]) 
   end
 
   def find_question

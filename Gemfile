@@ -40,6 +40,7 @@ gem "aws-sdk-s3", require: false
 
 # API gems
 gem "octokit", "~> 5.0"
+gem "faraday-retry"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
