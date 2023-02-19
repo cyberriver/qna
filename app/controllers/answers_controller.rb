@@ -19,10 +19,13 @@ class AnswersController < ApplicationController
       if @answer.save
         format.html { render @answer }
       else
-        format.html { render partial: 'shared/errors', locals: {resource: @answer},
-                                                       status: 422}
-      end
-      
+        format.any do  
+          render partial: 'shared/errors', content_type: 'text/html', 
+                                           locals: { resource: @answer },
+                                           formats: [:html], 
+                                           status: 422
+        end
+      end      
     end
   end
 

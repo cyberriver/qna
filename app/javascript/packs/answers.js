@@ -12,6 +12,11 @@ $(document).on('turbolinks:load', function() {
 
     $('.answers').append(xhr.responseText);
   })
+    .on('ajax:error', function(e){
+      var xhr = e.detail[2];
+      $('.answer-errors').html(xhr.responseText);
+
+    })
 
 });
 
