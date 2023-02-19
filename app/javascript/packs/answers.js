@@ -8,13 +8,17 @@ $(document).on('turbolinks:load', function() {
 
   })
   $('form.new-answer').on('ajax:success', function(e) {
-    var xhr = e.detail[2];
+   // var xhr = e.detail[2];
+    var answer = e.detail[0];
 
-    $('.answers').append(xhr.responseText);
+    $('.answers').append('<p>' + answer.title + '</p>');
   })
     .on('ajax:error', function(e){
-      var xhr = e.detail[2];
-      $('.answer-errors').html(xhr.responseText);
+      var errors = e.detail[0];
+      $.each(errors, function(index,value){
+        $(".answer-errors").append('<p>' + value + '</p>')
+      })
+    
 
     })
 
