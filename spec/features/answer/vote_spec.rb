@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'Authenticated user can vote for answer', %q{
-  Only authenticated user can vote
+  Only authenticated user can vote (like or dislike)
   User couldn't vote if he's author of answer
   User can vote "like" or "dislike" for certain answer only one time
   (it's prohobited to vote 2 times in a line Like or Dislike)
@@ -22,19 +22,23 @@ feature 'Authenticated user can vote for answer', %q{
       visit question_path(question)
     end
     
-    scenario 'Authenticated User, who is Author of the answer, cannot vote for his answer', js: true do
+    scenario 'Authenticated User, who is Author of the answer, cannot like for his answer', js: true do
 
-      within '.answers' do
-        page.find("#answer_#{answer1.id}")
-        expect(page).to_not have_content(/Like|Dislike/)
+      within '.answers' do        
+        expect(page.find("#answer_#{answer1.id}")).to_not have_content(/Like|Dislike/)
       end      
     end
 
-    scenario 'Authenticated User, who is not Author of the answer, can vote for his answer', js: true do
+    scenario 'Authenticated User, who is not Author of the answer, can like for his answer', js: true do
+      
+      rating = answer2.show_rating
 
-      within '.answers' do
-        page.find("#answer_#{answer2.id}")
-        expect(page).to have_content(/Like|Dislike/)
+      within '.answers' do        
+        expect(page.find("#answer_#{answer2.id}")).to have_content(/Like|Dislike/)
+        within page.find("#answer_#{answer2.id}") do
+          click_on 'Like'
+        end
+        expect(answer2.show_rating).to be > rating
       end      
     end
 
