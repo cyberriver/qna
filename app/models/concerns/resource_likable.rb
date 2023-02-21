@@ -6,7 +6,6 @@ module ResourceLikable
   included do
     has_many :likes, dependent: :destroy, as: :likable
   end
-
   
     def show_rating
       likes.sum(:value)    
@@ -19,6 +18,9 @@ module ResourceLikable
     def count_dislikes
       likes.where(value: -1).count
     end
- 
+
+    def is_liked?(resource)
+    
+    end 
   
 end

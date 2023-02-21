@@ -3,8 +3,9 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
   div class = "row shadow-sm  p-2 bg-white"
     div class = "col-md-6"
       = answer.title
-      p      
-        = answer.show_rating
+      p
+        div class = "rating" id = "rating_answer_#{answer.id}"      
+          = answer.show_rating
       .files
         - if answer.files.attached?
           -answer.files.each do |file|
@@ -40,8 +41,8 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
           = button_to "Delete", answer_path(answer), method: :delete, class: "btn btn-outline-secondary btn-sm bi bi-x-circle ", remote: true           
           = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-answer-link', data: { answer_id: answer.id}
         - elsif current_user&.not_author_of?(answer)
-          = link_to "Like", like_path(id: answer.id, liked_type: 'answer', liked_params: { value:1, user_id: current_user.id }), method: :post, class: "btn btn-outline-primary btn-sm bi bi-hand-thumbs-up ", remote: true
-          = link_to "Dislike", dislike_path(id: answer.id, liked_type: 'answer', liked_params: {value:-1, user_id: current_user.id}), method: :post, class: "btn btn-outline-danger btn-sm bi bi-hand-thumbs-down-fill ", remote: true
+          = link_to "Like", like_path(id: answer.id, liked_type: 'answer', liked_params: { value:1, user_id: current_user.id }), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-primary btn-sm bi bi-hand-thumbs-up like-link", remote: true
+          = link_to "Dislike", dislike_path(id: answer.id, liked_type: 'answer', liked_params: {value:-1, user_id: current_user.id}), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-danger btn-sm bi bi-hand-thumbs-down-fill dislike-link", remote: true
          
 
 

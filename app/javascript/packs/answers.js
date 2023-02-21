@@ -8,8 +8,7 @@ $(document).on('turbolinks:load', function() {
 
   })
   $('form.new-answer').on('ajax:success', function(e) {
-   // var xhr = e.detail[2];
-    var answer = e.detail[0];
+      var answer = e.detail[0];
 
     $('.answers').append('<p>' + answer.title + '</p>');
   })
@@ -20,6 +19,16 @@ $(document).on('turbolinks:load', function() {
       })
     
 
+    })
+
+    $('.answers').on('ajax:success', function(e) {
+      var data = e.detail[0];
+      var rating = data.rating
+      var resourceId = data.resource_id
+
+      $('#rating_answer_' + resourceId).html(rating)
+;     
+      
     })
 
 });
