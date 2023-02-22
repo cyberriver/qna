@@ -21,6 +21,5 @@ Rails.application.routes.draw do
   resources :links, only: :destroy
   resources :rewards, only: :index
   post 'like', to: 'likes#like', as: 'like'
-  post 'dislike', to: 'likes#dislike', as: 'dislike'
 
 end

@@ -31,14 +31,14 @@ feature 'Authenticated user can vote for answer', %q{
 
     scenario 'Authenticated User, who is not Author of the answer, can like for his answer', js: true do
       
-      rating = answer2.show_rating
+      rating_old = answer2.show_rating #page.find("#rating_answer_#{answer2.id}").value
 
       within '.answers' do        
         expect(page.find("#answer_#{answer2.id}")).to have_content(/Like|Dislike/)
         within page.find("#answer_#{answer2.id}") do
           click_on 'Like'
         end
-        expect(answer2.show_rating).to be > rating
+        expect(answer2.show_rating).to be > rating_old
       end      
     end
 
