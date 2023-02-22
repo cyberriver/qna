@@ -4,8 +4,12 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
     div class = "col-md-6"
       = answer.title
       p
-        div class = "rating" id = "rating_answer_#{answer.id}"      
-          = answer.show_rating
+        
+          - if answer.show_rating >= 0      
+            span class="badge bg-success" id = "rating_answer_#{answer.id}" rating: #{answer.show_rating}
+          - else 
+            span class="badge bg-danger" id = "rating_answer_#{answer.id}"  rating: #{answer.show_rating}
+
       .files
         - if answer.files.attached?
           -answer.files.each do |file|

@@ -10,17 +10,5 @@ module ResourceLikable
     def show_rating
       likes.sum(:value)    
     end
-  
-    def count_likes
-      likes.where(value: 1).count
-    end
-  
-    def count_dislikes
-      likes.where(value: -1).count
-    end
 
-    def is_liked?(resource)
-    
-    end 
-  
 end
