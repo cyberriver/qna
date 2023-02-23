@@ -3,8 +3,13 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}"
   div class = "row shadow-sm  p-2 bg-white"
     div class = "col-md-3"
       = question.title
+      - if question.show_rating >= 0      
+        span class="badge bg-success" id = "rating_question_#{question.id}" rating: #{question.show_rating}
+      - else 
+        span class="badge bg-danger" id = "rating_question_#{question.id}"  rating: #{question.show_rating}
     div class = "col-md-6"
       = question.body
+      
       .files
         -if question.files.attached?
           -question.files.each do |file|
@@ -29,11 +34,13 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}"
     div class = "col-md-3"
       div class="d-grid gap-2 md-flex justify-content-md-end"
         = link_to "Answers", question_path(question), class: "btn btn-primary" 
-        - if user_signed_in? && current_user == question.author
+        - if current_user&.author_of?(question)
           = button_to "Delete", question_path(question), method: :delete, class: "btn btn-outline-danger", remote: true           
           = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-question-link', data: { question_id: question.id}
-
-
+        - elsif current_user&.not_author_of?(question)
+          = link_to "Like", like_path(id: question.id, liked_type: 'question', liked_params: { value:1, user_id: current_user.id }), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-primary btn-sm bi bi-hand-thumbs-up like-link", remote: true
+          = link_to "Dislike", like_path(id: question.id, liked_type: 'question', liked_params: {value:-1, user_id: current_user.id}), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-danger btn-sm bi bi-hand-thumbs-down-fill dislike-link", remote: true
+         
   = form_with model: question, class: 'hidden', local:false, method: :patch, html: {id: "edit-question-#{question.id}"} do |f|
     div class = "mb-3 bg-white"
       = f.label :title, class: "form-label"              

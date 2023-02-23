@@ -19,6 +19,7 @@ import "bootstrap";
 import "../stylesheets/application";
 import { Tooltip, Toast, Popover } from 'bootstrap';
 import Alert from 'bootstrap/js/dist/alert';
+import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./answers";
 import "./questions";
 

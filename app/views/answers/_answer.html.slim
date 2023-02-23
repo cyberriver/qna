@@ -3,12 +3,19 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
   div class = "row shadow-sm  p-2 bg-white"
     div class = "col-md-6"
       = answer.title
+      p
+        
+          - if answer.show_rating >= 0      
+            span class="badge bg-success" id = "rating_answer_#{answer.id}" rating: #{answer.show_rating}
+          - else 
+            span class="badge bg-danger" id = "rating_answer_#{answer.id}"  rating: #{answer.show_rating}
+
       .files
         - if answer.files.attached?
           -answer.files.each do |file|
             p= link_to file.filename.to_s, url_for(file)
             - if current_user&.author_of?(answer)
-              p= button_to "Delete_file", purge_file_path(file), method: :delete, class: "btn btn-outline-danger", remote: true
+              p= button_to "Delete_file", purge_file_path(file), method: :delete, class: "btn btn-outline-secondary btn-sm bi bi-trash3 ", remote: true
       .links
         -if answer.links.present?
           -answer.links.each do |link|
@@ -20,8 +27,9 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
                   -else  
                     = link_to link.name, link.url
                   -if current_user&.author_of?(answer)
-                    p = link_to 'Delete link', link_path(link), method: :delete, remote: true                      
-      
+                    p = link_to 'Delete link', link_path(link), method: :delete, remote: true                   
+  
+
       - if answer.voted?(answer.question)
          span class="badge bg-primary" Voted 
       - elsif user_signed_in?
@@ -34,8 +42,11 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
     div class = "col-md-3"
       div class="d-grid gap-2 md-flex justify-content-md-end"
         - if current_user&.author_of?(answer)
-          = button_to "Delete", answer_path(answer), method: :delete, class: "btn btn-outline-danger", remote: true           
+          = button_to "Delete", answer_path(answer), method: :delete, class: "btn btn-outline-secondary btn-sm bi bi-x-circle ", remote: true           
           = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-answer-link', data: { answer_id: answer.id}
+        - elsif current_user&.not_author_of?(answer)
+          = link_to "Like", like_path(id: answer.id, liked_type: 'answer', liked_params: { value:1, user_id: current_user.id }), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-primary btn-sm bi bi-hand-thumbs-up like-link", remote: true
+          = link_to "Dislike", like_path(id: answer.id, liked_type: 'answer', liked_params: {value:-1, user_id: current_user.id}), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-danger btn-sm bi bi-hand-thumbs-down-fill dislike-link", remote: true
          
 
 

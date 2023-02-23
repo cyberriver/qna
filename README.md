@@ -178,3 +178,6 @@ rspec spec/
 
 ## Install cacoon
 > yarn add @nathanvda/cocoon 
+
+## To add bootstrap Icons
+> yarn add bootstrap-icons

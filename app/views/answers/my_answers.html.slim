@@ -24,7 +24,7 @@ h4 My Answers
             = a.author.email
           div class = "col-md-3 p-2 justify-content-center" id = "action" 
             div class="d-grid gap-2 md-flex justify-content-md-end"
-              = button_to "Delete", answer_path(a), class: "btn btn-outline-danger",  method: :delete, data: { confirm: 'Are you sure to delete this answer?' }
+              = button_to "Delete", answer_path(a), class: "btn btn-outline-secondary btn-sm bi bi-trash3",  method: :delete, data: { confirm: 'Are you sure to delete this answer?' }
               = link_to "Edit", edit_answer_path(a), class: "btn btn-outline-warning edit-answer-link"
           
           = form_with model: a, class: 'hidden', local:false, html: {id: "edit-answer-#{a.id}"} do |f|
