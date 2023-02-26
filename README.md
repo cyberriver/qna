@@ -20,7 +20,7 @@ App based on:
 > curl -sSL https://get.rvm.io | bash -s stable
 
 in a case of issues with OpenSSL3 pls run
-### OpenSSL3 installation
+### OpenSSL3 installation (is necessary for all gem and connections)
 > sudo apt install openssl
 install openssl3 dependecies
 > sudo apt install build-essential checkinstall zlib1g-dev -y
@@ -50,7 +50,7 @@ save and exit
 > echo $PATH
 > /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/ssl/bin
 
-### Repeat Installation rvm or rvenv mentioned above
+### Repeat Installation rvm or rvenv mentioned above (after openssl configuration)
 
 > source ~/.rvm/scripts/rvm
 
@@ -60,6 +60,7 @@ save and exit
 > ruby -v
 
 2. Install yarn (better ver 2)
+## Installing yarn and migration to yarn2
 > curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 > echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 > sudo apt update
@@ -77,7 +78,7 @@ Run yarn to migrate nodelinker
 
 3. Install postgresql and setup necessary user (pls check config.yml)
 
-### Installation for Ubuntu 20.04
+### Installation postgresql for Ubuntu 20.04
 
 > sudo apt update && sudo apt upgrade
 > sudo apt install postgresql postgresql-contrib
@@ -96,22 +97,25 @@ To create the proper user
 > create user USER_NAME password 'PASSWORD';
 
 4. Install rails (6.1, pls check version in Gemfile)
+## Installing rails gem
 > sudo apt update
 > gem install rails -v 6.1.7
 
 
 5. Install node.js
+## installing Node.js
 > sudo apt install nodejs
 
 
 6. Clone git repository
+## Now you're ready to clone repository App and run it
 > git clone https://github.com/cyberriver/qna.git
 
 7. Run bundle and install nececcary gems
 > bundle install
 
 ### in a case if webpacker required dependencies
-install dependencies for webpacker
+## install dependencies for webpacker
 
 > curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 > curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -122,25 +126,27 @@ install dependencies for webpacker
 
 
 8. Install bootstrap 5
+## Installing bootstrap to render bootstrap components
 > yarn add bootstrap jquery popper.js
 
 10. Check  in a case update packages by running yarn install
 > yarn install
 
-11. Create DB for application and Run DB migrations by 
+11. Create DB for application and Run DB migrations by
+## Deploy application 
 > rails db:setup 
 
 in a case errors with connections pls restart psql by:
 > sudo service postgresql start
 
-10. If you use test local environment for AJAX testing pls compile manually necessary JS, just run following command
+12. If you use test local environment for AJAX testing pls compile manually necessary JS, just run following command
 ### pls note that webpacker doesn't compile packs for test enviromnet no matter that you set in its config
 ### and you need it to do manually by
 > NODE_ENV=test bundle exec rails webpacker:compile
 
 After complication pls check that assets should appear at public/packs-test directory and run specs testing
 
-11. To run UAT testing if you use Chrome, pls install actual Chrome driver for Selenium
+13. To run UAT testing if you use Chrome, pls install actual Chrome driver for Selenium
 
 ## instruction for Capybara gem
 > https://gist.github.com/danwhitston/5cea26ae0861ce1520695cff3c2c3315
@@ -176,8 +182,13 @@ After complication pls check that assets should appear at public/packs-test dire
 After installation pls run rspec and check that everything works properly:
 rspec spec/
 
-## Install cacoon
+14. Pls install other neccessary components
+
+## Install cacoon (for rendering nested items on UI)
 > yarn add @nathanvda/cocoon 
 
-## To add bootstrap Icons
+## To add bootstrap Icons (for rendering icons)
 > yarn add bootstrap-icons
+
+## To configure Web Sockets through actioncable (for asyn online rendering server updates)
+> yarn add actioncable

@@ -7,4 +7,10 @@ class ApplicationController < ActionController::Base
     Rails.logger.info(request.env)
     Rails.logger.info(request.headers)
   end
+
+  def current_user
+    super
+  rescue Devise::MissingWarden
+    nil
+  end
 end

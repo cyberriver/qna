@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController  
   before_action :load_answer,  only: [:update, :destroy, :vote]
   before_action :find_question, only: [:create, :update, :purge_attachement]
+  after_action :publish_answer, only:[:create]
   
   def update
     if @answer.author==current_user
@@ -14,6 +15,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer =  @question.answers.new(answer_params)
+    gon.watch.current_user = current_user
 
     respond_to do |format|
       if @answer.save
@@ -78,5 +80,21 @@ class AnswersController < ApplicationController
                                                         )    
   end
 
+  def publish_answer
+    return if @answer.errors.any?
+    ActionCable.server.broadcast(
+      "answers", 
+      answer: render_answer     
+    )    
+  end
+
+  def render_answer
+
+    AnswersController.render(
+      partial: 'answers/answer',
+      locals: { 
+        answer: @answer }
+    )    
+  end
   
 end

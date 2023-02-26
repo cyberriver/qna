@@ -22,4 +22,6 @@ Rails.application.routes.draw do
   resources :rewards, only: :index
   post 'like', to: 'likes#like', as: 'like'
 
+  mount ActionCable.server => '/cable'
+
 end
