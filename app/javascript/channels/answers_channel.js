@@ -1,6 +1,12 @@
 import consumer from "./consumer"
 
-consumer.subscriptions.create("AnswersChannel", {
+
+
+consumer.subscriptions.create({
+  channel:"AnswersChannel",
+  id: gon.params_id}  , 
+
+{
   connected() {
     // Called when the subscription is ready for use on the server
     console.log('CONNECTED ANSWER!');

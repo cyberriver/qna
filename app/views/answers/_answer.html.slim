@@ -3,8 +3,7 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
   div class = "row shadow-sm  p-2 bg-white"
     div class = "col-md-6"
       = answer.title
-      p
-        
+      p        
           - if answer.show_rating >= 0      
             span class="badge bg-success" id = "rating_answer_#{answer.id}" rating: #{answer.show_rating}
           - else 
