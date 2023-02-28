@@ -7,7 +7,12 @@ div class = "container-fluid p-2 gap-5" id ="question_#{@question.id}" data-ques
   -if @question.files.attached?
     -@question.files.each do |file|
       p= link_to file.filename.to_s, url_for(file)
-  p 
+  p
+  .comments 
+    div class = "container"
+      - if @question.comments.any?
+        h3 list of comments
+          = render partial: 'comments/comment', locals: {comment: @question.comments } 
   .answers
     div class = "container"
       - if @question.answers.any?
