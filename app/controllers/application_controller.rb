@@ -17,7 +17,9 @@ class ApplicationController < ActionController::Base
 
   def gon_params
     gon.params_id = params[:id]
-    gon.current_user_id = current_user.id  
+    if current_user.present?
+      gon.current_user_id = current_user.id
+    end
   end
 
 end

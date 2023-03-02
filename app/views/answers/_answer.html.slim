@@ -26,7 +26,10 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
                   -else  
                     = link_to link.name, link.url
                   -if current_user&.author_of?(answer)
-                    p = link_to 'Delete link', link_path(link), method: :delete, remote: true                   
+                    p = link_to 'Delete link', link_path(link), method: :delete, remote: true
+      .comments
+        - if answer.comments.any?        
+          =render partial: 'comments/comment', locals: {comment: answer.comments} 
   
 
       - if answer.voted?(answer.question)
