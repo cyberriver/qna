@@ -1,22 +1,17 @@
- = form_with model: [@comment], class: 'new-comment', data: {type: :html}, local: false do |f|
-   div class ="container"
-     div class= "card justify-content-md-center"
-       div class = "card-body borderless"
-         h5 
-           div class = "card-title" 
-             | New comment
-         div class = "mb-3"
-           = f.label :title, class: "form-label"
-           = f.text_area :title,  {class: "form-control", placeholder: "Pls enter the comment"}
-           = f.label :commentable_type,  hidden: true
-           = f.text_field :commentable_type,  value: @resource_commented.class, hidden: true, readonly: true
-           = f.label :commentable_id,  hidden: true
-           = f.text_field :commentable_id,  value: @resource_commented.id, hidden: true, readonly: true
+ = form_with model: [@resource_commented, @comment], class: 'new-comment', data: {type: :json}, local: false do |f|
+ div class ="container"
+    div class= "card justify-content-md-center"
+      div class = "card-body borderless"
+        h5 
+          div class = "card-title" 
+            | New comment
+        div class = "mb-3"
+          = f.label :value, class: "form-label"
+          = f.text_area :value,  {class: "form-control", placeholder: "Pls enter the comment"}
 
-         div class = "mb-3"
-           = f.label :author_id, hidden: true, class: "form-label"
-           = f.text_field :author_id, value: current_user.id, readonly: true, hidden: true
+        div class = "mb-3"
+          = f.label :author_id, hidden: true, class: "form-label"
+          = f.text_field :author_id, value: current_user.id, readonly: true, hidden: true
         
-         = f.submit 'Save comment', class: "btn btn-primary"
-  
+        = f.submit 'Save comment', class: "btn btn-primary"
   

@@ -5,14 +5,15 @@ module ResourceCommented
 
   included do
     before_action :authenticate_user!
-    before_action :find_resource_commented, only: [:new, :create]
+    before_action :find_resource, only: [:new, :create]
   end
 
   private
 
-  def find_resource_commented
-    @klass = params[:comment][:commentable_type].capitalize.constantize
-    @resource_commented = @klass.find(params[:comment][:commentable_id])    
+  def find_resource
+    @klass = params[:commented_resource].capitalize.constantize
+    @resource_commented = @klass.find(params[:id])    
   end
+
 
 end

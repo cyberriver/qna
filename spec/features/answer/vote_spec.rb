@@ -4,7 +4,7 @@ feature 'Authenticated user can vote for answer', %q{
   Only authenticated user can vote (like or dislike)
   User couldn't vote if he's author of answer
   User can vote "like" or "dislike" for certain answer only one time
-  it's prohobited to vote 2 times in a line Like or Dislike
+  (it's prohobited to vote 2 times in a line Like or Dislike)
   User can cancel his descision and after this action re-vote
   Each answer should calculate vote rating as a difference between numbers of Like and Dislike
 
