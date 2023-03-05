@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   
 
   patch '/questions/:id/answers/:id', to: 'answers#update'
+
+  get 'make_comment', to: 'comments#new'
   
   get 'author_answers', to: 'answers#my_answers'
   get 'my_rewards', to: 'rewards#index'
