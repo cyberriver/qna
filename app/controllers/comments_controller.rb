@@ -6,8 +6,13 @@ class CommentsController < ApplicationController
     
   end
 
+  def show
+    @comment = @resource_commented.comments.new
+  end
+
   def new
-    @comment = @resource_commented.comments.new    
+    @comment = @resource_commented.comments.new
+   
   end
 
   def create
@@ -30,7 +35,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-   params.require(:comment).permit(:value, :author_id)
-    
+   params.require(:comment).permit(:title, :commentable_type, :commentable_id, :author_id)    
   end
+
 end

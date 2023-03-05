@@ -33,13 +33,17 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}" data-quest
 
       .comments
         - if question.comments.any? 
-          div class = "btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"
-      
-          div class ="collapse" id="question_#{@question.id}_comments"          
+          div class = "btn btn-info bi bi-chat-square-text" data-bs-toggle="collapse" href="#question_#{question.id}_comments" role="button" aria-expanded="false" aria-controls="question_#{question.id}_comments"
+            | See comments
+            span class="badge bg-warning" id = "question_#{question.id}_comments_count" #{question.comments.count}     
+          div class ="collapse" id="question_#{question.id}_comments"          
             h3 list of comments
-              = render partial: 'comments/comment', locals: {resource: @question, comment: @question.comments }
+            - question.comments.each do |comment| 
+               = render partial: 'comments/comment', locals: {comment: comment }
+      .new_comment 
         - if user_signed_in?
-          = link_to  "Make Comment", new_comment_path(id: question.id, commented_resource: 'question'), remote:true, class: "btn btn-outline-primary btn-sm"
+              
+          = link_to  "Add Comment",  make_comment_path(comment: {commentable_type: 'question',commentable_id: question.id}), class: "btn btn-outline-primary btn-sm"
                
            
     div class = "col-md-3"
@@ -70,4 +74,6 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}" data-quest
 
       div class = "gap-2"
         = f.submit 'Save', class: "btn btn-primary btn-sm p-2"
+
+
   

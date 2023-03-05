@@ -15,7 +15,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer =  @question.answers.new(answer_params)
-    gon.watch.current_user = current_user
+    #gon.watch.current_user = current_user
 
     respond_to do |format|
       if @answer.save

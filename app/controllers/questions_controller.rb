@@ -9,7 +9,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
-    @comment = @question.comments.new
+    
     if @question.best_answer
       @best_answer = @question.best_answer
     end
