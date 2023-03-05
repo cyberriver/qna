@@ -18,7 +18,7 @@ class CommentsController < ApplicationController
   def create
     @comment =  @resource_commented.comments.new(comment_params)
     if @comment.save           
-      redirect_to questions_path, notice: 'Your comment successfully created.'
+      redirect_to eval(choose_route), notice: 'Your comment successfully created.'
     else
       render :new
     end   

@@ -28,8 +28,19 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
                   -if current_user&.author_of?(answer)
                     p = link_to 'Delete link', link_path(link), method: :delete, remote: true
       .comments
-        - if answer.comments.any?        
-          =render partial: 'comments/comment', locals: {comment: answer.comments} 
+        - if answer.comments.any? 
+          div class = "btn btn-info bi bi-chat-square-text" data-bs-toggle="collapse" href="#answer_#{answer.id}_comments" role="button" aria-expanded="false" aria-controls="answer_#{answer.id}_comments"
+            | See comments
+            span class="badge bg-warning" id = "answer_#{answer.id}_comments_count" #{answer.comments.count}     
+          div class ="collapse" id="answer_#{answer.id}_comments"          
+            h3 list of comments
+            - answer.comments.each do |comment| 
+               = render partial: 'comments/comment', locals: {comment: comment }
+      .new_comment 
+        - if user_signed_in?
+              
+          = link_to  "Add Comment",  make_comment_path(comment: {commentable_type: 'answer',commentable_id: answer.id}), class: "btn btn-outline-primary btn-sm"
+               
   
 
       - if answer.voted?(answer.question)

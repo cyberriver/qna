@@ -15,4 +15,12 @@ module ResourceCommented
     @resource_commented = @klass.find(params[:comment][:commentable_id])    
   end
 
+  def choose_route
+    case params[:comment][:commentable_type]
+      when 'question' then 'questions_path'
+      when 'answer' then 'question_answers_path'
+      else 'questions_path'
+    end   
+  end
+
 end
