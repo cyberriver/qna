@@ -2,7 +2,7 @@ class AnswersChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
     question = Question.find(params[:id])
-    stream_for question
+    stream_from "details_data_for_question_#{question.id}"
   end
 
   def unsubscribed

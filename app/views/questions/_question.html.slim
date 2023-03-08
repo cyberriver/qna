@@ -33,7 +33,7 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}" data-quest
 
       .comments
         - if question.comments.any? 
-          div class = "btn btn-info bi bi-chat-square-text" data-bs-toggle="collapse" href="#question_#{question.id}_comments" role="button" aria-expanded="false" aria-controls="question_#{question.id}_comments"
+          div class = "btn btn-info bi bi-chat-square-text " data-bs-toggle="collapse" href="#question_#{question.id}_comments" role="button" aria-expanded="false" aria-controls="question_#{question.id}_comments"
             | See comments
             span class="badge bg-warning" id = "question_#{question.id}_comments_count" #{question.comments.count}     
           div class ="collapse" id="question_#{question.id}_comments"          

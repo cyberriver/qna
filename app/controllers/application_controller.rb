@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :gon_params
+  before_action :gon_params_user
 
   private
 
@@ -15,8 +15,13 @@ class ApplicationController < ActionController::Base
     nil
   end
 
-  def gon_params
+  def gon_params_user
+    gon.controller_name = params[:controller]
+    gon.controller_action = params[:action]
     gon.params_id = params[:id]
+
+    puts "LOG APPLICATION CONTROLLER gon.params_id: #{gon.params_id}"
+  
     if current_user.present?
       gon.current_user_id = current_user.id
     end

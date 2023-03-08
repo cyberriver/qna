@@ -25,7 +25,7 @@ import Alert from 'bootstrap/js/dist/alert';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import "./answers";
 import "./questions";
-import "./comments";
+
 
 var App = App || {};
 App = ActionCable.createConsumer();

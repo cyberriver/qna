@@ -15,8 +15,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer =  @question.answers.new(answer_params)
-    #gon.watch.current_user = current_user
-
+  
     respond_to do |format|
       if @answer.save
         format.html { render @answer }
@@ -82,8 +81,8 @@ class AnswersController < ApplicationController
 
   def publish_answer
     return if @answer.errors.any?
-    AnswersChannel.broadcast_to(
-      @question, 
+    ActionCable.server.broadcast(
+      "details_data_for_question_#{@question.id}", 
       answer: render_answer     
     )    
   end
