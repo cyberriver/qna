@@ -9,7 +9,6 @@ class CommentsController < ApplicationController
 
   def show
     @comment = @resource_commented.comments.new
-    puts "LOG action show: Comment #{@comment }"
   end
 
   def new
@@ -19,9 +18,8 @@ class CommentsController < ApplicationController
 
   def create
     @comment =  @resource_commented.comments.new(comment_params)
-    puts "LOG action create: Comment #{@comment }"
     if @comment.save           
-      redirect_to eval(choose_route), notice: 'Your comment successfully created.'
+      redirect_to question_path(choose_render_param ), notice: 'Your comment successfully created.'
     else
       render :new
     end   
@@ -43,15 +41,10 @@ class CommentsController < ApplicationController
 
   def publish_comment
 
-    puts "LOG STARTING PUBLISH ActionCable.server.broadcast to chanell comments_#{ choose_render_param }"
-    puts "LOG @resource_commented #{choose_render_param }"
- 
     if @comment.errors.any?
       puts "LOG ERRORS: @comment.errors.any? #{@comment.errors.any?}"      
 
     else 
-      puts "choose_render_params #{choose_render_param }"
-      puts "LOG publish comment @resource_commented #{@resource_commented}"
       ActionCable.server.broadcast(
       "comments_for_question_#{ choose_render_param }",
         commentable_type: @resource_commented.class.name.downcase,

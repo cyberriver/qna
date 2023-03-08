@@ -4,9 +4,11 @@
       div class = "col-md-6"
         = comment.title
         .p
+
+      div class = "col"
         = comment.author.email
-        - if current_user&.author_of?(comment)
-          = button_to "Delete", comment_path(comment), method: :delete, class: "btn btn-outline-secondary btn-sm bi bi-x-circle ", remote: true           
-          = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-comment-link', data: { comment_id: comment.id}
- 
+      div class = "col "
+
+        = comment.created_at
+
  

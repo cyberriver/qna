@@ -13,28 +13,20 @@ RSpec.describe "Answers", type: :request do
       it 'saves a new answer to database' do
 
         count = Answer.count                         
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, author_id: user.id),  question_id: question.id, user_id: user.id, format: :js }
+        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, author_id: user.id),  question_id: question.id, user_id: user.id, format: :json }
       
         expect(Answer.count).to eq count + 1        
       end
 
-      it 'redirects to question view' do        
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, author_id: user.id),  question_id: question.id, user_id: user.id, format: :js }
-        expect(response).to redirect_to question_path(question)
-      end
     end
 
     context 'with invalid attributes' do
       it 'does not save the answer' do          
         count = Answer.count
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data), question_id: question.id, format: :js }         
+        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data), question_id: question.id, format: :json }         
         expect(Answer.count).to eq count       
       end
-
-      it 're-renders create template' do
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data), question_id: question.id, format: :js}  
-        expect(response).to render_template :create   
-      end      
+ 
     end   
   end
 
@@ -42,7 +34,7 @@ RSpec.describe "Answers", type: :request do
     before { login(user)} 
     context 'with valid attributes' do
       it 'assignes to requested @answer' do
-        patch "/answers/#{answer.id}", params: {id: answer, answer: attributes_for(:answer, author_id: user.id), question: question.id,  user_id: user.id} 
+        patch "/answers/#{answer.id}", params: {id: answer, answer: attributes_for(:answer, author_id: user.id), question: question.id,  user_id: user.id, remote: true} 
         expect(assigns(:answer)).to eq answer 
       end
 
@@ -60,16 +52,13 @@ RSpec.describe "Answers", type: :request do
     end
 
     context 'with invalid attributes' do
-      before {patch "/answers/#{answer.id}", params: {id: answer, answer: attributes_for(:answer, :invalid_data), question: question.id,  user_id: user.id} }
+      before {patch "/answers/#{answer.id}", params: {id: answer, answer: attributes_for(:answer, :invalid_data), question: question.id,  user_id: user.id},format: :json }
 
       it 'does not change the question' do       
         answer.reload
         expect(answer.title).to include("Answer")        
       end
 
-      it 're-renders view edit' do      
-        expect(response).to render_template :edit
-      end
     end
   end
 

@@ -17,6 +17,10 @@ div class = "container-fluid p-2 gap-5" id ="question_#{@question.id}" data-ques
          h3 list of comments
          - @question.comments.each do |comment| 
            = render partial: 'comments/comment', locals: {comment: comment }
+  .new_comment 
+    - if user_signed_in?              
+      = link_to  "Add Comment",  make_comment_path(comment: {commentable_type: 'question',commentable_id: @question.id}), class: "btn btn-outline-primary btn-sm" 
+  
   .answers
     div class = "container"
       - if @question.answers.any?

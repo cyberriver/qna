@@ -19,8 +19,6 @@ class ApplicationController < ActionController::Base
     gon.controller_name = params[:controller]
     gon.controller_action = params[:action]
     gon.params_id = params[:id]
-
-    puts "LOG APPLICATION CONTROLLER gon.params_id: #{gon.params_id}"
   
     if current_user.present?
       gon.current_user_id = current_user.id

@@ -31,20 +31,6 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}" data-quest
         -if question.reward.present?
           = image_tag(question.reward.file, size: '150x150')
 
-      .comments
-        - if question.comments.any? 
-          div class = "btn btn-info bi bi-chat-square-text " data-bs-toggle="collapse" href="#question_#{question.id}_comments" role="button" aria-expanded="false" aria-controls="question_#{question.id}_comments"
-            | See comments
-            span class="badge bg-warning" id = "question_#{question.id}_comments_count" #{question.comments.count}     
-          div class ="collapse" id="question_#{question.id}_comments"          
-            h3 list of comments
-            - question.comments.each do |comment| 
-               = render partial: 'comments/comment', locals: {comment: comment }
-      .new_comment 
-        - if user_signed_in?
-              
-          = link_to  "Add Comment",  make_comment_path(comment: {commentable_type: 'question',commentable_id: question.id}), class: "btn btn-outline-primary btn-sm"
-               
            
     div class = "col-md-3"
       div class="d-grid gap-2 md-flex justify-content-md-end"

@@ -9,17 +9,33 @@ feature 'Add comment', %q{
   given!(:question) {create(:question, author: user)}
 
   scenario 'Any authenticaed user should comment the question' do
-    sign_in(user2)      
-    visit questions_path
-      
-    within(page.find(id: "question_#{question.id}")) do
+    Capybara.using_session('user2') do
+      sign_in(user2)      
+      visit question_path(question.id)
+    end
+
+    Capybara.using_session('user') do
+      sign_in(user)      
+      visit question_path(question.id)
+    end
+
+    Capybara.using_session('user2') do
+      within(page.find(id: "question_#{question.id}")) do
         click_on 'Add Comment'
-    end    
+      end    
 
-        fill_in 'Title', with: "Test Comment"
-        click_on 'Save comment'     
+      fill_in 'Title', with: "Test Comment Capybara"
+      click_on 'Save comment' 
+      
+      expect(page.body).to have_content 'Test Comment Capybara'
 
-    expect(page).to have_content 'Test Comment'
+    end
+
+    Capybara.using_session('user') do
+      expect(page.body).to have_content 'Test Comment Capybara'
+    end
+      
+    
   end
 
 end
