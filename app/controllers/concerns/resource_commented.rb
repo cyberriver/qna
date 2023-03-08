@@ -21,17 +21,6 @@ module ResourceCommented
    
   end
 
-  def choose_route 
-    case @klass_route 
-      when "Question"
-        "question_path(#{get_params_for_route})"
-      when "Answer"
-        "question_path(#{get_params_for_route})"
-      else 
-        'root_path'
-    end   
-  end
-
   def choose_render_param 
     case @klass_route 
       when "Question"
@@ -42,6 +31,5 @@ module ResourceCommented
       'root_path'
     end   
   end
-
 
 end
