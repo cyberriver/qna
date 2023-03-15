@@ -2,12 +2,16 @@
 <html>
   <head>
     <title>Qna</title>
+    <%= include_gon %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= action_cable_meta_tag %>
+    <meta name="current-current-id" content="<%= current_user.id if user_signed_in? %>">
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    
   </head>
 
   <body class ="container bg-light bg-gradient">

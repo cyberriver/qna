@@ -146,6 +146,11 @@ GEM
     ffi (1.15.5)
     globalid (1.0.1)
       activesupport (>= 5.0)
+    gon (6.4.0)
+      actionpack (>= 3.0.20)
+      i18n (>= 0.7)
+      multi_json
+      request_store (>= 1.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.5)
@@ -179,6 +184,7 @@ GEM
     mini_portile2 (2.8.1)
     minitest (5.17.0)
     msgpack (1.6.0)
+    multi_json (1.15.0)
     multi_test (1.1.0)
     net-http (0.3.2)
       uri
@@ -249,6 +255,8 @@ GEM
       ffi (~> 1.0)
     regexp_parser (2.6.2)
     render_async (2.1.11)
+    request_store (1.5.1)
+      rack (>= 1.4)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -358,6 +366,7 @@ DEPENDENCIES
   devise
   factory_bot_rails
   faraday-retry
+  gon
   jbuilder (~> 2.7)
   jquery-rails
   launchy

@@ -33,6 +33,7 @@ gem "slim-rails"
 gem 'jquery-rails'
 gem "cocoon"
 gem 'render_async'
+gem 'gon'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

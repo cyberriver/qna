@@ -7,6 +7,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require rails-ujs
+//= require action_cable
 //= require activestorage
 //= require turbolinks
 //= require_tree
@@ -14,26 +15,32 @@
 import Rails from '@rails/ujs';
 import Turbolinks from "turbolinks";
 import * as ActiveStorage from "@rails/activestorage";
+import * as ActionCable from "@rails/actioncable";
+
 import "channels";
 import "bootstrap";
 import "../stylesheets/application";
 import { Tooltip, Toast, Popover } from 'bootstrap';
 import Alert from 'bootstrap/js/dist/alert';
-import 'bootstrap-icons/font/bootstrap-icons.css'
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import "./answers";
 import "./questions";
 
-require("jquery")
-require("channels")
-require("@popperjs/core")
-require("@nathanvda/cocoon")
+
+var App = App || {};
+App = ActionCable.createConsumer();
+
+require("jquery");
+require("channels");
+require("@popperjs/core");
+require("@nathanvda/cocoon");
 
 import $ from "jquery";
-window.jQuery = $
-window.$ = $
+window.jQuery = $;
+window.$ = $;
 
-require("@rails/ujs").start()
-require("turbolinks").start()
-require("@rails/activestorage").start()
+require("@rails/ujs").start();
+require("turbolinks").start();
+require("@rails/activestorage").start();
 
-//require("answers")
+

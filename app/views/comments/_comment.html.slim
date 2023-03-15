@@ -1,0 +1,14 @@
+
+  div class = "container-fluid p-2 gap-5" id ="comment_#{comment.id}"
+    div class = "row shadow-sm  p-2 bg-white"
+      div class = "col-md-6"
+        = comment.title
+        .p
+
+      div class = "col"
+        = comment.author.email
+      div class = "col "
+
+        = comment.created_at
+
+ 
