@@ -6,4 +6,8 @@ RSpec.describe User, type: :model do
   
   it { should have_many(:comments).dependent(:destroy) }
 
+  
+  it { should validate_presence_of :provider }
+  it { should validate_presence_of :uid }
+
 end
