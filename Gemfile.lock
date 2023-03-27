@@ -345,9 +345,11 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    stackprof (0.2.24)
     sys-uname (1.2.2)
       ffi (~> 1.1)
     temple (0.8.2)
+    test-prof (1.2.1)
     thor (1.2.1)
     tilt (2.0.11)
     timeout (0.3.1)
@@ -422,6 +424,8 @@ DEPENDENCIES
   shoulda-matchers (~> 5.0)
   slim-rails
   spring
+  stackprof (>= 0.2.9)
+  test-prof (~> 1.0)
   turbolinks (~> 5)
   tzinfo-data
   uri (= 0.10.0)
