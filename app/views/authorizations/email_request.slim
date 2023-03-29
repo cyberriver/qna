@@ -1,0 +1,11 @@
+h4 = 'Please clarify email'
+p
+  = form_with model: @authorization, local: false do |f|
+    = f.label :email
+    = f.email_field :email, class: "form-control", placeholder: "Pls fill email to get authorization request"
+
+    .hidden
+      = f.text_field :provider
+      = f.text_field :uid
+
+    = f.submit 'Submit'

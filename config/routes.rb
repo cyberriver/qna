@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
 
-  namespace :users do
-    get 'omniauth_callbacks/vkontakte'
-  end
   devise_for :users, controllers: {omniauth_callbacks: 'oauth_callbacks'}
 
 

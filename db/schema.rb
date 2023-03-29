@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_19_201229) do
+ActiveRecord::Schema.define(version: 2023_03_29_200043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 2023_03_19_201229) do
     t.string "uid"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "confirmed", default: false, null: false
     t.index ["provider", "uid"], name: "index_authorizations_on_provider_and_uid"
     t.index ["user_id"], name: "index_authorizations_on_user_id"
   end
