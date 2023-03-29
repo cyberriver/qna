@@ -22,7 +22,7 @@ class User < ApplicationRecord
 
   
   def self.find_for_oauth(auth)
-    Services::FindForOauth.new(auth).call
+     FindForOauth.new(auth).call
   end
 
   def create_authorization(auth)
