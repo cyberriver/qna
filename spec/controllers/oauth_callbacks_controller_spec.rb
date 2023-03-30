@@ -49,4 +49,32 @@ RSpec.describe OauthCallbacksController, type: :controller do
       end
    end
   end
+
+  #VK
+  describe 'Vkontakte' do
+    let(:oauth_data) { OmniAuth::AuthHash.new(provider: 'vkontakte', uid: '123456', info: { email: user.email }) }
+    let(:oauth_data_invalid) { OmniAuth::AuthHash.new(provider: 'vkontakte', uid: '123456', info: { email: '' }) }
+
+    context 'user exists' do
+      let!(:user) {create(:user)}
+
+      context 'provider does not return email' do
+        it 'render view to enter correct email for verification' do
+          allow(request.env).to receive(:[]).and_call_original
+          allow(request.env).to receive(:[]).with('omniauth.auth').and_return(oauth_data_invalid)
+          get :vkontakte
+
+
+          
+        end
+        it 'sends email with confirmation link'
+        it 'creates authorization after confirmation link clicked'
+        it 'check only one time email for athorization for login'
+      end
+
+    end
+
+    context 'user doesnt exist' do
+   end
+  end
 end

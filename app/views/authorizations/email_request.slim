@@ -1,11 +1,18 @@
-h4 = 'Please clarify email'
-p
-  = form_with model: @authorization, local: false do |f|
-    = f.label :email
-    = f.email_field :email, class: "form-control", placeholder: "Pls fill email to get authorization request"
 
-    .hidden
-      = f.text_field :provider
-      = f.text_field :uid
+  = form_with model: @authorization, url: send_email_verification_path, local: true do |f|
+   div class ="container"
+    div class= "card justify-content-md-center"
+      div class = "card-body"
+        h5 
+          div class = "card-title" 
+            | Please clarify email
+        div class = "mb-3"
+          = f.label :email
+          = f.email_field :email, class: "form-control", placeholder: "Pls fill email to get authorization request"
 
-    = f.submit 'Submit'
+          .hidden
+            = f.text_field :provider
+            = f.text_field :uid
+
+        = f.submit 'Confirm', class: "btn btn-primary"
+    

@@ -1,20 +1,27 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   def vkontakte
 
-    # needs to refactoring method 1 - check email if it not exist then authorize by email
-    # if exist then call find_for_oauth
-    
-    @user = User.find_for_oauth(request.env['omniauth.auth'])
     @auth = request.env['omniauth.auth']
+    @auth[:info][:email] = ''
+    
+    # case when email is exists
+    if @auth[:info][:email] != '' || @auth[:info][:email].present?
+      @user = User.find_for_oauth(request.env['omniauth.auth'])
+      redirect_after_authorization(@user)
 
-    authorize_by_email
+    else # if email does't recieved
 
-    if @user&.persisted?
-      sign_in_and_redirect @user, event: :authentication
-      set_flash_message(:notice, :success, kind: 'Vkontakte') if is_navigational_format?
-    else
-      redirect_to root_path, alert: 'Something went wrong'
-    end
+      @authorization = Authorization.find_by(provider: @auth[:provider], uid: @auth[:uid])
+
+      #user is nil, needs to find User
+
+      render 'authorizations/email_request'
+
+
+      #if @authorization.nil?
+      #  @authorization = @user.create_authorization(@auth)
+     # end
+    end    
   end
 
   def github
@@ -30,17 +37,14 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
 
   private
 
-  def authorize_by_email
-    if @auth[:info][:email].nil?
-      @authorization = Authorization.find_by(provider: auth[:provider], uid: auth[:uid])
-
-      if !@authorization || !@authorization.confirmed?
-        @authorization = @user.create_authorization(@auth)
-        render 'authorizations/email_request'
-        return
-      end
+  def redirect_after_authorization(user)
+    if user&.persisted?
+      sign_in_and_redirect user, event: :authentication
+      set_flash_message(:notice, :success, kind: 'Vkontakte') if is_navigational_format?
+    else
+      redirect_to root_path, alert: 'Something went wrong'
     end
   end
 
-
+ 
 end

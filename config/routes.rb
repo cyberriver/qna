@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   resources :comments
 
   resources :answers 
+  resources :authorizations
+
+  post 'send_email_verification', to: 'authorizations#send_email'
 
   delete "files/:id/purge", to: "files#purge", as: "purge_file"
   
