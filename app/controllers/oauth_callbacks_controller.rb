@@ -13,14 +13,13 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
 
       @authorization = Authorization.find_by(provider: @auth[:provider], uid: @auth[:uid])
 
+      if @authorization.nil?
+        @authorization = Authorization.create(provider: @auth[:provider], uid: @auth[:uid])
+      end
+
       #user is nil, needs to find User
 
       render 'authorizations/email_request'
-
-
-      #if @authorization.nil?
-      #  @authorization = @user.create_authorization(@auth)
-     # end
     end    
   end
 

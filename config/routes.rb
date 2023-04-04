@@ -15,6 +15,12 @@ Rails.application.routes.draw do
   resources :answers 
   resources :authorizations
 
+  resources :authorizations, only: [:create] do
+    member do
+      get :confirm_email
+    end
+  end
+
   post 'send_email_verification', to: 'authorizations#send_email'
 
   delete "files/:id/purge", to: "files#purge", as: "purge_file"
