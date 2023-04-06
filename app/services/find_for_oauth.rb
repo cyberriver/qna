@@ -6,7 +6,7 @@ class FindForOauth
   end
 
   def call
-    authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
+    authorization = Authorization.where(provider: auth[:provider], uid: auth[:uid]).first
     return authorization.user if authorization
 
     email = auth.info[:email]

@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     end
   end
 
-  post 'send_email_verification', to: 'authorizations#send_email'
+  patch 'send_email_verification', to: 'authorizations#send_email'
 
   delete "files/:id/purge", to: "files#purge", as: "purge_file"
   
