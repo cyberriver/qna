@@ -13,7 +13,6 @@ Rails.application.routes.draw do
   resources :comments
 
   resources :answers 
-  resources :authorizations
 
   resources :authorizations, only: [:create] do
     member do
@@ -21,7 +20,7 @@ Rails.application.routes.draw do
     end
   end
 
-  post 'send_email', to: 'authorizations#send_email'
+  patch 'send_email', to: 'authorizations#send_email'
 
   delete "files/:id/purge", to: "files#purge", as: "purge_file"
   

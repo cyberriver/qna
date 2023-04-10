@@ -9,8 +9,8 @@ class ApplicationController < ActionController::Base
     Rails.logger.info(request.headers)
   end
 
-  def current_user
-    super
+  def current_user=(user)
+    current_user = user
   rescue Devise::MissingWarden
     nil
   end

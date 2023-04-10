@@ -8,8 +8,11 @@ feature 'Oauth authentication', %q{
 } do
   
   given(:user) { create(:user) }
-  background { visit new_user_session_path }
-
+  background do 
+    clear_emails
+    visit new_user_session_path
+  end
+ 
   scenario 'Sign in with Github with valid data' do
     click_on 'Sign in with GitHub'
     expect(page).to have_content 'Successfully authenticated from GitHub account.'

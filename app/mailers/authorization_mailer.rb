@@ -4,7 +4,7 @@ class AuthorizationMailer < ApplicationMailer
     host = Rails.application.config.action_mailer.default_url_options[:host]
     port = Rails.application.config.action_mailer.default_url_options[:port]
 
-    @confimation_link =  "http://#{host}:#{port}/authorizations/#{auth.id}/confirm_email" #add parameter uid
+    @confimation_link =  "http://#{host}:#{port}/authorizations/#{auth[:id]}/confirm_email" #generated confirmation link
     puts "CONFIRMATION LINK #{@confimation_link}"
     mail(to: email, 
          content_type: "text/html",

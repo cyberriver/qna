@@ -5,10 +5,8 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def github
-    @auth = request.env['omniauth.auth']    
-    authorize(@auth,'Github') 
-   
-    
+    @auth = request.env['omniauth.auth']  
+    authorize(@auth,'GitHub')     
   end
 
   private
