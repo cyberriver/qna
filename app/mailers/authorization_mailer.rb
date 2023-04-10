@@ -1,8 +1,15 @@
 class AuthorizationMailer < ApplicationMailer
-  def verify_email
-    @authorization = Authorization.find_by(params[:id])
-    @email = params[:email]
-    @url = "http://localhost:3000/verify-email?uid=#{@authorization.uid}&provider=#{@authorization.provider}" #add parameter uid
-    mail(to: @email, subject: "Verification email from QNA service")
+  def verify_email(auth, email)
+
+    host = Rails.application.config.action_mailer.default_url_options[:host]
+    port = Rails.application.config.action_mailer.default_url_options[:port]
+
+    @confimation_link =  "http://#{host}:#{port}/authorizations/#{auth.id}/confirm_email" #add parameter uid
+    puts "CONFIRMATION LINK #{@confimation_link}"
+    mail(to: email, 
+         content_type: "text/html",
+         subject: "Verification email from QNA service") do |format|
+          format.html {render 'verify_email.html.slim'}
+         end
   end
 end
