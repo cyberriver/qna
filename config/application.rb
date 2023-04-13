@@ -10,6 +10,7 @@ module Qna
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    config.assets.paths << Rails.root.join('app', 'assets', 'webapp')
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -18,6 +19,8 @@ module Qna
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    #config.autoload_paths += [config.root.join('app')]
+    config.autoload_paths += %W(#{config.root}/app)
     config.generators do |g|
       g.test_framework :rspec,
                        view_spec:false,

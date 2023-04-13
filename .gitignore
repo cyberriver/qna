@@ -27,6 +27,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/
 
 /public/packs
 /public/packs-test
@@ -37,3 +38,7 @@ yarn-debug.log*
 /config/database.yml
 .yarn
 /yarn
+.yarn.lock
+/config/credentials/test.key
+
+/config/credentials/development.key

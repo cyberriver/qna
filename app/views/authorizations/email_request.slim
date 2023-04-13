@@ -1,0 +1,17 @@
+
+  = form_with model: @authorization, url: send_email_path, local: true do |f|
+   div class ="container"
+    div class= "card justify-content-md-center"
+      div class = "card-body"
+        h5 
+          div class = "card-title" 
+            | Email wasn't provided, pls enter and verify email
+        div class = "mb-3"
+          = f.label :email
+          = f.email_field :email, class: "form-control", placeholder: "Pls fill email to get authorization request"
+          = f.text_field :provider, value: @authorization.provider, readonly: true, hidden: true
+          = f.text_field :uid, value: @authorization.uid, readonly: true, hidden: true
+          = f.text_field :id, value: @authorization.id, readonly: true, hidden: true
+
+        = f.submit 'Confirm', class: "btn btn-primary"
+    
