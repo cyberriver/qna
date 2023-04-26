@@ -1,21 +1,59 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user)
+  attr_reader :user
 
-       user ||= User.new
+  def initialize(user)
+    @user = user
        if user 
-         if user.admin?
-           can :manage, :all#, {author: user}
-         else
-           can :read, :all
-           can :create, [Question, Answer, Comment]
-           can :update, [Question, Answer, Comment], author: user
-           can :destroy, Question, author: user
-         end
+         user.admin? ? admin_abilities : user_abilities
       else
-        can :read, :all
-      end     
-           
+        guest_abilities
+      end 
   end
+
+  def guest_abilities
+    can :read, :all   
+  end
+
+  def admin_abilities
+    can :manage, :all
+  end
+
+  def user_abilities
+    user_base_abilites
+    user_specific_abilites
+  end
+
+  def user_base_abilites
+    guest_abilities
+    can :create, [Question, Answer, Comment]
+    can :update, [Question, Answer, Comment], author: user
+    can :destroy, Question, author: user
+  end
+
+  def user_specific_abilites
+    user_abilities_with_link
+    user_abilities_with_attachement
+    user_abilities_with_vote  
+  end
+
+  def user_abilities_with_link
+    can :destroy, Link do |link|
+      user.author_of?(link.linkable)
+    end 
+  end
+  
+  def user_abilities_with_attachement
+    can :destroy, ActiveStorage::Attachment do |file|
+      user.author_of?(file.record)
+    end
+  end
+
+  def user_abilities_with_vote    
+    can %i[like dislike], [Answer, Question] do |votable|
+      !user.author_of?(votable)
+    end  
+  end
+
 end
