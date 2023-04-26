@@ -12,6 +12,8 @@ require "selenium-webdriver"
 require 'webdrivers'
 require 'capybara-screenshot'
 require 'cucumber'
+require 'cancan/matchers'
+
 require_relative "../app/services/find_for_oauth.rb"
 
 # Add additional requires below this line. Rails is not loaded until this point!

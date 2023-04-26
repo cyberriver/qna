@@ -438,6 +438,7 @@ DEPENDENCIES
   turbolinks (~> 5)
   tzinfo-data
   uri (= 0.10.0)
+  warden
   web-console (>= 4.1.0)
   webdrivers (~> 5.0)
   webpacker (~> 5.0)
