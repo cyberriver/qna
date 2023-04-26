@@ -5,12 +5,10 @@ class QuestionsController < ApplicationController
   authorize_resource
 
   def index
-   # authorize! :read, Question
     @questions = Question.all    
   end
 
   def show
-   # authorize! :read, @question
     @answer = @question.answers.new
     
     if @question.best_answer
@@ -22,7 +20,6 @@ class QuestionsController < ApplicationController
   end
 
   def new
-   # authorize! :create, Question
     @question = current_user.questions.new
     @question.links.new
     @question.reward = Reward.new
@@ -57,7 +54,6 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    authorize! :destroy, @question
     if  @question.author==current_user 
       @question.destroy
       redirect_to questions_path, notice: 'Your question successfully deleted.'

@@ -14,7 +14,7 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}" data-quest
         -if question.files.attached?
           -question.files.each do |file|
             p= link_to file.filename.to_s, url_for(file)
-            - if current_user&.author_of?(question)
+            -if can?(:destroy, file)
               p= button_to "Delete_file", purge_file_path(file), method: :delete, class: "btn btn-outline-danger", remote: true
       .links
         -if question.links.present?
@@ -25,7 +25,7 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}" data-quest
                   = javascript_include_tag("#{link.url}.js")
                 -else  
                   = link_to link.name, link.url
-                -if current_user&.author_of?(answer)
+                -if can?(:destroy, link)
                   p = link_to 'Delete link', link_path(link), method: :delete, remote: true
       .reward
         -if question.reward.present?
@@ -35,10 +35,10 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}" data-quest
     div class = "col-md-3"
       div class="d-grid gap-2 md-flex justify-content-md-end"
         = link_to "Answers", question_path(question), class: "btn btn-primary" 
-        - if current_user&.author_of?(question)
+        -if can?(:edit, question)
           = button_to "Delete", question_path(question), method: :delete, class: "btn btn-outline-danger", remote: true           
           = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-question-link', data: { question_id: question.id}
-        - elsif current_user&.not_author_of?(question)
+        - elsif can?(:like, question)
           = link_to "Like", like_path(id: question.id, liked_type: 'question', liked_params: { value:1, user_id: current_user.id }), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-primary btn-sm bi bi-hand-thumbs-up like-link"
           = link_to "Dislike", like_path(id: question.id, liked_type: 'question', liked_params: {value:-1, user_id: current_user.id}), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-danger btn-sm bi bi-hand-thumbs-down-fill dislike-link"
          
@@ -54,7 +54,7 @@ div class = "container-fluid p-2 gap-5" id ="question_#{question.id}" data-quest
       - if user_signed_in?
         = f.text_field :author_id, value: current_user.id, hidden: true
       - else 
-        = f.text_field :author_id, value: 'undefined', hidden: true
+        = f.text_field :author_id, value: 'guest', hidden: true
       = f.fields_for :links do |link|
       = link_to_add_association 'Add link', f, :links  
 

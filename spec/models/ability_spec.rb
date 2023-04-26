@@ -36,6 +36,7 @@ describe Ability, type: :model do
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
+    it { should be_able_to :create, Link }
 
     it { should be_able_to :update, create(:question, author: user) }
     it { should_not be_able_to :update, create(:question, author: other) }
@@ -68,10 +69,13 @@ describe Ability, type: :model do
     it { should be_able_to :destroy, create(:link, linkable: create(:question, author: user), url: gist_url, name: 'My gist') }
     it { should_not be_able_to :destroy, create(:link, linkable: create(:question, author: other), url: gist_url, name: 'My gist') }
 
-    # Votes
+    # likes
     it { should be_able_to :like, create(:question, author: other), author: other }
     it { should_not be_able_to :like, create(:question, author: user), author: user }
 
+    # dislikes
+    it { should be_able_to :dislike, create(:question, author: other), author: other }
+    it { should_not be_able_to :dislike, create(:question, author: user), author: user }
 
   end
 end

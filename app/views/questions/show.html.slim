@@ -18,7 +18,7 @@ div class = "container-fluid p-2 gap-5" id ="question_#{@question.id}" data-ques
          - @question.comments.each do |comment| 
            = render partial: 'comments/comment', locals: {comment: comment }
   .new_comment 
-    - if user_signed_in?              
+    - if can?(:create, Comment)            
       = link_to  "Add Comment",  make_comment_path(comment: {commentable_type: 'question',commentable_id: @question.id}), class: "btn btn-outline-primary btn-sm" 
   
   .answers
@@ -34,7 +34,6 @@ div class = "container-fluid p-2 gap-5" id ="question_#{@question.id}" data-ques
 
 div class = "container" 
   .answer
-    - if user_signed_in?
-      = render partial: 'answer'
+     = render partial: 'answer'
 
 
