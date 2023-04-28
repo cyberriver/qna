@@ -1,6 +1,7 @@
 class LikesController < ApplicationController
   
   include ResourceLiked
+  authorize_resource
 
   def like
 

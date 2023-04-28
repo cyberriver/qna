@@ -2,6 +2,7 @@ class CommentsController < ApplicationController
   after_action :publish_comment, only: [:create]
 
   include ResourceCommented
+  authorize_resource
   
   def index
     
@@ -46,13 +47,13 @@ class CommentsController < ApplicationController
 
     else 
       ActionCable.server.broadcast(
-      "comments_for_question_#{ choose_render_param }",
+      "comments_for_question_#{ choose_render_param }", {
         commentable_type: @resource_commented.class.name.downcase,
         commentable_id: @resource_commented.id,
         comment: render_comment,
-        comments_count: @resource_commented.comments.count     
+        comments_count: @resource_commented.comments.count}     
       )
-      puts "published"
+      
     end   
   
   end

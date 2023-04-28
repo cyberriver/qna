@@ -2,6 +2,8 @@ class AnswersController < ApplicationController
   before_action :load_answer,  only: [:update, :destroy, :vote]
   before_action :find_question, only: [:create, :update, :purge_attachement]
   after_action :publish_answer, only:[:create]
+
+  authorize_resource
   
   def update
     if @answer.author==current_user

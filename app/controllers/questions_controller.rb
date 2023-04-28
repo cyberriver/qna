@@ -64,10 +64,6 @@ class QuestionsController < ApplicationController
 
   private 
 
-  def method_name
-    
-  end
-
   def load_question
     @question = Question.with_attached_files.find(params[:id])    
   end

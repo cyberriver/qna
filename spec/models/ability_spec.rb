@@ -77,5 +77,8 @@ describe Ability, type: :model do
     it { should be_able_to :dislike, create(:question, author: other), author: other }
     it { should_not be_able_to :dislike, create(:question, author: user), author: user }
 
+    # Rewards
+    it { should be_able_to :read, :all }
+
   end
 end

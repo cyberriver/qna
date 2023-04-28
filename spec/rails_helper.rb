@@ -46,7 +46,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.include Devise::Test::ControllerHelpers, type: :controller
-  config.include Devise::Test::IntegrationHelpers, type: :request
+  #config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ControllerHelpers, type: :request
   config.include FeatureHelpers, type: :feature
   Capybara.javascript_driver = :selenium_chrome_headless

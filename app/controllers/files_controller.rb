@@ -1,6 +1,8 @@
 class FilesController < ApplicationController  
   before_action :authenticate_user!
 
+  authorize_resource
+
   def purge
     file = ActiveStorage::Attachment.find(params[:id])
     file.purge

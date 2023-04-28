@@ -52,8 +52,6 @@ feature 'User can create the answer for question', %q{
         expect(page).to have_link "spec_helper.rb"  
       end            
     end
-
-
   end
 
   scenario 'Unauthenticated user, could not answer the question', js: true do

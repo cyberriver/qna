@@ -8,7 +8,7 @@ feature 'Add comment', %q{
   given!(:user2){create(:user)}
   given!(:question) {create(:question, author: user)}
 
-  scenario 'Any authenticaed user should comment the question' do
+  scenario 'Any authenticaed user should comment the question', js: true do
     Capybara.using_session('user2') do
       sign_in(user2)      
       visit question_path(question.id)
@@ -20,22 +20,21 @@ feature 'Add comment', %q{
     end
 
     Capybara.using_session('user2') do
-      within(page.find(id: "question_#{question.id}")) do
-        click_on 'Add Comment'
-      end    
 
-      fill_in 'Title', with: "Test Comment Capybara"
-      click_on 'Save comment' 
-      
-      expect(page.body).to have_content 'Test Comment Capybara'
+      click_on 'Add Comment'
 
+      within '.new-comment' do
+        fill_in 'Title', with: "Test Comment Capybara"
+        click_on 'Save comment'   
+      end        
+  
+        expect(page).to have_content 'Test Comment Capybara'
     end
 
     Capybara.using_session('user') do
-      expect(page.body).to have_content 'Test Comment Capybara'
-    end
-      
-    
+      expect(page).to have_content 'Test Comment Capybara'
+ 
+    end 
   end
 
 end
