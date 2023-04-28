@@ -16,6 +16,9 @@ require 'cancan/matchers'
 
 require_relative "../app/services/find_for_oauth.rb"
 
+Rails.application.config.middleware.insert_before Warden::Manager, ActionDispatch::Cookies
+Rails.application.config.middleware.insert_before Warden::Manager, ActionDispatch::Session::CookieStore
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -46,8 +49,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.include Devise::Test::ControllerHelpers, type: :controller
-  #config.include Devise::Test::IntegrationHelpers, type: :request
-  config.include ControllerHelpers, type: :request
+  config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
   Capybara.javascript_driver = :selenium_chrome_headless
 

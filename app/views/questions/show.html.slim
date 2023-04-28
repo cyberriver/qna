@@ -32,8 +32,9 @@ div class = "container-fluid p-2 gap-5" id ="question_#{@question.id}" data-ques
       - else 
        | No answers found. Pls add some answer
 
-div class = "container" 
-  .answer
-     = render partial: 'answer'
+  div class = "container" 
+    .answer
+      - if can?(:create, Answer)   
+        = render partial: 'questions/answer'
 
 

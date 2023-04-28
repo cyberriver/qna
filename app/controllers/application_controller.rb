@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
   before_action :authenticate_user!, except: [:index, :show]
   before_action :gon_params_user
   
@@ -8,7 +9,6 @@ class ApplicationController < ActionController::Base
   end
 
   check_authorization unless: :devise_controller?
-
 
   private
 

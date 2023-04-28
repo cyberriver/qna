@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 feature 'User can create the answer for question', %q{
   in order to answer the question
   User can answer the question
@@ -15,6 +16,7 @@ feature 'User can create the answer for question', %q{
       visit question_path(question)
     end
 
+ 
     scenario 'Authenticated user can answer the question directly on the same page' do
      
       within '.answer' do
@@ -28,7 +30,7 @@ feature 'User can create the answer for question', %q{
       end            
     end
 
-    scenario 'Authenticated user answer the question with invalid data' do
+    scenario 'Authenticated user answer the question with invalid data', js:true do
       
       fill_in 'Title', with: ''
       click_on 'Make Answer'
@@ -38,7 +40,7 @@ feature 'User can create the answer for question', %q{
       end
     end
 
-    scenario 'Authenticated user can add several files with answer' do
+    scenario 'Authenticated user can add several files with answer', js:true do
       within '.answer' do
         fill_in 'Title', with: 'My RSPEC test answer'
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb","#{Rails.root}/spec/spec_helper.rb"]
