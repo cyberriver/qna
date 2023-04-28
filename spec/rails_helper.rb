@@ -16,8 +16,6 @@ require 'cancan/matchers'
 
 require_relative "../app/services/find_for_oauth.rb"
 
-Rails.application.config.middleware.insert_before Warden::Manager, ActionDispatch::Cookies
-Rails.application.config.middleware.insert_before Warden::Manager, ActionDispatch::Session::CookieStore
 
 # Add additional requires below this line. Rails is not loaded until this point!
 

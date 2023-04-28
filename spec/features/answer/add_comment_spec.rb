@@ -1,9 +1,5 @@
 require 'rails_helper'
 
-Rails.application.config.middleware.insert_before Warden::Manager, ActionDispatch::Cookies
-Rails.application.config.middleware.insert_before Warden::Manager, ActionDispatch::Session::CookieStore
-
-
 feature 'Add comment', %q{
   in order to comment the answer
   Authenticated use can click "Comment" and add comment.
