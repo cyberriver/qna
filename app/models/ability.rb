@@ -32,12 +32,14 @@ class Ability
     can :update, [Question, Answer, Comment], author: user
     can :destroy, [Question, Answer, Comment, Link], author: user
     can :vote, Answer, question: { author: user}
+    can :like, Question 
+    cannot :like, Question, author: user
   end
 
   def user_specific_abilites
     user_abilities_with_link
     user_abilities_with_attachement
-    user_abilities_with_vote  
+
   end
 
   def user_abilities_with_link
@@ -50,12 +52,6 @@ class Ability
     can :destroy, ActiveStorage::Attachment do |file|
       user.author_of?(file.record)
     end
-  end
-
-  def user_abilities_with_vote    
-    can %i[like dislike], [Answer, Question] do |votable|
-      !user.author_of?(votable)
-    end  
   end
 
 end

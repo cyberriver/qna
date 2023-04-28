@@ -6,13 +6,8 @@ class AnswersController < ApplicationController
   authorize_resource
   
   def update
-    if @answer.author==current_user
       @answer.update(answer_params)
       @question = @answer.question
-    else
-      redirect_to question_path(@answer.question), alert: "You don't have permissons."
-      
-    end   
   end
 
   def create
@@ -37,12 +32,8 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@answer) 
       @answer.destroy
-    else
-      redirect_to question_path(@answer.question), alert: "You don't have permissons."
-    end 
-  end
+   end
 
   def my_answers
     @answers = current_user.answers.all

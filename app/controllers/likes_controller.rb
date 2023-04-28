@@ -1,9 +1,9 @@
 class LikesController < ApplicationController
   
   include ResourceLiked
-  authorize_resource
 
   def like
+    authorize! :like, @resource_liked
 
     if @resource_liked.likes.where(user_id: @author_like).count == 0
       @like = @resource_liked.likes.new(likes_params)

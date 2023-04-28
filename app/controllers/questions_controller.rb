@@ -40,26 +40,19 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if  current_user.author_of?(@question) 
-      @question.update(question_params)
+    @question.update(question_params)
       if @question.save
         redirect_to questions_path
       else
         render :index
       end 
-    else
-      redirect_to questions_path, alert: "You don't have permissons."
-    end   
-    
-  end
+ 
+  end     
+
 
   def destroy
-    if  @question.author==current_user 
-      @question.destroy
-      redirect_to questions_path, notice: 'Your question successfully deleted.'
-    else
-      redirect_to questions_path, alert: "You don't have permissons."
-    end   
+    @question.destroy
+    redirect_to questions_path, notice: 'Your question successfully deleted.'
   end
 
   private 
