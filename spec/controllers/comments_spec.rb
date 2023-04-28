@@ -1,7 +1,4 @@
 require 'rails_helper'
-Rails.application.config.middleware.insert_before Warden::Manager, ActionDispatch::Cookies
-Rails.application.config.middleware.insert_before Warden::Manager, ActionDispatch::Session::CookieStore
-
 
 RSpec.describe CommentsController, type: :controller do
   let(:user) { create(:user) }
