@@ -1,6 +1,7 @@
 require 'rails_helper'
 FactoryBot.reload
 
+
 RSpec.describe "Answers", type: :request do
   let!(:user) {create(:user)}
   let(:question) {create(:question, author: user)} 

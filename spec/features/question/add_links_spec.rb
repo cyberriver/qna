@@ -1,4 +1,5 @@
 require 'rails_helper'
+require "cancan/matchers"
 
 feature 'User can add links to question', %q{
   In order to provide additional info to my question

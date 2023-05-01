@@ -12,7 +12,10 @@ require "selenium-webdriver"
 require 'webdrivers'
 require 'capybara-screenshot'
 require 'cucumber'
+require 'cancan/matchers'
+
 require_relative "../app/services/find_for_oauth.rb"
+
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -44,8 +47,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.include Devise::Test::ControllerHelpers, type: :controller
-  config.include Devise::Test::IntegrationHelpers, type: :request
-  config.include ControllerHelpers, type: :request
+  config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
   Capybara.javascript_driver = :selenium_chrome_headless
 

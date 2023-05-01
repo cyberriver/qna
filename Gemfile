@@ -26,10 +26,12 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'devise'
+gem 'warden'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
 gem 'omniauth-rails_csrf_protection'
+gem 'cancancan'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -52,6 +54,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
   gem 'factory_bot_rails'
+  gem 'warden-rspec-rails'
   
 end
 

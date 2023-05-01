@@ -81,7 +81,7 @@ Run yarn to migrate nodelinker
 ### Installation postgresql for Ubuntu 20.04
 
 > sudo apt update && sudo apt upgrade
-> sudo apt install postgresql postgresql-contrib
+> sudo apt install postgresql postgresql-contrib 
 after pls check
 > psql --version
 
@@ -95,6 +95,8 @@ to check status
 To create the proper user
 > sudo -u postgres psql
 > create user USER_NAME password 'PASSWORD';
+if it doesn't have necessary rights
+> ALTER USER [USER_NAME] WITH CREATEDB;
 
 4. Install rails (6.1, pls check version in Gemfile)
 ## Installing rails gem

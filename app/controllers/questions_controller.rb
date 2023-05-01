@@ -1,7 +1,8 @@
-class QuestionsController < ApplicationController
- 
+class QuestionsController < ApplicationController 
   before_action :load_question, only: [:show, :update, :destroy]
   after_action :publish_question, only: [:create]
+
+  authorize_resource
 
   def index
     @questions = Question.all    
@@ -39,33 +40,22 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if  current_user.author_of?(@question) 
-      @question.update(question_params)
+    @question.update(question_params)
       if @question.save
         redirect_to questions_path
       else
         render :index
       end 
-    else
-      redirect_to questions_path, alert: "You don't have permissons."
-    end   
-    
-  end
+ 
+  end     
+
 
   def destroy
-    if  @question.author==current_user 
-      @question.destroy
-      redirect_to questions_path, notice: 'Your question successfully deleted.'
-    else
-      redirect_to questions_path, alert: "You don't have permissons."
-    end   
+    @question.destroy
+    redirect_to questions_path, notice: 'Your question successfully deleted.'
   end
 
   private 
-
-  def method_name
-    
-  end
 
   def load_question
     @question = Question.with_attached_files.find(params[:id])    
