@@ -248,11 +248,8 @@ Devise.setup do |config|
 
   # Configure the default scope given to Warden. By default it's the first
   # devise role declared in your routes (usually :user).
-<<<<<<< HEAD
+
    config.default_scope = :user
-=======
-  # config.default_scope = :user
->>>>>>> c25a48c (fixed)
 
   # Set this configuration to false if you want /users/sign_out to sign out
   # only the current scope. By default, Devise signs out all scopes.
@@ -275,18 +272,7 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-<<<<<<< HEAD
 
-   config.omniauth :github, 
-                   Rails.application.credentials[Rails.env.to_sym][:github][:app_id],
-                   Rails.application.credentials[Rails.env.to_sym][:github][:app_secret],                 
-                   scope: 'user:email, read:user'
-
-   config.omniauth :vkontakte, 
-                  Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_id], 
-                  Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_secret],                    
-                   scope: 'email'
-=======
    config.omniauth :vkontakte, 
                   Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_id], 
                   Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_secret],
@@ -296,7 +282,6 @@ Devise.setup do |config|
                    lang: 'en',
                    https: 1,
                    image_size: 'original'
->>>>>>> c25a48c (fixed)
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

@@ -20,7 +20,7 @@ FROM base as build
 
 # Install packages need to build gems and node modules
 RUN apt-get update -qq && \
-    apt-get install -y build-essential curl default-libmysqlclient-dev git libpq-dev libvips node-gyp pkg-config python-is-python3
+    apt-get install -y build-essential curl  git libpq-dev libvips node-gyp pkg-config yarn nodejs postgresql postgresql-contrib python-is-python3
 
 # NOTE: Uncomment if you're using JavaScript also
 # Install JavaScript dependencies
@@ -41,8 +41,8 @@ RUN bundle install && \
 
 # NOTE: Uncomment if you're using JavaScript also
 # Install node modules
-# COPY --link package.json yarn.lock ./
-# RUN yarn install --frozen-lockfile
+ COPY --link package.json yarn.lock ./
+ RUN yarn install --frozen-lockfile
 
 # Copy application code
 COPY --link . .
