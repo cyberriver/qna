@@ -1,23 +1,31 @@
 version: '3.3'
 
 services:
+  db:
+    container_name: app_db
+    image: postgres:15.2-alpine    
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PGPORT= 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - db_volume:/var/lib/postgresql/data:cached
+      - ./dumps/:/docker-entrypoint-initdb.d            
+
   web:
+    container_name: app_web
     image: qna:latest
     ports:
       - 3000:3000
     environment:
-      - DATABASE_URL=postgres://postgres@postgres42/somedatabase_production
+      - DATABASE_URL=postgres://postgres@db/test_mrsk_app_production
       - RAILS_LOG_TO_STDOUT=1
-
-
-  postgres42:
-    image: postgres:15.2-alpine
     volumes:
-      - postgres_vol:/var/lib/postgresql/data:cached
-      - ./dumps/:/docker-entrypoint-initdb.d
-    environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
-      - PGPORT= 5435      
+      - .:/usr/qna/app
+    depends_on:
+      - db
 
 volumes:
-  postgres_vol:
+  db_volume:
+
