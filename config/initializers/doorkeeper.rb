@@ -10,11 +10,21 @@ Doorkeeper.configure do
     current_user || warden.authenticate!(scope: :user)
   end
 
+  resource_owner_from_credentials do |_routes|
+    User.authenticate(params[:email], params[:password])
+  end
+
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
   # adding oauth authorized applications. In other case it will return 403 Forbidden response
   # every time somebody will try to access the admin web interface.
   #
+  use_refresh_token
+
+  enforce_configured_scopes
+
+
+
   admin_authenticator do
     # Put your admin authentication logic here.
     # Example implementation:
@@ -227,8 +237,8 @@ Doorkeeper.configure do
   # For more information go to
   # https://doorkeeper.gitbook.io/guides/ruby-on-rails/scopes
   #
-  default_scopes  :public
-  optional_scopes :write, :update
+  # default_scopes  :public
+  # optional_scopes :write, :update
 
   # Allows to restrict only certain scopes for grant_type.
   # By default, all the scopes will be available for all the grant types.
@@ -345,6 +355,7 @@ Doorkeeper.configure do
   #   https://datatracker.ietf.org/doc/html/rfc6819#section-4.4.3
   #
   # grant_flows %w[authorization_code client_credentials]
+    grant_flows %w[password]
 
   # Allows to customize OAuth grant flows that +each+ application support.
   # You can configure a custom block (or use a class respond to `#call`) that must
@@ -503,4 +514,8 @@ Doorkeeper.configure do
   # WWW-Authenticate Realm (default: "Doorkeeper").
   #
   # realm "Doorkeeper"
+
+  skip_authorization do
+    true
+  end
 end
