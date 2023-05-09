@@ -21,7 +21,7 @@ describe 'Questions API', type: :request do
       let(:access_token) { create(:access_token ) }
       let!(:questions) { create_list(:question, 2) }
       let(:question) { questions.first }
-      let(:question_response) { json.first }
+      let(:question_response) {json['questions'].first }
       let!(:answers) { create_list(:answer,3, question: question)}
 
       before { get base_uri, params: { access_token: access_token.token }, headers: headers }
@@ -53,6 +53,8 @@ describe 'Questions API', type: :request do
             expect(answer_response[attr]).to eq answer.send(attr).as_json
           end
         end
+
+        it 
       end
     end    
   end
