@@ -6,6 +6,7 @@ describe 'Questions API', type: :request do
   let(:base_uri) { "/api/v1/questions" }
 
   describe 'GET /api/v1/questions' do
+    let(:method) { :get }
     context 'unauthorized' do
       it 'returns 401 status if there  is no access_token' do
         get base_uri, headers: headers
@@ -26,12 +27,12 @@ describe 'Questions API', type: :request do
 
       before { get base_uri, params: { access_token: access_token.token }, headers: headers }
 
-      it 'returns 200 status' do
+      it 'returns 200 status' do       
         expect(response).to have_http_status(:success)
       end
 
       it 'returns list of questions' do
-        expect(json.size).to eq 2
+        expect(json['questions'].size).to eq 2
       end
 
       it 'returns all public data' do 

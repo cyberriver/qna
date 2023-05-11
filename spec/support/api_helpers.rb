@@ -1,6 +1,6 @@
 module ApiHelpers
   def json
-    @json ||= JSON.parse(response.body)
+    @json = JSON.parse(response.body)
   end 
   
   def do_request(method, path, options = {})
