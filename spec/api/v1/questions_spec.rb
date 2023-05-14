@@ -22,41 +22,55 @@ describe 'Questions API', type: :request do
       let(:access_token) { create(:access_token ) }
       let!(:questions) { create_list(:question, 2) }
       let(:question) { questions.first }
-      let(:question_response) {json['questions'].first }
       let!(:answers) { create_list(:answer,3, question: question)}
+      #let!(:comments){ create_list(:comment,3, question: question)}
+      let(:questions_response) {json['questions'].first}
+      let(:question_response) {json['question'] }
 
-      before { get base_uri, params: { access_token: access_token.token }, headers: headers }
 
-      it 'returns 200 status' do       
-        expect(response).to have_http_status(:success)
-      end
+      context 'request for questions data' do
+        before { get base_uri, params: { access_token: access_token.token }, headers: headers }
 
-      it 'returns list of questions' do
-        expect(json['questions'].size).to eq 2
-      end
-
-      it 'returns all public data' do 
-        %w[title body author_id created_at updated_at].each do |attr|
-          expect(question_response[attr]).to eq question.send(attr).as_json
+        it 'returns 200 status' do       
+          expect(response).to have_http_status(:success)
         end
-      end
 
-      describe 'answers' do
-        let(:answer) { answers.first }
-        let(:answer_response) { question_response['answers'].first }
-
-        it 'returns list of answers' do
-          expect(question_response['answers'].size).to eq 3
+        it 'returns list of questions' do
+          expect(json['questions'].size).to eq questions.count
         end
 
         it 'returns all public data' do 
+          %w[title body author_id created_at updated_at].each do |attr|
+            expect(questions_response[attr]).to eq question.send(attr).as_json
+          end
+        end
+      end
+
+      context 'request for question data' do
+        before { get base_uri+"/#{question.id}", params: { access_token: access_token.token }, headers: headers }
+        let(:answer) { answers.first }
+        let(:answer_response) { question_response['answers'].first }
+
+        it 'returns all public data of requested question' do 
+          %w[title body author_id created_at updated_at].each do |attr|
+            expect(question_response[attr]).to eq question.send(attr).as_json
+          end
+        end
+
+        it 'returns list of answers' do
+          expect(question_response['answers'].size).to eq answers.count
+        end
+
+        it 'returns all public answer data for requested question' do 
           %w[title author_id created_at updated_at].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json
           end
         end
-
-        it 
-      end
+        
+        it 'returns list of comments' do
+          expect(question_response['comments'].size).to eq answers.count
+        end
+      end 
     end    
   end
 end
