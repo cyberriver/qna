@@ -19,13 +19,16 @@ describe 'Questions API', type: :request do
     end
 
     context 'authorized' do
+      let(:user) { create(:user)}
       let(:access_token) { create(:access_token ) }
       let!(:questions) { create_list(:question, 2) }
       let(:question) { questions.first }
       let!(:answers) { create_list(:answer,3, question: question)}
-      #let!(:comments){ create_list(:comment,3, question: question)}
+      let!(:answer) { answers.first}
       let(:questions_response) {json['questions'].first}
       let(:question_response) {json['question'] }
+      let!(:comments_question) { create_list(:comment, 3, commentable: question, author: user) }
+      let!(:comments_answer) { create_list(:comment, 2, commentable: answer, author: user) }
 
 
       context 'request for questions data' do
@@ -50,6 +53,8 @@ describe 'Questions API', type: :request do
         before { get base_uri+"/#{question.id}", params: { access_token: access_token.token }, headers: headers }
         let(:answer) { answers.first }
         let(:answer_response) { question_response['answers'].first }
+        let(:comment_response) { question_response['comments'].first }
+
 
         it 'returns all public data of requested question' do 
           %w[title body author_id created_at updated_at].each do |attr|
@@ -65,10 +70,17 @@ describe 'Questions API', type: :request do
           %w[title author_id created_at updated_at].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json
           end
+
         end
         
         it 'returns list of comments' do
-          expect(question_response['comments'].size).to eq answers.count
+          expect(question_response['comments'].size).to eq comments_question.count
+        end
+
+        it 'returns all public comment data for requested question' do
+          %w[title author_id created_at updated_at].each do |attr|
+            expect(comment_response[attr]).to eq comments_question.first.send(attr).as_json
+          end
         end
       end 
     end    
