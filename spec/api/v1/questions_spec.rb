@@ -67,7 +67,6 @@ describe 'Questions API', type: :request do
           get base_uri+"/#{question.id}", params: { access_token: access_token.token }, headers: headers 
         end
         
-        let(:answer) { answers.first }
         let(:answer_response) { question_response['answers'].first }
         let(:comment_response) { question_response['comments'].first }
 
