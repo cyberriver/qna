@@ -29,6 +29,8 @@ describe 'Questions API', type: :request do
       let(:question_response) {json['question'] }
       let!(:comments_question) { create_list(:comment, 3, commentable: question, author: user) }
       let!(:comments_answer) { create_list(:comment, 2, commentable: answer, author: user) }
+      let!(:url){'https://gist.github.com/cyberriver/b3373d10e9723eb90211e920d2d4204b'}
+      let!(:links_question) { create_list(:link, 3, linkable: question, url: url) }
      
 
       context 'request for questions data' do
@@ -100,8 +102,12 @@ describe 'Questions API', type: :request do
           expect(question_response['files'].size).to eq question.files.count
         end
 
-        it 'returns the  public files data' do
+        it 'returns the  public file data: file full path' do
           expect(question_response['files'].first).to eq rails_blob_path( question.files.first, only_path: true)
+        end
+
+        it 'returns the list of links' do
+          expect(question_response['links'].size).to eq question.links.count
         end
       end 
     end    
