@@ -29,7 +29,7 @@ describe 'Questions API', type: :request do
       let(:question_response) {json['question'] }
       let!(:comments_question) { create_list(:comment, 3, commentable: question, author: user) }
       let!(:comments_answer) { create_list(:comment, 2, commentable: answer, author: user) }
-
+     
 
       context 'request for questions data' do
         before { get base_uri, params: { access_token: access_token.token }, headers: headers }
@@ -50,7 +50,21 @@ describe 'Questions API', type: :request do
       end
 
       context 'request for question data' do
-        before { get base_uri+"/#{question.id}", params: { access_token: access_token.token }, headers: headers }
+        before do
+          question.files.attach(
+            io: File.open("#{Rails.root}/spec/rails_helper.rb"),
+            filename: 'rails_helper.rb',
+            content_type: 'application/rb'
+          )
+
+          question.files.attach(
+            io: File.open("#{Rails.root}/spec/spec_helper.rb"),
+            filename: 'spec_helper.rb',
+            content_type: 'application/rb'
+          )
+          get base_uri+"/#{question.id}", params: { access_token: access_token.token }, headers: headers 
+        end
+        
         let(:answer) { answers.first }
         let(:answer_response) { question_response['answers'].first }
         let(:comment_response) { question_response['comments'].first }
@@ -70,7 +84,6 @@ describe 'Questions API', type: :request do
           %w[title author_id created_at updated_at].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json
           end
-
         end
         
         it 'returns list of comments' do
@@ -81,6 +94,14 @@ describe 'Questions API', type: :request do
           %w[title author_id created_at updated_at].each do |attr|
             expect(comment_response[attr]).to eq comments_question.first.send(attr).as_json
           end
+        end
+
+        it 'returns the list of files' do
+          expect(question_response['files'].size).to eq question.files.count
+        end
+
+        it 'returns the  public files data' do
+          expect(question_response['files'].first).to eq rails_blob_path( question.files.first, only_path: true)
         end
       end 
     end    
