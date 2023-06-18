@@ -1,6 +1,7 @@
 class Api::V1::BaseController < ApplicationController
   skip_authorization_check
   skip_before_action :authenticate_user!
+  skip_before_action :gon_params_user
   before_action :doorkeeper_authorize!
 
   private

@@ -108,7 +108,27 @@ describe 'Questions API', type: :request do
         it 'returns the list of links' do
           expect(question_response['links'].size).to eq question.links.count
         end
-      end 
+      end
+      
+      context 'CRUD operations with question' do
+        before do
+          post base_uri, params:{
+                           access_token: access_token.token,
+                           question: {
+                             title: "Request API Question", 
+                             body: "Is it Success?", 
+                             author_id: user.id
+                          }
+                        }.to_json, headers: headers
+        end
+
+          it 'it creates new question' do
+            expect(response).to have_http_status(:success)        
+
+        end
+
+        
+      end
     end    
   end
 end
