@@ -1,5 +1,5 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  before_action :load_question, only: [:show]
+  before_action :load_question, only: [:show, :update, :destroy]
 
   def index
     @questions = Question.all
@@ -17,9 +17,23 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     else
       render json: {
         errors: @question.errors.full_messages
-      }, status: 400
+      }, status: :unprocessable_entity
     end 
   end
+
+  def update
+    question = Question.find(params[:id])
+    if question.update(question_params)
+      render json: question, serializer: QuestionSerializer, status: :ok
+    else
+      render json: question.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @question.destroy
+    head :no_content
+  end 
 
   private
 

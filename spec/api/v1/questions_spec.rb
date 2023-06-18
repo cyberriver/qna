@@ -111,23 +111,39 @@ describe 'Questions API', type: :request do
       end
       
       context 'CRUD operations with question' do
-        before do
-          post base_uri, params:{
-                           access_token: access_token.token,
-                           question: {
-                             title: "Request API Question", 
-                             body: "Is it Success?", 
-                             author_id: user.id
-                          }
-                        }.to_json, headers: headers
-        end
-
-          it 'it creates new question' do
+        it 'it creates new question' do
+            post base_uri, params:{
+              access_token: access_token.token,
+              question: {
+                title: "Request API Question", 
+                body: "Is it Success?", 
+                author_id: user.id
+             }
+           }.to_json, headers: headers
             expect(response).to have_http_status(:success)        
 
-        end
+          end
 
-        
+          it 'it changes the question' do
+            patch "#{base_uri}/#{question.id}", params: {
+                                                  access_token: access_token.token,
+                                                  question: {
+                                                    title: "CHANGED API Question", 
+                                                    body: "Is it Success?", 
+                                                    author_id: user.id
+                                                  }
+                                                }.to_json, headers: headers
+
+            expect(question_response['title']).to eq "CHANGED API Question"
+          end
+
+          it 'it deletes the question' do
+            delete "#{base_uri}/#{question.id}", params: {
+                                                  access_token: access_token.token,                                                 
+                                                }.to_json, headers: headers
+
+            expect(response).to have_http_status(:success)      
+          end    
       end
     end    
   end
