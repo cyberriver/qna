@@ -120,8 +120,7 @@ describe 'Questions API', type: :request do
                 author_id: user.id
              }
            }.to_json, headers: headers
-            expect(response).to have_http_status(:success)        
-
+            expect(response).to have_http_status(:success)
           end
 
           it 'it changes the question' do
@@ -143,7 +142,34 @@ describe 'Questions API', type: :request do
                                                 }.to_json, headers: headers
 
             expect(response).to have_http_status(:success)      
-          end    
+          end
+
+          it 'it creates new question' do
+            post base_uri, params:{
+              access_token: access_token.token,
+              question: {
+                title: "Request API Question", 
+                body: "Is it Success?", 
+                author_id: user.id
+             }
+           }.to_json, headers: headers
+            expect(response).to have_http_status(:success) 
+          end
+      end
+
+      context 'CRUD operations with answer' do
+        it 'it creates new answer for the question' do
+            post "#{base_uri}/#{question.id}/answers", params:{
+                                                access_token: access_token.token,
+                                                answer: {
+                                                  title: "Request API Answer",
+                                                  question_id: question.id,
+                                                  author_id: user.id
+                                                  } 
+                                                }.to_json, headers: headers
+            expect(response).to have_http_status(:success)
+          end
+         
       end
     end    
   end
