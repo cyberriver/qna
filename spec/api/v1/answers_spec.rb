@@ -7,23 +7,14 @@ describe 'Answer API', type: :request do
 
   describe 'GET /api/v1/answers' do
     let(:method) { :get }
-    context 'unauthorized' do
-      it 'returns 401 status if there  is no access_token' do
-        get base_uri, headers: headers
-        expect(response).to have_http_status(:unauthorized)
-      end
-      it 'returns 401 status if access_token is invalid' do
-        get base_uri, params: { access_token: '1234' }, headers: headers
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
+    it_behaves_like 'API Authorizable'
 
     context 'authorized' do
       let(:user) { create(:user)}
       let(:access_token) { create(:access_token ) }
-      let!(:questions) { create_list(:question, 2) }
+      let!(:questions) { create_list(:question, 2, author: user.id) }
       let(:question) { questions.first }
-      let!(:answers) { create_list(:answer,3, question: question)}
+      let!(:answers) { create_list(:answer,3, question: question, author: user.id}
       let!(:answer) { answers.first}
       let(:answer_response) {json['answer'] }
       let!(:comments_answer) { create_list(:comment, 2, commentable: answer, author: user) }
