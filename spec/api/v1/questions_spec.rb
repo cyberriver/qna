@@ -20,10 +20,10 @@ describe 'Questions API', type: :request do
 
     context 'authorized' do
       let(:user) { create(:user)}
-      let(:access_token) { create(:access_token ) }
-      let!(:questions) { create_list(:question, 2) }
+      let(:access_token) { create(:access_token,resource_owner_id: user.id ) }
+      let!(:questions) { create_list(:question, 2, author:user) }
       let(:question) { questions.first }
-      let!(:answers) { create_list(:answer,3, question: question)}
+      let!(:answers) { create_list(:answer,3, question: question, author:user)}
       let!(:answer) { answers.first}
       let(:questions_response) {json['questions'].first}
       let(:question_response) {json['question'] }
@@ -132,7 +132,7 @@ describe 'Questions API', type: :request do
                                                     author_id: user.id
                                                   }
                                                 }.to_json, headers: headers
-
+            expect(response.body).not_to be_empty
             expect(question_response['title']).to eq "CHANGED API Question"
           end
 
