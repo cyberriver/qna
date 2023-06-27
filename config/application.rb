@@ -19,8 +19,12 @@ module Qna
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    #config.autoload_paths += [config.root.join('app')]
+    config.autoload_paths += [config.root.join('app')]
     config.autoload_paths += %W(#{config.root}/app)
+    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/app/services)
+    #config.autoload_paths += Dir[Rails.root.join('app', '**/')]
+
     config.generators do |g|
       g.test_framework :rspec,
                        view_spec:false,
@@ -28,7 +32,7 @@ module Qna
                        routing_specs: false,
                        request_specs: false
     end
-
+    config.active_job.queue_adapter = :sidekiq
     config.active_storage.replace_on_assign_to_many = false
     config.action_cable.disable_request_forgery_protection = false
     

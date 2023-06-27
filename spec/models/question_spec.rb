@@ -16,5 +16,14 @@ RSpec.describe Question, type: :model do
   it 'have many attached file ' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
-  
+
+  describe 'reputation' do
+    let(:user) { create :user }
+    let(:question){ build(:question, author: user)}
+
+    it 'calls Services::Reputation#calucate' do
+      expect(Reputation).to receive(:calculate).with(question)
+      question.save!
+    end
+  end  
 end
