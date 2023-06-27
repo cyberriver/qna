@@ -4,6 +4,10 @@ class Api::V1::BaseController < ApplicationController
   skip_before_action :gon_params_user
   before_action :doorkeeper_authorize!
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to  root_url, alert: exception.message  
+  end
+
   private
 
   def current_resource_owner
