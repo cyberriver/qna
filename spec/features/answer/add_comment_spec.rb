@@ -8,6 +8,8 @@ feature 'Add comment', %q{
   given!(:user2){create(:user)}
   given!(:question) {create(:question, author: user)}
   given!(:answer) {create(:answer, question: question, author: user)}
+  let(:comment) { create(:comment, commentable: question, user: user) }
+  let(:comment) { create(:comment, commentable: answer, user: user) }
 
   scenario 'Any authenticaed user should comment the question' do
     sign_in(user2)      

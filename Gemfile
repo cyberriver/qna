@@ -32,6 +32,8 @@ gem 'omniauth-github'
 gem 'omniauth-vkontakte'
 gem 'omniauth-rails_csrf_protection'
 gem 'cancancan'
+gem 'doorkeeper'
+gem 'active_model_serializers', '~> 0.10.0'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -40,6 +42,7 @@ gem 'jquery-rails'
 gem "cocoon"
 gem 'render_async'
 gem 'gon'
+gem 'oj'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

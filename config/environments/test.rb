@@ -58,4 +58,17 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+
+  OmniAuth.config.test_mode = true
+  OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({
+      'provider' => 'github',
+      'uid' => '123',
+      'info' => { 'email' => 'sample@github.com' }
+    })
+
+  OmniAuth.config.mock_auth[:vkontakte] = OmniAuth::AuthHash.new({
+      'provider' => 'vkontakte',
+      'uid' => '234',
+      'info' => { 'email' => 'sample@vk.com' }
+    })
 end
