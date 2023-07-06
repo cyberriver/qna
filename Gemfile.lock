@@ -206,6 +206,8 @@ GEM
     multi_json (1.15.0)
     multi_test (1.1.0)
     multi_xml (0.6.0)
+    mustermann (3.0.0)
+      ruby2_keywords (~> 0.0.1)
     net-http (0.3.2)
       uri
     net-imap (0.3.6)
@@ -353,6 +355,11 @@ GEM
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
       redis-client (>= 0.11.0)
+    sinatra (3.0.5)
+      mustermann (~> 3.0)
+      rack (~> 2.2, >= 2.2.4)
+      rack-protection (= 3.0.5)
+      tilt (~> 2.0)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
@@ -456,6 +463,7 @@ DEPENDENCIES
   selenium-webdriver (>= 4.0.0.rc1)
   shoulda-matchers (~> 5.0)
   sidekiq
+  sinatra
   slim-rails
   spring
   stackprof (>= 0.2.9)

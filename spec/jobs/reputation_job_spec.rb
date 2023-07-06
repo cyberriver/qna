@@ -1,5 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ReputationJob, type: :job do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let!(:user) { create :user }
+  let(:question){ create(:question, author: user)}
+
+  it 'calls Services::Reputation#calucate' do
+    expect(ReputationJob).to receive(:perform_later).with(question)
+    ReputationJob.perform_later(question)
+  end
 end
