@@ -1,2 +1,5 @@
 h1 DailyDigest#digest
 p = "#{@greeting}, find me in app/views/daily_digest_mailer/digest.html.slim"
+ul
+  - @questions.each do |question|
+    li= link_to question.title, url_for(question)

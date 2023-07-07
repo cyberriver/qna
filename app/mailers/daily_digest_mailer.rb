@@ -5,8 +5,9 @@ class DailyDigestMailer < ApplicationMailer
   #
   #   en.daily_digest_mailer.digest.subject
   #
-  def digest(user)
+  def digest(user, content)
     @greeting = "Hi, you have registred to service QNA"
+    @questions = content
     mail to: user.email
   end
 end

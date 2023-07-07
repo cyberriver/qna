@@ -38,3 +38,19 @@ div class = "container-fluid p-2 gap-5" id ="question_#{@question.id}" data-ques
         = render partial: 'questions/answer'
 
 
+
+.subscriptions
+  - if @subscription
+    - if can? :destroy, @subscription
+      = link_to 'Unsubscribe',
+              subscription_path(@subscription),
+              method: :delete,
+              remote: true,
+              data: { type: :json }
+  - else
+    - if can?(:create, Subscription)
+      = link_to 'Subscribe',
+              question_subscriptions_path(@question),
+              method: :post,
+              remote: true,
+              data: { type: :json }

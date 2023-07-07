@@ -4,7 +4,8 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_one :reward, dependent: :destroy
-  has_many :comments, dependent: :destroy, as: :commentable  
+  has_many :comments, dependent: :destroy, as: :commentable
+  has_many :subscriptions, dependent: :destroy
 
   belongs_to :author, class_name: 'User'
   belongs_to :best_answer, class_name: 'Answer', optional: true

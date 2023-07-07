@@ -28,7 +28,8 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.new(question_params)    
-    if @question.save           
+    if @question.save
+      @question.subscriptions.create(user: current_user)      
       redirect_to questions_path, notice: 'Your question successfully created.'
     else
       render :new

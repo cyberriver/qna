@@ -1,8 +1,12 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  mount Sidekiq::Web => '/sidekiq'
+  resources :subscriptions
+  authenticate :user, lambda { |u| u.admin?} do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
+  resources :subscriptions, only: %i[create destroy], shallow: true
 
   use_doorkeeper do
     skip_controllers :authorizations, :applications,
@@ -13,7 +17,8 @@ Rails.application.routes.draw do
   root to: "questions#index"
   resources :questions do
     resources :answers, shallow: true
-    resources :comments, shallow: true      
+    resources :comments, shallow: true
+    resources :subscriptions, only: %i[create destroy], shallow: true
   end 
 
   namespace :api do
