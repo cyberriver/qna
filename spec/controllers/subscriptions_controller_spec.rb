@@ -1,14 +1,16 @@
 require 'rails_helper'
+FactoryBot.reload
 
 RSpec.describe SubscriptionsController, type: :controller do
+  include Devise::Test::ControllerHelpers 
 
   describe 'POST#Create' do
     let(:user) { create(:user) }
-    let!(:question) { create(:question, user: user) }
+    let!(:question) { create(:question, author: user) }
     let!(:other) { create(:question) }
 
     context 'authorized user' do
-      before { login(user) }
+      before { sign_in(user) }
 
       it 'creates subscription in the db' do
         expect { post :create, params: { question_id: question }, format: :json }.to change(Subscription, :count).by(1)
@@ -31,11 +33,11 @@ RSpec.describe SubscriptionsController, type: :controller do
 
   describe 'DELETE#Destroy' do
     let(:user) { create(:user) }
-    let!(:question) { create(:question, user: user) }
+    let!(:question) { create(:question, author: user) }
     let!(:subscription) { create(:subscription, user: user, question: question) }
 
     context 'authorized user' do
-      before { login(user) }
+      before { sign_in(user) } 
 
       context 'subscription exists' do
         it 'this cancels the subscription' do

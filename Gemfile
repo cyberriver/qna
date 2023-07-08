@@ -92,6 +92,7 @@ group :test do
   gem 'launchy'
   gem 'stackprof', '>= 0.2.9', require: false
   gem "test-prof", "~> 1.0"
+  gem 'database_cleaner-active_record'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

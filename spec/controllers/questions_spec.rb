@@ -1,7 +1,7 @@
 require 'rails_helper'
 FactoryBot.reload
 
-RSpec.describe "Questions", type: :request do
+RSpec.describe QuestionsController, type: :controller  do
   let(:user) {create(:user)}  
   let(:questions) {create_list(:question, 5, author: user)}
   let(:question) {create(:question, author: user)}
@@ -42,7 +42,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe "GET # NEW" do    
-    before { login(user)} 
+    before { sign_in(user) }
     before { get '/questions/new'}
 
     it 'assigns to a new Question to @question'do
@@ -59,7 +59,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe "POST #create" do
-    before { login(user)} 
+    before { sign_in(user) }
     context 'with valid attributes' do
       it 'saves a new question to database' do
 
@@ -89,7 +89,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe 'PATCH #UPDATE' do
-    before { login(user)} 
+    before { sign_in(user) }
     context 'with valid attributes' do
       it 'assignes to requested @question' do
         patch "/questions/#{question.id}", params: {id: question, question: attributes_for(:question)} 
@@ -124,7 +124,7 @@ RSpec.describe "Questions", type: :request do
   end
 
   describe 'DELETE #destroy' do
-    before { login(user)} 
+    before { sign_in(user) } 
     let!(:question) {create(:question, author: user)} 
     it 'deletes the question' do
       expect {delete "/questions/#{question.id}", params: {id: question}}.to change(Question, :count).by(-1)

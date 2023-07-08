@@ -13,7 +13,7 @@ Rails.application.routes.draw do
                     :authorized_applications
   end
   
-  devise_for :users, controllers: {omniauth_callbacks: 'oauth_callbacks'}
+  devise_for :users, controllers: {omniauth_callbacks: 'oauth_callbacks'},  path_names: { sign_in: :login, sign_out: :logout}
   root to: "questions#index"
   resources :questions do
     resources :answers, shallow: true

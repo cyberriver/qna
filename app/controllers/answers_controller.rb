@@ -76,7 +76,7 @@ class AnswersController < ApplicationController
     return if @answer.errors.any?
     ActionCable.server.broadcast(
       "details_data_for_question_#{@question.id}", 
-      answer: render_answer     
+      { answer: render_answer }    
     )    
   end
 

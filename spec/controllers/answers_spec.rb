@@ -2,20 +2,19 @@ require 'rails_helper'
 FactoryBot.reload
 
 
-RSpec.describe "Answers", type: :request do
+RSpec.describe AnswersController, type: :controller do
+  include Devise::Test::ControllerHelpers 
   let!(:user) {create(:user)}
   let(:question) {create(:question, author: user)} 
   let(:answers) {create_list(:answer, 4,  question: question, author: user)}
   let(:answer) {create(:answer,  question: question, author: user)} 
 
   describe "POST #create" do
-    before { login(user)} 
+    before { sign_in(user) }
     context 'with valid attributes' do
       it 'saves a new answer to database' do
-
         count = Answer.count                         
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, author_id: user.id),  question_id: question.id, user_id: user.id, format: :json }
-      
+        post :create, params: {answer: attributes_for(:answer, question_id: question.id, author_id: user.id),  question_id: question.id, user_id: user.id, format: :html }
         expect(Answer.count).to eq count + 1        
       end
 
@@ -24,7 +23,7 @@ RSpec.describe "Answers", type: :request do
     context 'with invalid attributes' do
       it 'does not save the answer' do          
         count = Answer.count
-        post "/questions/#{question.id}/answers", params: {answer: attributes_for(:answer, :invalid_data), question_id: question.id, format: :json }         
+        post :create, params: {answer: attributes_for(:answer, :invalid_data), question_id: question.id, format: :html }         
         expect(Answer.count).to eq count       
       end
  
@@ -32,28 +31,27 @@ RSpec.describe "Answers", type: :request do
   end
 
   describe 'PATCH #UPDATE' do
-    before { login(user)} 
+    before { sign_in(user) }
     context 'with valid attributes' do
       it 'assignes to requested @answer' do
-        patch "/answers/#{answer.id}", params: {id: answer, answer: attributes_for(:answer, author_id: user.id), question: question.id,  user_id: user.id, remote: true} 
+        patch :update, params: {id: answer, answer: attributes_for(:answer, question_id: question.id, author_id: user.id), question: question.id,  user_id: user.id, format: :html} 
         expect(assigns(:answer)).to eq answer 
       end
 
       it 'changes answer attributes' do
-        patch "/answers/#{answer.id}", params: {id: answer, answer: {title: "new title", question: question.id, author_id: user.id}, user_id: user.id}
+        patch :update, params: {id: answer, answer: {title: "new title", question: question.id, author_id: user.id}, user_id: user.id, format: :html}
         answer.reload
         expect(answer.title).to eq "new title"        
       end
 
       it 'redirect to updated answer' do
-        patch "/questions/#{question.id}/answers/#{answer.id}", params: {id: answer, answer: attributes_for(:answer, author_id: user.id, question: question.id),  user_id: user.id} 
-
+        patch :update, params: {id: answer, answer: attributes_for(:answer, question_id: question.id, author_id: user.id, question: question.id),  user_id: user.id, format: :html} 
         expect(response).to redirect_to question_path(question)
       end      
     end
 
     context 'with invalid attributes' do
-      before {patch "/answers/#{answer.id}", params: {id: answer, answer: attributes_for(:answer, :invalid_data), question: question.id,  user_id: user.id},format: :json }
+      before {patch :update, params: {id: answer, answer: attributes_for(:answer, :invalid_data), question: question.id,  user_id: user.id}, format: :html }
 
       it 'does not change the question' do       
         answer.reload
@@ -64,15 +62,15 @@ RSpec.describe "Answers", type: :request do
   end
 
   describe 'DELETE #destroy' do
-    before { login(user)} 
+    before { sign_in(user) }
     let!(:answer) {create(:answer,  question: question)} 
 
     it 'deletes the answer' do
-      expect {delete "/answers/#{answer.id}", params: {id: answer, question: question.id}}.to change(Answer, :count).by(-1)
+      expect {delete :destroy, params: {id: answer, question: question.id}}.to change(Answer, :count).by(-1)
     end
 
     it 'redirects to index' do
-      delete "/answers/#{answer.id}", params: {id: answer, question: question.id}
+      delete :destroy, params: {id: answer, question: question.id}
       expect(response).to redirect_to question_path(question)
     end    
   end
