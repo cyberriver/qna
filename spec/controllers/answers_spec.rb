@@ -34,24 +34,24 @@ RSpec.describe AnswersController, type: :controller do
     before { sign_in(user) }
     context 'with valid attributes' do
       it 'assignes to requested @answer' do
-        patch :update, params: {id: answer, answer: attributes_for(:answer, question_id: question.id, author_id: user.id), question: question.id,  user_id: user.id, format: :html} 
+        patch :update, params: {id: answer, answer: attributes_for(:answer, question_id: question.id, author_id: user.id), question: question.id,  user_id: user.id, format: :js } 
         expect(assigns(:answer)).to eq answer 
       end
 
       it 'changes answer attributes' do
-        patch :update, params: {id: answer, answer: {title: "new title", question: question.id, author_id: user.id}, user_id: user.id, format: :html}
+        patch :update, params: {id: answer, answer: {title: "new title", question: question.id, author_id: user.id}, user_id: user.id, format: :js}
         answer.reload
         expect(answer.title).to eq "new title"        
       end
 
       it 'redirect to updated answer' do
-        patch :update, params: {id: answer, answer: attributes_for(:answer, question_id: question.id, author_id: user.id, question: question.id),  user_id: user.id, format: :html} 
+        patch :update, params: {id: answer, answer: attributes_for(:answer, question_id: question.id, author_id: user.id, question: question.id),  user_id: user.id, format: :js} 
         expect(response).to redirect_to question_path(question)
       end      
     end
 
     context 'with invalid attributes' do
-      before {patch :update, params: {id: answer, answer: attributes_for(:answer, :invalid_data), question: question.id,  user_id: user.id}, format: :html }
+      before {patch :update, params: {id: answer, answer: attributes_for(:answer, :invalid_data), question: question.id,  user_id: user.id}, format: :js}
 
       it 'does not change the question' do       
         answer.reload
@@ -66,11 +66,11 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) {create(:answer,  question: question)} 
 
     it 'deletes the answer' do
-      expect {delete :destroy, params: {id: answer, question: question.id}}.to change(Answer, :count).by(-1)
+      expect {delete :destroy, params: {id: answer, question: question.id}, format: :js}.to change(Answer, :count).by(-1)
     end
 
     it 'redirects to index' do
-      delete :destroy, params: {id: answer, question: question.id}
+      delete :destroy, params: {id: answer, question: question.id}, format: :js
       expect(response).to redirect_to question_path(question)
     end    
   end

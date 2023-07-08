@@ -5,13 +5,13 @@ feature 'User can subsribe/unsubsribe to question', %q{
 } do
 
   given!(:user) { create(:user) }
-  given!(:question) { create(:question, user: user) }
+  given!(:question) { create(:question, author: user) }
   given!(:subscription) { create(:subscription, user: user, question: question) }
   given!(:other_question) { create(:question) }
 
-  describe 'Authenticated user', js: true do
+  describe 'Authenticated user' do
     background do
-      sign_in user
+      sign_in(user)
     end
 
     scenario "Already subscribed if author of question" do
@@ -34,7 +34,7 @@ feature 'User can subsribe/unsubsribe to question', %q{
     end
   end
 
-  describe 'Unauthenticated user', js: true do
+  describe 'Unauthenticated user' do
     scenario "Cant subscribed" do
       visit question_path(question)
       expect(page).to_not have_link "Subscribe"

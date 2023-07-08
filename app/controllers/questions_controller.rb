@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController 
   before_action :load_question, only: [:show, :update, :destroy]
   after_action :publish_question, only: [:create]
+  before_action :load_subscription, only: :show
 
   authorize_resource
 
@@ -60,6 +61,10 @@ class QuestionsController < ApplicationController
 
   def load_question
     @question = Question.with_attached_files.find(params[:id])    
+  end
+
+  def load_subscription
+    @subscription = @question.subscriptions.where(user: current_user).first
   end
 
   def load_questions
