@@ -61,10 +61,7 @@ feature 'User can create question', %q{
       expect(page).to have_content 'Body question'
 
     end
-
-
   end
-
 
   scenario 'Unauthenticated tries to ask quesiton'  do
     visit questions_path
