@@ -34,6 +34,8 @@ gem 'omniauth-rails_csrf_protection'
 gem 'cancancan'
 gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'sidekiq'
+gem 'sinatra', require: false
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -43,6 +45,7 @@ gem "cocoon"
 gem 'render_async'
 gem 'gon'
 gem 'oj'
+gem 'whenever', require: false
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
@@ -79,7 +82,7 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
-  gem 'selenium-webdriver', '>= 4.0.0.rc1'
+  gem 'selenium-webdriver'
   gem 'capybara-screenshot'
   gem 'cucumber'
   # Easy installation and use of web drivers to run system tests with browsers
@@ -89,6 +92,7 @@ group :test do
   gem 'launchy'
   gem 'stackprof', '>= 0.2.9', require: false
   gem "test-prof", "~> 1.0"
+  gem 'database_cleaner-active_record'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

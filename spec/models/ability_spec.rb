@@ -38,14 +38,14 @@ describe Ability, type: :model do
     it { should be_able_to :create, Comment }
     it { should be_able_to :create, Link }
 
-    it { should be_able_to :update, create(:question, author: user) }
-    it { should_not be_able_to :update, create(:question, author: other) }
+    it { should be_able_to :update, user_question }
+    it { should_not be_able_to :update, other_user_question }
 
-    it { should be_able_to :update, create(:answer, author: user) }
-    it { should_not be_able_to :update, create(:answer, author: other) }
+    it { should be_able_to :update, user_answer }
+    it { should_not be_able_to :update, other_user_answer }
     
-    it { should be_able_to :update, create(:comment, commentable: create(:answer, author: user), author: user) }
-    it { should_not be_able_to :update, create(:comment, commentable: create(:answer, author: user), author: other) }
+    it { should be_able_to :update, create(:comment, commentable: user_answer, author: user) }
+    it { should_not be_able_to :update, create(:comment, commentable: user_answer, author: other) }
 
     context 'question attachments' do
       before do
@@ -66,16 +66,16 @@ describe Ability, type: :model do
     end
 
     # Links
-    it { should be_able_to :destroy, create(:link, linkable: create(:question, author: user), url: gist_url, name: 'My gist') }
-    it { should_not be_able_to :destroy, create(:link, linkable: create(:question, author: other), url: gist_url, name: 'My gist') }
+    it { should be_able_to :destroy, create(:link, linkable: user_question,  url: gist_url, name: 'My gist user') }
+    it { should_not be_able_to :destroy, create(:link, linkable: other_user_question, url: gist_url, name: 'My gist other') }
 
     # likes
-    it { should be_able_to :like, create(:question, author: other), author: other }
-    it { should_not be_able_to :like, create(:question, author: user), author: user }
+    it { should be_able_to :like, other_user_question, author: other }
+    it { should_not be_able_to :like, user_question, author: user }
 
     # dislikes
-    it { should be_able_to :dislike, create(:question, author: other), author: other }
-    it { should_not be_able_to :dislike, create(:question, author: user), author: user }
+    it { should be_able_to :dislike, other_user_question, author: other }
+    it { should_not be_able_to :dislike, user_question, author: user }
 
     # Rewards
     it { should be_able_to :read, :all }

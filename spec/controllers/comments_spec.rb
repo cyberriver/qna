@@ -1,4 +1,5 @@
 require 'rails_helper'
+FactoryBot.reload
 
 RSpec.describe CommentsController, type: :controller do
   let(:user) { create(:user) }
@@ -9,7 +10,7 @@ RSpec.describe CommentsController, type: :controller do
 
   describe 'POST #create' do
     context 'with filled comment title' do
-      before { login(user) }
+      before { sign_in(user) }
       it 'saves a new comment for questionb' do
         expect { post :create, params: { question_id: question, comment: attributes_for(:comment) }, format: :js }.to change(question.comments, :count).by(1)
         expect { post :create, params: { question_id: question, comment: attributes_for(:comment) }, format: :js }.to change(user.comments, :count).by(1)
@@ -26,7 +27,7 @@ RSpec.describe CommentsController, type: :controller do
     end
 
     context 'with empty title' do
-      before { login(user) }
+      before { sign_in(user) }
       it 'does not save the comment in to db' do
         expect { post :create, params: { question_id: question, comment: attributes_for(:comment, :invalid) }, format: :js }.to_not change(question.comments, :count)
         expect { post :create, params: { question_id: question, comment: attributes_for(:comment, :invalid) }, format: :js }.to_not change(user.comments, :count)

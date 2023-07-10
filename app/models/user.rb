@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :comments, foreign_key: :author_id, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   def author_of?(resource)
     resource.author == self
@@ -22,9 +23,9 @@ class User < ApplicationRecord
   end
 
   
-  def self.find_for_oauth(auth)
-     FindForOauth.new(auth).call
-  end
+ # def self.find_for_oauth(auth)
+ #    FindForOauth.new(auth).call
+ # end
 
   def create_authorization(auth)
     self.authorizations.create(provider: auth[:provider], uid: auth[:uid])

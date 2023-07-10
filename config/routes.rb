@@ -1,14 +1,24 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  resources :subscriptions
+  authenticate :user, lambda { |u| u.admin?} do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
+  resources :subscriptions, only: %i[create destroy], shallow: true
+
   use_doorkeeper do
     skip_controllers :authorizations, :applications,
                     :authorized_applications
   end
   
-  devise_for :users, controllers: {omniauth_callbacks: 'oauth_callbacks'}
+  devise_for :users, controllers: {omniauth_callbacks: 'oauth_callbacks'},  path_names: { sign_in: :login, sign_out: :logout}
   root to: "questions#index"
   resources :questions do
     resources :answers, shallow: true
-    resources :comments, shallow: true      
+    resources :comments, shallow: true
+    resources :subscriptions, only: %i[create destroy], shallow: true
   end 
 
   namespace :api do

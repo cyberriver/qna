@@ -9,7 +9,7 @@ feature 'User can sign in',  %q{
   given(:user) {create(:user)} 
   given!(:questions) {create_list(:question, 5, author: user)}
 
-  background {visit new_user_session_path} 
+  background {sign_in user} 
 
   scenario 'Registred user tries to sign in' do
       

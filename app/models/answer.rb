@@ -14,8 +14,14 @@ class Answer < ApplicationRecord
   
   validates :title, presence: true
 
+  after_create :new_answer_notice
+
   def voted?(resource)
     resource.best_answer_id == self.id   
+  end
+  
+  def new_answer_notice
+    NewAnswerNotifyJob.perform_later(self)
   end
 
 end

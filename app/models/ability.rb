@@ -28,12 +28,17 @@ class Ability
   def user_base_abilites
     guest_abilities
     can :my_answers, [Answer]
-    can :create, [Question, Answer, Comment, Link]
+    can :create, [Question, Answer, Comment, Link, Subscription]
     can :update, [Question, Answer, Comment], author: user
-    can :destroy, [Question, Answer, Comment, Link], author: user
+    can :destroy, [Question, Answer, Comment], author: user
+    can :destroy, Subscription, user: user
+    can :destroy, Link, linkable: { author: user }
     can :vote, Answer, question: { author: user}
     can :like, Question 
     cannot :like, Question, author: user
+    can :dislike, Question do |question|
+      question.author != user
+    end
   end
 
   def user_specific_abilites

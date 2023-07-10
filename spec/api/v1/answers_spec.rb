@@ -12,12 +12,14 @@ describe 'Answer API', type: :request do
     context 'authorized' do
       let(:user) { create(:user)}
       let(:access_token) { create(:access_token ) }
-      let!(:questions) { create_list(:question, 2, author: user.id) }
+      let!(:questions) { create_list(:question, 2, author: user) }
       let(:question) { questions.first }
-      let!(:answers) { create_list(:answer,3, question: question, author: user.id}
+      let!(:answers) { create_list(:answer, 3, question: question, author: user) }
+
       let!(:answer) { answers.first}
       let(:answer_response) {json['answer'] }
       let!(:comments_answer) { create_list(:comment, 2, commentable: answer, author: user) }
+
       let!(:url){'https://gist.github.com/cyberriver/b3373d10e9723eb90211e920d2d4204b'}
       let!(:links_answer) { create_list(:link, 3, linkable: answer, url: url) }
      
