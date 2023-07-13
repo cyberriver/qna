@@ -43,3 +43,7 @@ yarn-debug.log*
 
 /config/credentials/development.key
 .env
+
+/db/sphinx
+/config/*.sphinx.conf
+dump.rdb

@@ -1,0 +1,21 @@
+development:
+  address: localhost
+  postgresql: 5433
+  database: tn_qna_development
+  enable_star: true
+  min_infix_len: 3
+  username: <%= ENV["PG_USER_NAME"] %>
+  password: <%= ENV["PG_USER_PASSWORD"] %>
+
+
+test:
+  postgresql: 5433
+  database: tn_qna_test
+  enable_star: true
+  min_infix_len: 3
+
+production:
+  postgresql: 5432
+  enable_star: true
+  min_infix_len: 3
+  database: qna_production
