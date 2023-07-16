@@ -1,4 +1,6 @@
 require_relative "boot"
+require 'devise'
+require 'warden'
 
 require "rails/all"
 
@@ -11,6 +13,7 @@ module Qna
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
     config.assets.paths << Rails.root.join('app', 'assets', 'webapp')
+    config.middleware.use Warden::Manager
 
     # Configuration for the application, engines, and railties goes here.
     #

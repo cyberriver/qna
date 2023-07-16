@@ -1,19 +1,22 @@
+.questions-search
+  = form_tag(search_questions_path, method: :get, class: "d-flex") do
+    = text_field_tag(:query, nil, class: "form-control me-2", placeholder: "Search", aria: { label: "Search" })
+    = submit_tag("Search", class: "btn btn-primary")
+
 .questions
-  div class = "container-md p-2 "
+  .container-md.p-2
     - if @questions.present?
-      div class = "container-fluid p-2 g-3 gap-5"
-        div class = "row bg-white  p-2"
-          div class = "col-md-3"
+      .container-fluid.p-2.g-3.gap-5
+        .row.bg-white.p-2
+          .col-md-3
             h5 Question title
-          div class = "col-md-6"
+          .col-md-6
             h5 Question body
-          div class = "col-3 justify-content-center text-end"
+          .col-3.justify-content-center.text-end
             h5 Available actions
 
         .question
           = render @questions
 
-      
     - else 
-      | No questions found. Pls add some question
-
+      | No questions found. Please add some questions

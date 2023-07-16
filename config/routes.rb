@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     resources :comments, shallow: true
     resources :subscriptions, only: %i[create destroy], shallow: true
   end 
+  
+  get '/search_questions', to: 'search#search_questions', as: 'search_questions'
 
   namespace :api do
     namespace :v1 do

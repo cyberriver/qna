@@ -20,7 +20,7 @@ class Question < ApplicationRecord
    
   validates :title, :body, presence: true
 
-  after_create :calculate_reputation
+  #after_create :calculate_reputation
 
   private
 
