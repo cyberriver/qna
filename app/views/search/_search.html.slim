@@ -1,0 +1,9 @@
+= form_tag(search_questions_path, method: :get, class: "d-flex") do
+  = text_field_tag(:query, nil, class: "form-control me-2", placeholder: "Search", aria: { label: "Search" })
+  = label_tag :search_model_question, class: 'form-check-label' do
+    = check_box_tag :search_model_question, 1, params[:search_model_question], class: 'form-check-input', name: 'search_model_question'
+    | Search Questions
+  = label_tag :search_model_answer, class: 'form-check-label' do
+    = check_box_tag :search_model_answer, 1, params[:search_model_answer], class: 'form-check-input', name: 'search_model_answer'
+    | Search Answers
+  = submit_tag("Search", class: "btn btn-primary")
