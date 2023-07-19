@@ -9,19 +9,18 @@ RSpec.feature 'User can find question using search', %q{
   given!(:user) { create(:user) }
   given!(:questions) {create_list(:question, 3, author: user)}
   given!(:answer) {create(:answer, question: questions.first, author: user)}
- # perform_enqueued_jobs { your_action_that_triggers_reputation_job }
+  let(:comment) { create(:comment, commentable: answer, user: user) }
 
-  scenario 'unauthenticated user find question by title' do
+  scenario 'any user find question by title' do
     visit questions_path
     within '.main-search' do
       check 'search_model_question'
       uncheck 'search_model_answer'
+      uncheck 'search_model_comment'
 
       fill_in 'query', with: 'Question 2'
+      click_on 'Search'
 
-      ThinkingSphinx::Test.run do
-         Question.search 'Question 2'    
-      end  
     end
     #expect(page).to have_current_path(search_questions_path)
     expect(page).to have_content 'Question 2'
@@ -29,22 +28,39 @@ RSpec.feature 'User can find question using search', %q{
     expect(find_field('search_model_answer')).not_to be_checked
   end 
 
-  scenario 'unauthenticated user find answer by title' do
+  scenario 'any user find answer by title' do
     visit questions_path
     within '.main-search' do
       uncheck 'search_model_question'
       check 'search_model_answer'
+      uncheck 'search_model_comment'
 
       fill_in 'query', with: 'Answer 1'
+      click_on 'Search'
 
-      ThinkingSphinx::Test.run do
-         Question.search 'Answer 1'    
-      end  
     end
     #expect(page).to have_current_path(search_questions_path)
     expect(page).to have_content 'Answer 1'
     expect(find_field('search_model_answer')).to be_checked
     expect(find_field('search_model_question')).not_to be_checked
+  end 
+
+  scenario 'any user find answer by title' do
+    visit questions_path
+    within '.main-search' do
+      uncheck 'search_model_question'
+      uncheck 'search_model_answer'
+      check 'search_model_comment'
+
+      fill_in 'query', with: 'Comment title 1'
+      click_on 'Search'
+
+    end
+    #expect(page).to have_current_path(search_questions_path)
+    expect(page).to have_content 'Comment title'
+    expect(find_field('search_model_answer')).not_to be_checked
+    expect(find_field('search_model_question')).not_to be_checked
+    expect(find_field('search_model_comment')).to be_checked
   end 
 
 end

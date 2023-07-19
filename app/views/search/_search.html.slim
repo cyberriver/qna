@@ -2,8 +2,11 @@
   = text_field_tag(:query, nil, class: "form-control me-2", placeholder: "Search", aria: { label: "Search" })
   = label_tag :search_model_question, class: 'form-check-label' do
     = check_box_tag :search_model_question, 1, params[:search_model_question], class: 'form-check-input', name: 'search_model_question'
-    | Search Questions
+    | Questions
   = label_tag :search_model_answer, class: 'form-check-label' do
     = check_box_tag :search_model_answer, 1, params[:search_model_answer], class: 'form-check-input', name: 'search_model_answer'
-    | Search Answers
+    | Answers
+  = label_tag :search_model_comment, class: 'form-check-label' do
+    = check_box_tag :search_model_comment, 1, params[:search_model_comment], class: 'form-check-input', name: 'search_model_comment'
+    | Comments   
   = submit_tag("Search", class: "btn btn-primary")

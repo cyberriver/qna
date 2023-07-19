@@ -8,6 +8,7 @@ class SearchController < ApplicationController
     search_models = []
     search_models << 'question_core' if ActiveModel::Type::Boolean.new.cast(params[:search_model_question])
     search_models << 'answer_core' if ActiveModel::Type::Boolean.new.cast(params[:search_model_answer])
+    search_models << 'comment_core' if ActiveModel::Type::Boolean.new.cast(params[:search_model_comment])
 
 
     if @query.present?
