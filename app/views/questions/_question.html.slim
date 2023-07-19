@@ -35,7 +35,7 @@ div class= "container-fluid p-2 gap-5" id ="question_#{question.id}" data-questi
     div class = "col-md-3"
       div class="d-grid gap-2 md-flex justify-content-md-end"
         = link_to "Answers", question_path(question), class: "btn btn-primary" 
-        -if can?(:edit, question)
+        -if request.env['warden'].present? && can?(:edit, question)
           = button_to "Delete", question_path(question), method: :delete, class: "btn btn-outline-danger", remote: true           
           = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-question-link', data: { question_id: question.id}
         - elsif can?(:like, question)
