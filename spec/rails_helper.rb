@@ -10,6 +10,7 @@ require 'webdrivers'
 require 'capybara-screenshot'
 require 'cucumber'
 require 'cancan/matchers'
+require 'active_job/test_helper'
 
 require_relative "../app/services/find_for_oauth.rb"
 
@@ -47,6 +48,7 @@ RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
   config.include ApiHelpers, type: :request
+  config.include ActiveJob::TestHelper
 
   Capybara.javascript_driver = :selenium_chrome_headless
 

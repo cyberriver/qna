@@ -14,7 +14,7 @@ class Answer < ApplicationRecord
   
   validates :title, presence: true
 
-  after_create :new_answer_notice
+  #after_create :new_answer_notice
 
   def voted?(resource)
     resource.best_answer_id == self.id   

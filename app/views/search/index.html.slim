@@ -1,0 +1,24 @@
+.main-search
+  = render 'search/search'  
+
+- if @results.present?
+  h3 Search Results for "#{@query}"
+  - @results.each do |result|
+    - if result.class == Question
+      .card.mb-3
+        .card-body
+          h5.card-title = result.title
+          p.card-text = result.body
+          p.card-text.text-muted Posted by: #{result.author.email} | #{result.created_at.strftime('%B %d, %Y')}
+    - elsif result.class == Answer
+      .card.mb-3
+        .card-body
+          p.card-text = result.title
+          p.card-text.text-muted Answer to: #{result.question.title} | Posted by: #{result.author.email} | #{result.created_at.strftime('%B %d, %Y')}
+    - elsif result.class == Comment
+      .card.mb-3
+        .card-body
+          p.card-text = result.title
+          p.card-text.text-muted Comment to: #{result.commentable.title} | Posted by: #{result.author.email} | #{result.created_at.strftime('%B %d, %Y')}          
+- else
+  p No results found for "#{@query}"

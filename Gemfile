@@ -25,8 +25,8 @@ gem 'jbuilder', '~> 2.7'
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem 'devise'
 gem 'warden'
+gem 'devise'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
@@ -55,6 +55,12 @@ gem "aws-sdk-s3", require: false
 gem "octokit", "~> 5.0"
 gem "faraday-retry"
 
+# search engine
+gem 'mysql2',    :platform => :ruby
+gem 'thinking-sphinx', '~> 5.0'
+
+
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -75,6 +81,7 @@ group :development do
   gem 'spring'
   gem "letter_opener"
   gem 'capybara-email'
+
 
 
 end
