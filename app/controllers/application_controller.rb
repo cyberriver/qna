@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, except: [:index, :show]
   before_action :gon_params_user
   
+  
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to  root_url, alert: exception.message  

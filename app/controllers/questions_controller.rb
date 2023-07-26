@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController 
   before_action :load_question, only: [:show, :update, :destroy]
-  after_action :publish_question, only: [:create]
+ # after_action :publish_question, only: [:create]
   before_action :load_subscription, only: :show
 
   authorize_resource
