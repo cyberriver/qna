@@ -1,8 +1,11 @@
-
 div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
   div class = "row shadow-sm  p-2 bg-white"
     div class = "col-md-6"
       = answer.title
+      - if current_user.present?
+        - Rails.logger.debug("view _answers log: current user: #{current_user}")
+      - else
+        - Rails.logger.debug("current user is nil")
       p        
           - if answer.show_rating >= 0      
             span class="badge bg-success" id = "rating_answer_#{answer.id}" rating: #{answer.show_rating}
@@ -55,12 +58,12 @@ div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
           = button_to "Delete", answer_path(answer), method: :delete, class: "btn btn-outline-secondary btn-sm bi bi-x-circle ", remote: true           
           = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-answer-link', data: { answer_id: answer.id}
         - elsif can?(:like, answer) 
-          = link_to "Like", like_path(id: answer.id, liked_type: 'answer', liked_params: { value:1, user_id: current_user.id }), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-primary btn-sm bi bi-hand-thumbs-up like-link", remote: true
-          = link_to "Dislike", like_path(id: answer.id, liked_type: 'answer', liked_params: {value:-1, user_id: current_user.id}), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-danger btn-sm bi bi-hand-thumbs-down-fill dislike-link", remote: true
+          = link_to "Like", like_path(id: answer.id, liked_type: 'answer', liked_params: { value:1, user_id: current_user.id }), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-primary btn-sm bi bi-hand-thumbs-up like-link"
+          = link_to "Dislike", like_path(id: answer.id, liked_type: 'answer', liked_params: {value:-1, user_id: current_user.id}), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-danger btn-sm bi bi-hand-thumbs-down-fill dislike-link"
          
 
   - if can?(:create, Answer)
-    = form_with model: answer, class: 'hidden', local:false, method: :patch, html: {id: "edit-answer-#{answer.id}"} do |f|
+    = form_with model: answer, url: question_answers_path(@question, author_id: current_user.id), class: 'hidden', remote: true, method: :post, html: {id: "edit-answer-#{answer.id}"} do |f|
       div class = "mb-3 bg-white"
         = f.label :title, class: "form-label"              
         = f.text_area :title, value: answer.title, class: "form-control"

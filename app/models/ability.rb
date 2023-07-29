@@ -4,6 +4,7 @@ class Ability
   attr_reader :user
 
   def initialize(user)
+    Rails.logger.debug("Ability: Current User: #{user}")
     @user = user
        if user 
          user.admin? ? admin_abilities : user_abilities

@@ -8,5 +8,11 @@ class AnswersChannel < ApplicationCable::Channel
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
+
+  
+  def receive(data)
+    current_user = User.find(data['current_user_id'])
+    # Теперь у вас есть текущий пользователь для этого подключения
+  end
  
 end

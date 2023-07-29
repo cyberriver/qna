@@ -59,6 +59,7 @@ class QuestionsController < ApplicationController
 
   private 
 
+
   def load_question
     @question = Question.with_attached_files.find(params[:id])    
   end
@@ -79,14 +80,16 @@ class QuestionsController < ApplicationController
   end
 
   def publish_question
+
     return if @question.errors.any?
     ActionCable.server.broadcast(
       "questions#index", 
-      question: render_question     
+      question: render_question, current_user_id: @current_user.id     
     )    
   end
 
   def render_question 
+
     QuestionsController.render(
       partial: 'questions/question',
       locals: { 
