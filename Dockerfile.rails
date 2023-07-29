@@ -1,0 +1,30 @@
+# Используем образ Ruby с нужной версией
+FROM ruby:3.1.2
+
+# Устанавливаем системные зависимости
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+
+# Устанавливаем директорию для приложения
+WORKDIR /app
+
+# Копируем Gemfile и Gemfile.lock для установки зависимостей
+COPY Gemfile Gemfile.lock ./
+
+# Устанавливаем зависимости через Bundler
+RUN gem install bundler:2.2.28 && bundle install
+
+# Копируем остальные файлы приложения
+COPY . .
+
+# Устанавливаем переменные среды для Rails
+ENV RAILS_ENV=production
+ENV RAILS_SERVE_STATIC_FILES=true
+ENV PG_USER_NAME=${PG_USER_NAME}
+ENV PG_USER_PASSWORD=${PG_USER_PASSWORD}
+
+# Запускаем миграции базы данных
+RUN bundle exec rails db:create
+RUN bundle exec rails db:migrate
+
+# Команда для запуска сервера приложения (например, Puma)
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]

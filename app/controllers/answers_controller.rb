@@ -19,7 +19,7 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.save
         format.html { render partial: 'answers/answer', locals: { answer: @answer, current_user: current_user } }
-        format.json { render json:@answer}
+        format.json { render json: @answer }
       else
         format.json do
           render json: @answer.errors.full_messages, status: 422

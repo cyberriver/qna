@@ -6,3 +6,5 @@ if [ "${*}" == "./bin/rails server" ]; then
 fi
 
 exec "${@}"
+
+
