@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController 
   before_action :load_question, only: [:show, :update, :destroy]
-  after_action :publish_question, only: [:create]
+ # after_action :publish_question, only: [:create]
   before_action :load_subscription, only: :show
 
   authorize_resource
@@ -59,6 +59,7 @@ class QuestionsController < ApplicationController
 
   private 
 
+
   def load_question
     @question = Question.with_attached_files.find(params[:id])    
   end
@@ -79,14 +80,16 @@ class QuestionsController < ApplicationController
   end
 
   def publish_question
+
     return if @question.errors.any?
     ActionCable.server.broadcast(
       "questions#index", 
-      question: render_question     
+      question: render_question, current_user_id: @current_user.id     
     )    
   end
 
   def render_question 
+
     QuestionsController.render(
       partial: 'questions/question',
       locals: { 

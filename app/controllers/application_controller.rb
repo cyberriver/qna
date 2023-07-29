@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!
   before_action :gon_params_user
   
 
@@ -28,4 +28,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_user
+    puts "LOGG!! current user method launch"
+    Rails.logger.debug("warden: #{warden}")
+    Rails.logger.debug("warden user: #{warden.user}")
+    @current_user = warden.user
+    @current_user
+  end
+
+  def warden
+    request.env['warden']
+  end
+  
 end

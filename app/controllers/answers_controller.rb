@@ -1,9 +1,11 @@
 class AnswersController < ApplicationController  
   before_action :load_answer,  only: [:update, :destroy, :vote]
   before_action :find_question, only: [:create, :update, :purge_attachement]
-  after_action :publish_answer, only:[:create]
+  #after_action :publish_answer, only:[:create]
+  helper_method :warden
 
   authorize_resource
+  
   
   def update
       @answer.update(answer_params)
@@ -12,10 +14,11 @@ class AnswersController < ApplicationController
 
   def create
     @answer =  @question.answers.new(answer_params)
+    puts "create answers controller current user:#{current_user}"
   
     respond_to do |format|
       if @answer.save
-        format.html { render @answer }
+        format.html { render partial: 'answers/answer', locals: { answer: @answer, current_user: current_user } }
         format.json { render json:@answer}
       else
         format.json do
@@ -73,19 +76,21 @@ class AnswersController < ApplicationController
   end
 
   def publish_answer
+    Rails.logger.debug("warden: #{warden.inspect}")
+    Rails.logger.debug("warden user: #{warden.user.inspect}")
+  
     return if @answer.errors.any?
     ActionCable.server.broadcast(
       "details_data_for_question_#{@question.id}", 
-      { answer: render_answer }    
+      { answer: render_answer, current_user_id: current_user.id }
     )    
   end
 
   def render_answer
-
     AnswersController.render(
       partial: 'answers/answer',
       locals: { 
-        answer: @answer }
+        answer: @answer, current_user_id: @current_user.id  }
     )    
   end
   

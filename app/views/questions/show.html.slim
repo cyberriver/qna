@@ -21,7 +21,7 @@ div class = "container-fluid p-2 gap-5" id ="question_#{@question.id}" data-ques
     - if can?(:create, Comment)            
       = link_to  "Add Comment",  make_comment_path(comment: {commentable_type: 'question',commentable_id: @question.id}), class: "btn btn-outline-primary btn-sm" 
   
-  .answers
+  .answers  data-current-user="#{j @current_user.to_json}" 
     div class = "container"
       - if @question.answers.any?
         h3 List of answers

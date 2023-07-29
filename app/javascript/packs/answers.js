@@ -6,6 +6,12 @@ $(document).on('turbolinks:load', function() {
     }
   });
 
+  if (currentUser) {
+    console.log('Текущий пользователь:', currentUser);
+  } else {
+    console.log('Пользователь не аутентифицирован.');
+  }
+
   $('.answers').on('click', '.edit-answer-link', function(e) {
     e.preventDefault();
     $(this).hide();

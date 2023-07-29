@@ -14,6 +14,10 @@ module Qna
     config.load_defaults 6.1
     config.assets.paths << Rails.root.join('app', 'assets', 'webapp')
     config.middleware.use Warden::Manager
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+   # config.middleware.use ActionCable::Connection::Base
+    
 
     # Configuration for the application, engines, and railties goes here.
     #

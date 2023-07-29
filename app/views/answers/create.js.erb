@@ -1,5 +1,14 @@
-$('.answer-errors').html('<%= render 'shared/errors', resource: @answer%>');
-<% if @answer.persisted?%>
-  $('.answers').append('<%= j render @answer %>');
+$('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
+<% if @answer.persisted? %>
+  // Проверяем, есть ли у элемента .answers атрибут data-current-user
+  var currentUserData = $('.answers').data('current-user');
+  if (currentUserData) {
+    var currentUser = JSON.parse(currentUserData);
+    // Передаем текущего пользователя при рендеринге нового ответа
+    $('.answers').append('<%= j render @answer, locals: { current_user: currentUser } %>');
+  } else {
+    // Если данные о текущем пользователе не переданы, просто рендерим ответ без current_user
+    $('.answers').append('<%= j render @answer %>');
+  }
   $('#answer_title').val('');
 <% end %>
