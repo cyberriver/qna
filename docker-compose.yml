@@ -16,7 +16,7 @@ services:
       - .env
 
   redis:
-    image: redis:6.0.12-alpine
+    image: redis:6.2.13-alpine
     volumes:
       - redis:/data:delegated
     # Uncomment to access this containers Redis instance via port 6379
