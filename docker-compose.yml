@@ -8,29 +8,56 @@ services:
     ports:
       - "5433:5432" # Маппинг портов, если нужно обращаться к базе с хоста
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data:cached
     environment:
       POSTGRES_USER: ${PG_USER_NAME}
       POSTGRES_PASSWORD: ${PG_USER_PASSWORD}
     env_file:
-      - .env      
+      - .env
+
+  redis:
+    image: redis:6.0.12-alpine
+    volumes:
+      - redis:/data:delegated
+    # Uncomment to access this containers Redis instance via port 6379
+    ports:
+      - "6379:6379"
+    restart: on-failure
+    logging:
+      driver: none
 
   # Сервис с Rails приложением
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile.rails
+    image: registry.gitlab.com/vblagirev/qna:latest # Используем отдельно собранный образ
     ports:
       - "3000:3000" # Маппинг портов, если нужно обращаться к приложению с хоста
     depends_on:
       - db # Указываем, что зависим от сервиса с PostgreSQL
-    volumes:
-      - .:/app # Монтируем текущую директорию внутрь контейнера
+      - redis
+      - sidekiq # Добавляем зависимость от сервиса sidekiq
     environment:
       RAILS_ENV: production
       RAILS_SERVE_STATIC_FILES: "true"
+      DATABASE_URL: "postgres://postgres@db/qna_production" # Исправлен адрес для подключения к PostgreSQL
+      REDIS_URL: redis://redis:6379/1 # Добавлен адрес Redis
+
     env_file:
       - .env
-      
+
+  sidekiq:
+    image: registry.gitlab.com/vblagirev/qna:latest # Используем отдельно собранный образ
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    depends_on:
+      - db # Указываем, что зависим от сервиса с PostgreSQL
+      - redis
+    environment:
+      RAILS_ENV: production
+      DATABASE_URL: "postgres://postgres@db/qna_production" # Исправлен адрес для подключения к PostgreSQL
+      REDIS_URL: redis://redis:6379/1 # Добавлен адрес Redis
+
+    env_file:
+      - .env
+
 volumes:
   db-data: # Volume для данных PostgreSQL
+  redis: # Volume для данных Redis

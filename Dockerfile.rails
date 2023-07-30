@@ -1,30 +1,56 @@
-# Используем образ Ruby с нужной версией
-FROM ruby:3.1.2
+# Make sure it matches the Ruby version in .ruby-version and Gemfile
+ARG RUBY_VERSION=3.1.2
+FROM ruby:$RUBY_VERSION-slim as base
 
-# Устанавливаем системные зависимости
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+# Rails app lives here
+WORKDIR /rails
 
-# Устанавливаем директорию для приложения
-WORKDIR /app
+# Set production environment
+ENV BUNDLE_DEPLOYMENT="1" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="development" \
+    PG_USER_NAME=${PG_USER_NAME} \
+    PG_USER_PASSWORD=${PG_USER_PASSWORD}
 
-# Копируем Gemfile и Gemfile.lock для установки зависимостей
+# Install packages need to build gems and node modules
+USER root
+RUN apt-get update -qq && \
+    apt-get install -y apt-transport-https ca-certificates build-essential curl default-libmysqlclient-dev git libpq-dev libvips dirmngr apt-transport-https lsb-release node-gyp pkg-config redis-server && \
+    apt-get -y autoclean
+
+RUN apt-get install -y imagemagick
+
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs
+
+# Install Yarn
+RUN npm install -g yarn
+
+# Install application gems
 COPY Gemfile Gemfile.lock ./
+RUN bundle install --without development test && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+    bundle exec bootsnap precompile --gemfile
 
-# Устанавливаем зависимости через Bundler
-RUN gem install bundler:2.2.28 && bundle install
-
-# Копируем остальные файлы приложения
 COPY . .
 
-# Устанавливаем переменные среды для Rails
-ENV RAILS_ENV=production
-ENV RAILS_SERVE_STATIC_FILES=true
-ENV PG_USER_NAME=${PG_USER_NAME}
-ENV PG_USER_PASSWORD=${PG_USER_PASSWORD}
+# Run yarn install
+RUN yarn install
 
-# Запускаем миграции базы данных
-RUN bundle exec rails db:create
-RUN bundle exec rails db:migrate
+# Precompile assets
+RUN bundle exec rake assets:precompile
 
-# Команда для запуска сервера приложения (например, Puma)
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+# Run and own the application files as a non-root user for security
+# RUN useradd rails
+# RUN chown -R rails:rails /rails
+# USER rails:rails
+
+# Entrypoint prepares the database.
+ENTRYPOINT ["./docker-entrypoint"]
+
+# Start the server by default, this can be overwritten at runtime
+EXPOSE 3000
+
+# Start Rails application
+CMD ["./bin/rails", "server"]

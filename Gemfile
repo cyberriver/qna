@@ -58,6 +58,7 @@ gem "faraday-retry"
 # search engine
 gem 'mysql2',    :platform => :ruby
 gem 'thinking-sphinx', '~> 5.0'
+gem 'listen', '~> 3.3'
 
 
 
@@ -76,7 +77,6 @@ group :development do
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   gem 'rack-mini-profiler'
-  gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem "letter_opener"
