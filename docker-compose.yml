@@ -38,7 +38,7 @@ services:
     environment:
       RAILS_ENV: production
       RAILS_SERVE_STATIC_FILES: "true"
-      DATABASE_URL: "postgres://postgres@db/qna_production" # Исправлен адрес для подключения к PostgreSQL
+      DATABASE_URL: "postgres://myuser@db/qna_production" # Исправлен адрес для подключения к PostgreSQL
       REDIS_URL: redis://redis:6379/1 # Добавлен адрес Redis
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
     env_file:
