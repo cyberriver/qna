@@ -27,6 +27,9 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
 # Install Yarn
 RUN npm install -g yarn
 
+# Установка Ruby и Rails
+RUN gem install rails -v 6.1.7
+
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --without development test && \
@@ -42,9 +45,11 @@ RUN yarn install
 RUN bundle exec rake assets:precompile
 
 # Run and own the application files as a non-root user for security
-# RUN useradd rails
-# RUN chown -R rails:rails /rails
-# USER rails:rails
+RUN useradd rails
+RUN chown -R rails:rails /rails
+USER rails:rails
+RUN chown rails:rails .yarnrc
+
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["./docker-entrypoint"]

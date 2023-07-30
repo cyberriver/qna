@@ -47,3 +47,4 @@ yarn-debug.log*
 /db/sphinx
 /config/*.sphinx.conf
 dump.rdb
+/config/credentials/production.key
