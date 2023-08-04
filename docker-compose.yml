@@ -34,6 +34,7 @@ services:
     depends_on:
       - db # Указываем, что зависим от сервиса с PostgreSQL
       - redis
+      - sphinx # Добавляем зависимость от сервиса sphinx
       - sidekiq # Добавляем зависимость от сервиса sidekiq
     environment:
       RAILS_ENV: production
@@ -52,12 +53,35 @@ services:
       - redis
     environment:
       RAILS_ENV: production
-      DATABASE_URL: "postgres://postgres@db/qna_production" # Исправлен адрес для подключения к PostgreSQL
+      DATABASE_URL: "postgres://myuser@db/qna_production" # Исправлен адрес для подключения к PostgreSQL
       REDIS_URL: redis://redis:6379/1 # Добавлен адрес Redis
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
     env_file:
       - .env
 
+  # Сервис с Sphinx
+  sphinx:
+    image: sphinxsearch/sphinx:3.5.4
+    ports:
+      - "9312:9312" # Порт, на котором будет доступен Sphinx
+    volumes:
+      - sphinx-data:/var/data/sphinx # Volume для данных Sphinx
+    depends_on:
+      - db # Указываем, что зависим от сервиса с PostgreSQL
+    env_file:
+      - .env
+
+  cron:
+    build:
+      context: .
+      dockerfile: Dockerfile.cron
+    depends_on:
+      - db
+      - sphinx
+    env_file:
+      - .env      
+
 volumes:
   db-data: # Volume для данных PostgreSQL
   redis: # Volume для данных Redis
+  sphinx-data: # Volume для данных Sphinx

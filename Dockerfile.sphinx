@@ -1,0 +1,15 @@
+# Use the official Sphinx image as the base image
+FROM macbre/sphinxsearch:3.4.1
+
+# Set the working directory for Sphinx configuration
+WORKDIR /rails
+
+# Copy the Rails application into the container (assuming the Rails app is in the same directory as the Dockerfile)
+COPY . .
+
+# Set up Sphinx
+RUN bundle exec rails ts:configure
+RUN bundle exec rails ts:index
+
+# Expose Sphinx port (if necessary)
+EXPOSE 9312

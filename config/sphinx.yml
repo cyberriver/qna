@@ -1,0 +1,11 @@
+development:
+  address: qna-sphinx # Имя контейнера с Sphinx
+  port: 9312 # Порт сервера Sphinx
+
+test:
+  address: qna-sphinx
+  port: 9312
+
+production:
+  address: qna-sphinx # В продакшн среде также укажите имя контейнера с Sphinx
+  port: 9312
