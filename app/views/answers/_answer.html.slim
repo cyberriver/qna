@@ -1,79 +1,80 @@
-div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
-  div class = "row shadow-sm  p-2 bg-white"
-    div class = "col-md-6"
-      = answer.title
-      - if current_user.present?
-        - Rails.logger.debug("view _answers log: current user: #{current_user}")
-      - else
-        - Rails.logger.debug("current user is nil")
-      p        
-          - if answer.show_rating >= 0      
-            span class="badge bg-success" id = "rating_answer_#{answer.id}" rating: #{answer.show_rating}
-          - else 
-            span class="badge bg-danger" id = "rating_answer_#{answer.id}"  rating: #{answer.show_rating}
+- cache answer do
+  div class = "container-fluid p-2 gap-5" id ="answer_#{answer.id}"
+    div class = "row shadow-sm  p-2 bg-white"
+      div class = "col-md-6"
+        = answer.title
+        - if current_user.present?
+          - Rails.logger.debug("view _answers log: current user: #{current_user}")
+        - else
+          - Rails.logger.debug("current user is nil")
+        p        
+            - if answer.show_rating >= 0      
+              span class="badge bg-success" id = "rating_answer_#{answer.id}" rating: #{answer.show_rating}
+            - else 
+              span class="badge bg-danger" id = "rating_answer_#{answer.id}"  rating: #{answer.show_rating}
 
-      .files
-        - if answer.files.attached?
-          -answer.files.each do |file|
-            p= link_to file.filename.to_s, url_for(file)
-            - if can?(:destroy, answer)
-              p= button_to "Delete_file", purge_file_path(file), method: :delete, class: "btn btn-outline-secondary btn-sm bi bi-trash3 ", remote: true
-      .links
-        -if answer.links.present?
-          -answer.links.each do |link|
-            div id = "link_id_#{link.id}"
-              ul
-                li              
-                  -if link.gist?
-                    = javascript_include_tag("#{link.url}.js")
-                  -else  
-                    = link_to link.name, link.url
-                  -if  can?(:destroy, link)
-                    p = link_to 'Delete link', link_path(link), method: :delete, remote: true
-      .comments
-        - if answer.comments.any? 
-          div class = "btn btn-info bi bi-chat-square-text" data-bs-toggle="collapse" href="#answer_#{answer.id}_comments" role="button" aria-expanded="false" aria-controls="answer_#{answer.id}_comments"
-            | See comments
-            span class="badge bg-warning" id = "answer_#{answer.id}_comments_count" #{answer.comments.count}     
-          div class ="collapse" id="answer_#{answer.id}_comments"          
-            h3 list of comments
-            - answer.comments.each do |comment| 
-               = render partial: 'comments/comment', locals: {comment: comment }
-      .new_comment 
-        - if can?(:create, Comment)              
-          = link_to  "Add Comment",  make_comment_path(comment: {commentable_type: 'answer',commentable_id: answer.id}), class: "btn btn-outline-primary btn-sm"
+        .files
+          - if answer.files.attached?
+            -answer.files.each do |file|
+              p= link_to file.filename.to_s, url_for(file)
+              - if can?(:destroy, answer)
+                p= button_to "Delete_file", purge_file_path(file), method: :delete, class: "btn btn-outline-secondary btn-sm bi bi-trash3 ", remote: true
+        .links
+          -if answer.links.present?
+            -answer.links.each do |link|
+              div id = "link_id_#{link.id}"
+                ul
+                  li              
+                    -if link.gist?
+                      = javascript_include_tag("#{link.url}.js")
+                    -else  
+                      = link_to link.name, link.url
+                    -if  can?(:destroy, link)
+                      p = link_to 'Delete link', link_path(link), method: :delete, remote: true
+        .comments
+          - if answer.comments.any? 
+            div class = "btn btn-info bi bi-chat-square-text" data-bs-toggle="collapse" href="#answer_#{answer.id}_comments" role="button" aria-expanded="false" aria-controls="answer_#{answer.id}_comments"
+              | See comments
+              span class="badge bg-warning" id = "answer_#{answer.id}_comments_count" #{answer.comments.count}     
+            div class ="collapse" id="answer_#{answer.id}_comments"          
+              h3 list of comments
+              - answer.comments.each do |comment| 
+                = render partial: 'comments/comment', locals: {comment: comment }
+        .new_comment 
+          - if can?(:create, Comment)              
+            = link_to  "Add Comment",  make_comment_path(comment: {commentable_type: 'answer',commentable_id: answer.id}), class: "btn btn-outline-primary btn-sm"
 
-      - if answer.voted?(answer.question)
-         span class="badge bg-primary" Voted 
-      - elsif user_signed_in?
-        -if can?(:like, answer) 
-          = link_to "Vote", answer_vote_path(answer, id: answer.id), method: :get, class: 'btn btn-outline-info', remote: true
+        - if answer.voted?(answer.question)
+          span class="badge bg-primary" Voted 
+        - elsif user_signed_in?
+          -if can?(:like, answer) 
+            = link_to "Vote", answer_vote_path(answer, id: answer.id), method: :get, class: 'btn btn-outline-info', remote: true
 
-    div class = "col-md-3"
-      - if answer.author.present?
-        = answer.author.email
-    div class = "col-md-3"
-      div class="d-grid gap-2 md-flex justify-content-md-end"
-        - if can?(:destroy, answer)
-          = button_to "Delete", answer_path(answer), method: :delete, class: "btn btn-outline-secondary btn-sm bi bi-x-circle ", remote: true           
-          = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-answer-link', data: { answer_id: answer.id}
-        - elsif can?(:like, answer) 
-          = link_to "Like", like_path(id: answer.id, liked_type: 'answer', liked_params: { value:1, user_id: current_user.id }), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-primary btn-sm bi bi-hand-thumbs-up like-link"
-          = link_to "Dislike", like_path(id: answer.id, liked_type: 'answer', liked_params: {value:-1, user_id: current_user.id}), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-danger btn-sm bi bi-hand-thumbs-down-fill dislike-link"
-         
+      div class = "col-md-3"
+        - if answer.author.present?
+          = answer.author.email
+      div class = "col-md-3"
+        div class="d-grid gap-2 md-flex justify-content-md-end"
+          - if can?(:destroy, answer)
+            = button_to "Delete", answer_path(answer), method: :delete, class: "btn btn-outline-secondary btn-sm bi bi-x-circle ", remote: true           
+            = link_to "Edit",'#', class: 'btn btn-outline-warning  edit-answer-link', data: { answer_id: answer.id}
+          - elsif can?(:like, answer) 
+            = link_to "Like", like_path(id: answer.id, liked_type: 'answer', liked_params: { value:1, user_id: current_user.id }), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-primary btn-sm bi bi-hand-thumbs-up like-link"
+            = link_to "Dislike", like_path(id: answer.id, liked_type: 'answer', liked_params: {value:-1, user_id: current_user.id}), data: {type: :json}, remote:true, method: :post, class: "btn btn-outline-danger btn-sm bi bi-hand-thumbs-down-fill dislike-link"
+          
 
-  - if can?(:create, Answer)
-    = form_with model: answer, url: question_answers_path(@question, author_id: current_user.id), class: 'hidden', remote: true, method: :post, html: {id: "edit-answer-#{answer.id}"} do |f|
-      div class = "mb-3 bg-white"
-        = f.label :title, class: "form-label"              
-        = f.text_area :title, value: answer.title, class: "form-control"
-        = f.label :author_id, hidden: true, class: "form-label"
-        = f.label :files, class: "form-label"
-        = f.file_field :files, multiple: true, class: "form-control", placeholder: "Pls choose the file"
-        = f.text_field :author_id, value: current_user.id, hidden: true
-        = f.fields_for :links do |link|
-        = link_to_add_association 'Add link', f, :links, partial: 'questions/link_fields'  
-      div class = "gap-2"
-        = f.submit 'Save', class: "btn btn-primary btn-sm p-2"
-  
-  
+    - if can?(:create, Answer)
+      = form_with model: answer, url: question_answers_path(@question, author_id: current_user.id), class: 'hidden', remote: true, method: :post, html: {id: "edit-answer-#{answer.id}"} do |f|
+        div class = "mb-3 bg-white"
+          = f.label :title, class: "form-label"              
+          = f.text_area :title, value: answer.title, class: "form-control"
+          = f.label :author_id, hidden: true, class: "form-label"
+          = f.label :files, class: "form-label"
+          = f.file_field :files, multiple: true, class: "form-control", placeholder: "Pls choose the file"
+          = f.text_field :author_id, value: current_user.id, hidden: true
+          = f.fields_for :links do |link|
+          = link_to_add_association 'Add link', f, :links, partial: 'questions/link_fields'  
+        div class = "gap-2"
+          = f.submit 'Save', class: "btn btn-primary btn-sm p-2"
+    
+    
