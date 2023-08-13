@@ -12,7 +12,7 @@ class SearchController < ApplicationController
 
 
     if @query.present?
-      @results = ThinkingSphinx.search(@query, indices: search_models, match_mode: :any)
+      @results = ThinkingSphinx.search(@query, indices: search_models, star: true)
       render 'search/index', results: @results, query: @query
     else
       redirect_back fallback_location: root_path, notice: "Search parameters doesn't submitted"    

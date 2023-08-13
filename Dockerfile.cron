@@ -1,0 +1,23 @@
+# Используем подходящий базовый образ для cron
+FROM debian:latest
+
+# Устанавливаем пакеты, которые понадобятся для работы cron
+RUN apt-get update && apt-get install -y cron
+
+# Копируем файл с задачами cron в контейнер
+COPY cronjob /etc/cron.d/cronjob
+
+# Добавляем права на выполнение файла cron
+RUN chmod 0644 /etc/cron.d/cronjob
+
+# Устанавливаем расписание для cron
+RUN echo "*/10 * * * * /bin/bash /rails/cronjob.sh" > /etc/crontab
+
+# Копируем скрипт cronjob.sh в контейнер
+COPY cronjob.sh /rails/cronjob.sh
+
+# Добавляем права на выполнение скрипта cronjob.sh
+RUN chmod +x /rails/cronjob.sh
+
+# Команда для запуска cron с флагом -L 15
+CMD ["cron", "-f", "-L", "15"]
