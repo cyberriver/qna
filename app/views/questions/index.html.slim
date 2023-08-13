@@ -1,20 +1,20 @@
 .main-search
   = render 'search/search'  
+- cache collection_cache_key_for :question do
+  .questions
+    .container-md.p-2
+      - if @questions.present?
+        .container-fluid.p-2.g-3.gap-5
+          .row.bg-white.p-2
+            .col-md-3
+              h5 Question title
+            .col-md-6
+              h5 Question body
+            .col-3.justify-content-center.text-end
+              h5 Available actions
 
-.questions
-  .container-md.p-2
-    - if @questions.present?
-      .container-fluid.p-2.g-3.gap-5
-        .row.bg-white.p-2
-          .col-md-3
-            h5 Question title
-          .col-md-6
-            h5 Question body
-          .col-3.justify-content-center.text-end
-            h5 Available actions
+          .question
+            = render @questions
 
-        .question
-          = render @questions
-
-    - else 
-      | No questions found. Please add some questions
+      - else 
+        | No questions found. Please add some questions

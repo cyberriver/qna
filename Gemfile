@@ -36,6 +36,7 @@ gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'sidekiq'
 gem 'sinatra', require: false
+gem 'redis-rails'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

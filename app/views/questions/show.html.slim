@@ -1,56 +1,56 @@
+- cache @question do
+  div class = "container-fluid p-2 gap-5" id ="question_#{@question.id}" data-question-id = @question.id
 
-div class = "container-fluid p-2 gap-5" id ="question_#{@question.id}" data-question-id = @question.id
+    h1= @question.title
+    p
+    h3= @question.body
+    -if @question.files.attached?
+      -@question.files.each do |file|
+        p= link_to file.filename.to_s, url_for(file)
+    p
+    .comments
+      - if @question.comments.any? 
+        div class = "btn btn-info bi bi-chat-square-text" data-bs-toggle="collapse" href="#question_#{@question.id}_comments" role="button" aria-expanded="false" aria-controls="question_#{@question.id}_comments"
+          | See comments
+          span class="badge bg-warning" id = "question_#{@question.id}_comments_count" #{@question.comments.count}     
+        div class ="collapse" id="question_#{@question.id}_comments"          
+          h3 list of comments
+          - @question.comments.each do |comment| 
+            = render partial: 'comments/comment', locals: {comment: comment }
+    .new_comment 
+      - if can?(:create, Comment)            
+        = link_to  "Add Comment",  make_comment_path(comment: {commentable_type: 'question',commentable_id: @question.id}), class: "btn btn-outline-primary btn-sm" 
+    
+    .answers  data-current-user="#{j @current_user.to_json}" 
+      div class = "container"
+        - if @question.answers.any?
+          h3 List of answers
+          - if @best_answer
+            = render @best_answer
+          = render @answers
+            
+        - else 
+        | No answers found. Pls add some answer
 
-  h1= @question.title
-  p
-  h3= @question.body
-  -if @question.files.attached?
-    -@question.files.each do |file|
-      p= link_to file.filename.to_s, url_for(file)
-  p
-  .comments
-    - if @question.comments.any? 
-      div class = "btn btn-info bi bi-chat-square-text" data-bs-toggle="collapse" href="#question_#{@question.id}_comments" role="button" aria-expanded="false" aria-controls="question_#{@question.id}_comments"
-        | See comments
-        span class="badge bg-warning" id = "question_#{@question.id}_comments_count" #{@question.comments.count}     
-      div class ="collapse" id="question_#{@question.id}_comments"          
-         h3 list of comments
-         - @question.comments.each do |comment| 
-           = render partial: 'comments/comment', locals: {comment: comment }
-  .new_comment 
-    - if can?(:create, Comment)            
-      = link_to  "Add Comment",  make_comment_path(comment: {commentable_type: 'question',commentable_id: @question.id}), class: "btn btn-outline-primary btn-sm" 
-  
-  .answers  data-current-user="#{j @current_user.to_json}" 
-    div class = "container"
-      - if @question.answers.any?
-        h3 List of answers
-        - if @best_answer
-          = render @best_answer
-        = render @answers
-           
-      - else 
-       | No answers found. Pls add some answer
-
-  div class = "container" 
-    .answer
-      - if can?(:create, Answer)   
-        = render partial: 'questions/answer'
+    div class = "container" 
+      .answer
+        - if can?(:create, Answer)   
+          = render partial: 'questions/answer'
 
 
 
-.subscriptions
-  - if @subscription
-    - if can? :destroy, @subscription
-      = link_to 'Unsubscribe',
-              subscription_path(@subscription),
-              method: :delete,
-              remote: true,
-              data: { type: :json }
-  - else
-    - if can?(:create, Subscription)
-      = link_to 'Subscribe',
-              question_subscriptions_path(@question),
-              method: :post,
-              remote: true,
-              data: { type: :json }
+  .subscriptions
+    - if @subscription
+      - if can? :destroy, @subscription
+        = link_to 'Unsubscribe',
+                subscription_path(@subscription),
+                method: :delete,
+                remote: true,
+                data: { type: :json }
+    - else
+      - if can?(:create, Subscription)
+        = link_to 'Subscribe',
+                question_subscriptions_path(@question),
+                method: :post,
+                remote: true,
+                data: { type: :json }
